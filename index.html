@@ -95,29 +95,202 @@
       border-bottom: 1px solid rgba(58, 70, 96, 0.3);
     }
 
-    /* Light Mode High-Contrast Theme */
+    /* Light Mode Clean Modern Theme: Proper Light Grey Canvas & Crisp White Floating Cards */
     html:not(.dark) body {
-      background-color: #f1f5f9; /* Slate-100: provides solid, pleasing contrast behind pure white cards */
+      background: #f1f5f9 !important; /* Proper Light Grey Slate-100 */
       color: #0f172a;
     }
+
+    html:not(.dark) header {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border-bottom-color: #cbd5e1 !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+    }
+    html:not(.dark) header h1 {
+      color: #0f172a !important;
+    }
+    html:not(.dark) header p {
+      color: #64748b !important;
+    }
+    html:not(.dark) header nav {
+      background: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+    }
+    html:not(.dark) header .subtab-btn {
+      color: #475569 !important;
+    }
+    html:not(.dark) header .subtab-btn:hover {
+      color: #0f172a !important;
+      background: #e2e8f0 !important;
+    }
+    html:not(.dark) header .subtab-btn.active-subtab,
+    html:not(.dark) header .subtab-btn.bg-white {
+      background: #ffffff !important;
+      color: #2563eb !important;
+      border-color: #93c5fd !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* Light Mode Header Controls */
+
+    html:not(.dark) #btn-theme-toggle {
+      background: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+      color: #334155 !important;
+    }
+    html:not(.dark) #btn-theme-toggle:hover {
+      background: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    html:not(.dark) #theme-toggle-icon {
+      color: #4f46e5 !important; /* clean indigo */
+      filter: none !important;
+    }
+    html:not(.dark) #theme-toggle-label {
+      color: #334155 !important;
+      font-weight: 600 !important;
+    }
+
+    html:not(.dark) header .screen-mode-container {
+      background: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+    }
+    html:not(.dark) .screen-mode-btn {
+      color: #64748b !important;
+      background: transparent !important;
+    }
+    html:not(.dark) .screen-mode-btn:hover {
+      background: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    html:not(.dark) .screen-mode-btn.active-screen {
+      background: #ffffff !important;
+      color: #2563eb !important;
+      border-color: #93c5fd !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+      font-weight: 700 !important;
+    }
+
+    html:not(.dark) #btn-popout-overhead {
+      background: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+      color: #2563eb !important;
+    }
+    html:not(.dark) #btn-popout-overhead:hover {
+      background: #e2e8f0 !important;
+      color: #1d4ed8 !important;
+    }
+    html:not(.dark) #btn-popout-overhead i {
+      color: #2563eb !important;
+    }
+
+    html:not(.dark) header .border-l {
+      border-left-color: #cbd5e1 !important;
+    }
+    html:not(.dark) header .inspector-name,
+    html:not(.dark) header .border-l .text-slate-800 {
+      color: #0f172a !important;
+    }
+    html:not(.dark) header .inspector-role,
+    html:not(.dark) header .border-l .text-slate-500 {
+      color: #64748b !important;
+    }
+    html:not(.dark) header .inspector-avatar,
+    html:not(.dark) header .w-7.h-7 {
+      background: #e2e8f0 !important;
+      color: #1d4ed8 !important;
+      border-color: #cbd5e1 !important;
+    }
+
+    /* Light Mode HUD Bezel Frame Fix (Remove Dark Navy in Light Mode) */
+    html:not(.dark) .hud-chassis-bezel {
+      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.8), 0 8px 24px -4px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* Pristine Crisp Floating White Cards like Reference Mockup */
     html:not(.dark) .telemetry-card {
-      background: #ffffff;
-      border: 1px solid #cbd5e1; /* Slate-300: crisp contrast border */
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.08);
+      background: #ffffff !important;
+      border: 1px solid rgba(226, 232, 240, 0.9) !important;
+      border-radius: 1.25rem !important;
+      box-shadow: 0 10px 30px -5px rgba(8, 38, 92, 0.12), 0 4px 12px -2px rgba(8, 38, 92, 0.08) !important;
     }
     html:not(.dark) .telemetry-card:hover {
-      border-color: #94a3b8;
+      box-shadow: 0 16px 36px -6px rgba(8, 38, 92, 0.18), 0 6px 16px -3px rgba(8, 38, 92, 0.1) !important;
+      border-color: rgba(147, 197, 253, 0.8) !important;
     }
     html:not(.dark) .panel-header {
-      border-bottom: 1px solid #cbd5e1;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* Soft pill badges and inner containers */
+    html:not(.dark) .bg-slate-50,
+    html:not(.dark) .bg-slate-100 {
+      background-color: #f8fafc;
+    }
+    html:not(.dark) .border-slate-300 {
+      border-color: #e2e8f0;
+    }
+    html:not(.dark) .border-slate-200 {
+      border-color: #edf2f7;
+    }
+
+    /* Modern Soft Form Controls */
+    html:not(.dark) input, 
+    html:not(.dark) select, 
+    html:not(.dark) textarea {
+      background-color: #f8fafc !important;
+      border-color: #dbe4f0 !important;
+      color: #0f172a !important;
+      transition: all 0.2s ease !important;
     }
     html:not(.dark) input:focus, 
     html:not(.dark) select:focus, 
     html:not(.dark) textarea:focus {
+      background-color: #ffffff !important;
       border-color: #2563eb !important;
       outline: none !important;
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2) !important;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18) !important;
     }
+
+    /* Sticky Bottom Sheet dock in Light Mode */
+    html:not(.dark) #queue-sticky-bottom-sheet {
+      background: rgba(255, 255, 255, 0.96) !important;
+      border-top-color: rgba(203, 213, 225, 0.8) !important;
+      box-shadow: 0 -12px 36px -4px rgba(8, 38, 92, 0.16) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* Light Mode Table Styling Enhancements */
+    html:not(.dark) table thead tr {
+      background: #f1f5f9 !important;
+      color: #334155 !important;
+    }
+    html:not(.dark) table tbody tr:hover {
+      background-color: #f0f7ff !important;
+    }
+    html:not(.dark) .even\:bg-slate-50\/50:nth-child(even),
+    html:not(.dark) .even\:bg-slate-50\/40:nth-child(even) {
+      background-color: #fbfcfe !important;
+    }
+
+    /* Active Selected Row High Visibility in Queue & Report Tables */
+    html:not(.dark) table tbody tr.active-row,
+    html:not(.dark) table tbody tr.active-row:hover {
+      background-color: #dbeafe !important;
+    }
+    html.dark table tbody tr.active-row,
+    html.dark table tbody tr.active-row:hover {
+      background-color: rgba(30, 58, 138, 0.55) !important;
+    }
+    table tbody tr.active-row td {
+      border-top-color: #3b82f6 !important;
+      border-bottom-color: #3b82f6 !important;
+    }
+
     html:not(.dark) ::-webkit-scrollbar-thumb {
       background: #94a3b8;
     }
@@ -236,54 +409,41 @@
       </button>
     </nav>
 
-    <!-- Right: Mode Toggle, Theme Switcher, Screen Mode, and Profile -->
+    <!-- Right: Theme Switcher, Screen Mode, and Profile -->
     <div class="flex items-center gap-2">
-      
-      <!-- Mode Toggle (Manual vs Auto Testing Default) -->
-      <div class="hidden lg:flex items-center gap-1.5 text-xs font-sans">
-        <span class="dark:text-slate-400 text-slate-500 text-[11px]">โหมด:</span>
-        <div class="dark:bg-carbon-950 bg-slate-100 p-0.5 rounded-lg border dark:border-carbon-700 border-slate-300 flex items-center gap-0.5 font-mono text-[11px]">
-          <button id="mode-auto-btn" onclick="setGlobalMode('auto')" class="px-2 py-1 rounded-md dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-400 text-emerald-800 border dark:border-emerald-500/40 border-emerald-300 font-semibold flex items-center gap-1">
-            <i class="iconoir-flash text-xs"></i> AUTO
-          </button>
-          <button id="mode-manual-btn" onclick="setGlobalMode('manual')" class="px-2 py-1 rounded-md dark:text-slate-400 text-slate-600 hover:dark:text-slate-200 hover:text-slate-900">
-            MANUAL
-          </button>
-        </div>
-      </div>
 
       <!-- High-Contrast Light / Dark Mode Toggle Button -->
-      <button id="btn-theme-toggle" onclick="toggleTheme()" class="px-2.5 py-1.5 rounded-xl border dark:border-carbon-700 border-slate-300 dark:bg-carbon-850 bg-slate-100 hover:dark:bg-carbon-750 hover:bg-slate-200 dark:text-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm" title="สลับธีม สว่าง / มืด">
-        <i id="theme-toggle-icon" class="iconoir-sun-light text-amber-400"></i>
+      <button id="btn-theme-toggle" onclick="toggleTheme()" class="px-2.5 py-1.5 rounded-xl border dark:border-carbon-700 border-slate-300 dark:bg-carbon-850 bg-slate-100 hover:dark:bg-carbon-750 hover:bg-slate-200 dark:text-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs" title="สลับธีม สว่าง / มืด">
+        <i id="theme-toggle-icon" class="iconoir-sun-light text-amber-400 text-sm"></i>
         <span id="theme-toggle-label" class="hidden sm:inline">ธีมสว่าง</span>
       </button>
 
       <!-- Screen Mode Switcher -->
-      <div class="dark:bg-carbon-950 bg-slate-100 p-1 rounded-xl border dark:border-carbon-700 border-slate-300 flex items-center gap-1">
-        <button id="btn-view-workstation" onclick="switchView('workstation')" class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-glow-blue flex items-center gap-1">
+      <div class="screen-mode-container dark:bg-carbon-950 bg-slate-100 p-1 rounded-xl border dark:border-carbon-700 border-slate-300 flex items-center gap-1">
+        <button id="btn-view-workstation" onclick="switchView('workstation')" class="screen-mode-btn active-screen px-2.5 py-1 rounded-lg text-xs font-semibold transition-all dark:bg-blue-600 bg-white dark:text-white text-blue-600 border border-slate-200 dark:border-transparent shadow-xs flex items-center gap-1">
           <i class="iconoir-laptop"></i>
           <span>จอนายช่าง</span>
         </button>
-        <button id="btn-view-overhead" onclick="switchView('overhead')" class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 dark:hover:bg-carbon-800 hover:bg-slate-200 flex items-center gap-1">
+        <button id="btn-view-overhead" onclick="switchView('overhead')" class="screen-mode-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 dark:hover:bg-carbon-800 hover:bg-slate-200 flex items-center gap-1">
           <i class="iconoir-tv"></i>
           <span>จอด้านบน</span>
         </button>
       </div>
 
       <!-- Pop out overhead window for multi-monitor PC -->
-      <button onclick="popoutOverhead()" class="p-1.5 rounded-xl dark:bg-carbon-850 bg-slate-100 dark:hover:bg-carbon-750 hover:bg-slate-200 border dark:border-carbon-700 border-slate-300 dark:text-blue-400 text-blue-600 transition-all text-xs flex items-center gap-1 font-sans" title="เปิดจอด้านบน (Overhead HUD) ในหน้าต่างที่ 2">
-        <i class="iconoir-open-new-window"></i>
-        <span class="hidden xl:inline font-sans font-medium">แยกจอ 2</span>
+      <button id="btn-popout-overhead" onclick="popoutOverhead()" class="p-1.5 rounded-xl dark:bg-carbon-850 bg-slate-100 dark:hover:bg-carbon-750 hover:bg-slate-200 border dark:border-carbon-700 border-slate-300 dark:text-blue-400 text-blue-600 transition-all text-xs flex items-center gap-1.5 font-sans shadow-xs" title="เปิดจอด้านบน (Overhead HUD) ในหน้าต่างที่ 2">
+        <i class="iconoir-open-new-window text-blue-600 dark:text-blue-400"></i>
+        <span class="hidden xl:inline font-sans font-medium text-slate-700 dark:text-slate-200">แยกจอ 2</span>
       </button>
 
       <!-- Inspector Badge -->
       <div class="hidden sm:flex items-center gap-2 pl-2 border-l dark:border-carbon-700/70 border-slate-300">
-        <div class="w-7 h-7 rounded-full dark:bg-carbon-800 bg-slate-200 border dark:border-carbon-600 border-slate-300 flex items-center justify-center text-[11px] font-sans font-bold dark:text-blue-400 text-blue-700">
+        <div class="inspector-avatar w-7 h-7 rounded-full dark:bg-carbon-800 bg-slate-200 border dark:border-carbon-600 border-slate-300 flex items-center justify-center text-[11px] font-sans font-bold dark:text-blue-400 text-blue-700 shadow-xs">
           พม
         </div>
         <div class="text-left text-xs leading-tight hidden lg:block">
-          <div class="font-bold dark:text-slate-200 text-slate-800 text-[11px]">นายพีรพล ม.</div>
-          <div class="text-[9px] dark:text-slate-400 text-slate-500">นายช่าง 4</div>
+          <div class="inspector-name font-bold dark:text-slate-200 text-slate-800 text-[11px]">นายพีรพล ม.</div>
+          <div class="inspector-role text-[9px] dark:text-slate-400 text-slate-500">นายช่าง 4</div>
         </div>
       </div>
     </div>
@@ -924,7 +1084,7 @@
           </div>
 
           <div class="md:col-span-5 flex flex-col justify-end gap-2.5">
-            <div class="dark:bg-carbon-900 bg-slate-100 border dark:border-carbon-800 border-slate-300 rounded-xl p-3 text-[11px] dark:text-slate-400 text-slate-600 font-sans">
+            <div id="summary-mdm-info-box" class="dark:bg-carbon-900 bg-slate-100 border dark:border-carbon-800 border-slate-300 rounded-xl p-3 text-[11px] dark:text-slate-400 text-slate-600 font-sans">
               <span class="dark:text-blue-400 text-blue-600 font-semibold">การเชื่อมโยงระบบ MDM:</span> เมื่อกดยืนยัน ข้อมูลผลตรวจจะถูกเข้ารหัสและส่งไปยังเซอร์เวอร์กลางของกรมการขนส่งทางบกทันที
             </div>
             <div class="flex items-center gap-2">
@@ -1239,7 +1399,7 @@
     </div>
 
     <!-- Authentic Industrial Monitor Chassis Frame (Sharp/Cartec Enclosure) -->
-    <div id="hud-outer-frame" class="my-3 mx-auto w-full max-w-5xl rounded-2xl p-2.5 sm:p-4 bg-[#111622] border-4 border-[#222938] hud-chassis-bezel shadow-2xl flex flex-col">
+    <div id="hud-outer-frame" class="my-3 mx-auto w-full max-w-5xl rounded-2xl p-2.5 sm:p-4 dark:bg-[#111622] bg-slate-100 border-4 dark:border-[#222938] border-slate-300 hud-chassis-bezel shadow-2xl flex flex-col">
       
       <!-- Actual High-Contrast Screen Display -->
       <div id="hud-screen-surface" class="w-full rounded-xl bg-[#dce4ec] dark:bg-[#0d1420] text-slate-900 dark:text-slate-100 border-2 border-slate-400 dark:border-slate-700 overflow-hidden flex flex-col justify-between transition-colors shadow-inner min-h-[500px]">
@@ -2529,13 +2689,13 @@
       const label = document.getElementById('theme-toggle-label');
       
       if (currentTheme === 'dark') {
-        icon.className = 'iconoir-sun-light text-amber-400';
+        icon.className = 'iconoir-sun-light text-amber-400 text-sm';
         label.innerText = 'ธีมสว่าง';
         showToast('สลับเป็นธีม Dark Mode (Industrial Tech)');
       } else {
-        icon.className = 'iconoir-half-moon text-indigo-600';
+        icon.className = 'iconoir-half-moon text-indigo-600 text-sm';
         label.innerText = 'ธีมมืด';
-        showToast('สลับเป็นธีม Light Mode (High Contrast)');
+        showToast('สลับเป็นธีม Light Mode (Clean Modern Grey)');
       }
     }
 
@@ -2602,13 +2762,13 @@
       if (viewName === 'workstation') {
         workstation.classList.remove('hidden');
         overhead.classList.add('hidden');
-        btnW.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-glow-blue flex items-center gap-1.5';
-        btnO.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 dark:hover:bg-carbon-800 hover:bg-slate-200 flex items-center gap-1.5';
+        btnW.className = 'screen-mode-btn active-screen px-2.5 py-1 rounded-lg text-xs font-semibold transition-all dark:bg-blue-600 bg-white dark:text-white text-blue-600 border border-slate-200 dark:border-transparent shadow-xs flex items-center gap-1';
+        btnO.className = 'screen-mode-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 dark:hover:bg-carbon-800 hover:bg-slate-200 flex items-center gap-1';
       } else {
         workstation.classList.add('hidden');
         overhead.classList.remove('hidden');
-        btnO.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-glow-blue flex items-center gap-1.5';
-        btnW.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 dark:hover:bg-carbon-800 hover:bg-slate-200 flex items-center gap-1.5';
+        btnO.className = 'screen-mode-btn active-screen px-2.5 py-1 rounded-lg text-xs font-semibold transition-all dark:bg-blue-600 bg-white dark:text-white text-blue-600 border border-slate-200 dark:border-transparent shadow-xs flex items-center gap-1';
+        btnW.className = 'screen-mode-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 dark:hover:bg-carbon-800 hover:bg-slate-200 flex items-center gap-1';
         updateHUDUI();
       }
     }
@@ -2630,13 +2790,13 @@
           el.classList.remove('hidden');
           el.classList.add('flex');
           if (btn) {
-            btn.className = 'subtab-btn px-4 py-1.5 rounded-lg text-xs font-bold dark:bg-carbon-800 bg-white dark:text-blue-400 text-blue-600 border dark:border-blue-500/40 border-blue-400 flex items-center gap-1.5 shadow-sm transition-all';
+            btn.className = 'subtab-btn active-subtab px-4 py-1.5 rounded-lg text-xs font-bold dark:bg-carbon-800 bg-white dark:text-blue-400 text-blue-600 border dark:border-blue-500/40 border-transparent flex items-center gap-1.5 shadow-sm transition-all';
           }
         } else {
           el.classList.add('hidden');
           el.classList.remove('flex');
           if (btn) {
-            btn.className = 'subtab-btn px-4 py-1.5 rounded-lg text-xs font-semibold dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 dark:hover:bg-carbon-800 hover:bg-slate-200 flex items-center gap-1.5 transition-all';
+            btn.className = 'subtab-btn px-4 py-1.5 rounded-lg text-xs font-semibold dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 dark:hover:bg-carbon-800 hover:bg-slate-100 flex items-center gap-1.5 transition-all border border-transparent';
           }
         }
       });
@@ -2653,14 +2813,16 @@
       currentGlobalMode = mode;
       const btnAuto = document.getElementById('mode-auto-btn');
       const btnManual = document.getElementById('mode-manual-btn');
-      if (mode === 'auto') {
-        btnAuto.className = 'px-2.5 py-1 rounded-lg dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-400 text-emerald-800 border dark:border-emerald-500/40 border-emerald-300 font-semibold flex items-center gap-1';
-        btnManual.className = 'px-2.5 py-1 rounded-lg dark:text-slate-400 text-slate-600 hover:dark:text-slate-200 hover:text-slate-900';
-        showToast('สลับโหมดหลักเป็น AUTOMATIC (รับค่าจากอุปกรณ์โดยตรง)');
-      } else {
-        btnManual.className = 'px-2.5 py-1 rounded-lg dark:bg-blue-500/20 bg-blue-100 dark:text-blue-400 text-blue-800 border dark:border-blue-500/40 border-blue-300 font-semibold flex items-center gap-1';
-        btnAuto.className = 'px-2.5 py-1 rounded-lg dark:text-slate-400 text-slate-600 hover:dark:text-slate-200 hover:text-slate-900';
-        showToast('สลับโหมดหลักเป็น MANUAL (เจ้าหน้าที่บันทึกผล)');
+      if (btnAuto && btnManual) {
+        if (mode === 'auto') {
+          btnAuto.className = 'mode-active px-2.5 py-1 rounded-md dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-400 text-emerald-800 border dark:border-emerald-500/40 border-emerald-300 font-semibold flex items-center gap-1 shadow-xs';
+          btnManual.className = 'mode-inactive px-2.5 py-1 rounded-md dark:text-slate-400 text-slate-600 hover:text-slate-900 dark:hover:text-slate-200 transition-colors';
+          showToast('สลับโหมดหลักเป็น AUTOMATIC (รับค่าจากอุปกรณ์โดยตรง)');
+        } else {
+          btnManual.className = 'mode-active px-2.5 py-1 rounded-md dark:bg-blue-500/20 bg-blue-100 dark:text-blue-400 text-blue-800 border dark:border-blue-500/40 border-blue-300 font-semibold flex items-center gap-1 shadow-xs';
+          btnAuto.className = 'mode-inactive px-2.5 py-1 rounded-md dark:text-slate-400 text-slate-600 hover:text-slate-900 dark:hover:text-slate-200 transition-colors';
+          showToast('สลับโหมดหลักเป็น MANUAL (เจ้าหน้าที่บันทึกผล)');
+        }
       }
     }
 
@@ -2764,8 +2926,8 @@
       const statusEl = document.getElementById('form-status-display');
       if (statusEl) {
         if (v.status === 'inspecting') {
-          statusEl.innerText = 'กำลังตรวจสภาพ';
-          statusEl.className = 'mt-1 py-1.5 px-3 rounded-lg dark:bg-blue-500/20 bg-blue-100 text-blue-800 dark:text-blue-300 border dark:border-blue-500/40 border-blue-300 font-sans font-bold text-xs animate-pulse';
+          statusEl.innerHTML = '<i class="iconoir-refresh animate-spin text-[11px] mr-1 inline-block"></i>กำลังตรวจสภาพ';
+          statusEl.className = 'mt-1 py-1.5 px-3 rounded-lg dark:bg-blue-500/20 bg-blue-100 text-blue-800 dark:text-blue-300 border dark:border-blue-500/40 border-blue-300 font-sans font-bold text-xs inline-flex items-center';
         } else if (v.status === 'completed') {
           statusEl.innerText = 'ส่งข้อมูลสำเร็จ (ผ่านเกณฑ์)';
           statusEl.className = 'mt-1 py-1.5 px-3 rounded-lg dark:bg-emerald-500/20 bg-emerald-100 text-emerald-800 dark:text-emerald-300 border dark:border-emerald-500/40 border-emerald-300 font-sans font-bold text-xs';
@@ -2989,7 +3151,7 @@
       filtered.forEach((veh) => {
         const isCurrent = (veh.id === currentVehicle.id);
         const tr = document.createElement('tr');
-        tr.className = `cursor-pointer transition-all ${isCurrent ? 'dark:bg-blue-950/70 bg-blue-50/90 font-bold' : 'hover:dark:bg-carbon-850/80 hover:bg-blue-50/40 even:bg-slate-50/50 dark:even:bg-carbon-900/40'}`;
+        tr.className = `cursor-pointer transition-all ${isCurrent ? 'active-row dark:bg-blue-950/70 bg-blue-100 font-bold' : 'hover:dark:bg-carbon-850/80 hover:bg-blue-50/40 even:bg-slate-50/50 dark:even:bg-carbon-900/40'}`;
         tr.onclick = (e) => {
           if (!e.target.closest('button')) {
             selectVehicle(veh.id);
@@ -2999,7 +3161,7 @@
         // Status pill
         let statusPill = '';
         if (veh.status === 'inspecting') {
-          statusPill = `<span class="px-2.5 py-1 rounded-md text-[11px] dark:bg-blue-500/20 bg-blue-100 dark:text-blue-300 text-blue-800 dark:border-blue-500/40 border-blue-300 border animate-pulse font-sans font-medium">กำลังตรวจ</span>`;
+          statusPill = `<span class="px-2.5 py-1 rounded-md text-[11px] dark:bg-blue-500/20 bg-blue-100 dark:text-blue-300 text-blue-800 dark:border-blue-500/40 border-blue-300 border font-sans font-medium inline-flex items-center gap-1.5"><i class="iconoir-refresh animate-spin text-[10px]"></i><span>กำลังตรวจ</span></span>`;
         } else if (veh.status === 'waiting') {
           statusPill = `<span class="px-2.5 py-1 rounded-md text-[11px] dark:bg-slate-800 bg-slate-200 dark:text-slate-300 text-slate-700 font-sans font-medium">รอตรวจ</span>`;
         } else if (veh.status === 'pending') {
@@ -3025,7 +3187,7 @@
 
         // Active blue border explicitly placed on first <td> to guarantee rendering across browsers and table modes
         const activeBorder = isCurrent 
-          ? 'style="border-left: 4px solid #2563eb !important; background-color: rgba(37, 99, 235, 0.12);"' 
+          ? 'style="border-left: 4px solid #2563eb !important; background-color: rgba(37, 99, 235, 0.18) !important;"' 
           : 'style="border-left: 4px solid transparent;"';
 
         // Check if vehicle is currently assigned to an active lane
@@ -3033,6 +3195,14 @@
         const laneBadge = assignedLane 
           ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-black font-mono tracking-tight dark:bg-blue-500/20 bg-blue-100 dark:text-blue-300 text-blue-800 border dark:border-blue-500/40 border-blue-300">LANE ${assignedLane.id}</span>` 
           : '';
+
+        const isFinished = (veh.status === 'completed' || veh.status === 'failed' || veh.status === 'pending');
+        const summaryBtn = isFinished ? `
+          <button onclick="event.stopPropagation(); selectVehicle('${veh.id}'); showSubTab('tab-summary')" class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-carbon-700 bg-white dark:bg-carbon-850 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 font-sans text-xs font-semibold transition-all flex items-center gap-1 shadow-xs" title="ดูสรุปผลการตรวจสภาพคันนี้">
+            <i class="iconoir-page text-xs"></i>
+            <span>สรุปผล</span>
+          </button>
+        ` : '';
 
         tr.innerHTML = `
           <td ${activeBorder} class="py-3 px-3 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800 border-slate-200">
@@ -3049,8 +3219,8 @@
           </td>
           <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${checkIcon(t.speed ? t.speed.pass : null)}</td>
           <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${checkIcon(t.sound ? t.sound.pass : null)}</td>
-          <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${veh.fuel === 'gasoline' ? checkIcon(t.gas ? t.gas.pass : null) : '<span class="text-slate-400 font-mono">-</span>'}</td>
-          <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${veh.fuel === 'diesel' ? checkIcon(t.smoke ? t.smoke.pass : null) : '<span class="text-slate-400 font-mono">-</span>'}</td>
+          <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${veh.fuel === 'gasoline' ? checkIcon(t.gas ? t.gas.pass : null) : checkIcon(null)}</td>
+          <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${veh.fuel === 'diesel' ? checkIcon(t.smoke ? t.smoke.pass : null) : checkIcon(null)}</td>
           <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${checkIcon(t.sideslip ? t.sideslip.pass : null)}</td>
           <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${checkIcon(t.brake ? t.brake.pass : null)}</td>
           <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${checkIcon(t.visual ? t.visual.pass : null)}</td>
@@ -3059,11 +3229,8 @@
           <td class="py-3 px-3 border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800 border-slate-200">${statusPill}</td>
           <td class="py-3 px-3 text-right border-b dark:border-carbon-800 border-slate-200">
             <div class="flex items-center justify-end gap-1.5">
-              <button onclick="event.stopPropagation(); selectVehicle('${veh.id}'); showSubTab('tab-summary')" class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-carbon-700 bg-white dark:bg-carbon-850 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 font-sans text-xs font-semibold transition-all flex items-center gap-1 shadow-xs" title="ดูสรุปผลการตรวจสภาพคันนี้">
-                <i class="iconoir-page text-xs"></i>
-                <span>สรุปผล</span>
-              </button>
-              <button onclick="inspectThisVehicle('${veh.id}')" class="px-3 py-1.5 rounded-lg ${isCurrent ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-carbon-750 text-slate-700 dark:text-slate-200 hover:bg-blue-600 hover:text-white border border-slate-300 dark:border-transparent'} font-sans text-xs shadow-sm transition-all flex items-center gap-1.5">
+              ${summaryBtn}
+              <button onclick="event.stopPropagation(); inspectThisVehicle('${veh.id}')" class="px-3 py-1.5 rounded-lg ${isCurrent ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-carbon-750 text-slate-700 dark:text-slate-200 hover:bg-blue-600 hover:text-white border border-slate-300 dark:border-transparent'} font-sans text-xs shadow-sm transition-all flex items-center gap-1.5">
                 <i class="iconoir-open-new-window text-xs"></i>
                 <span>เปิดหน้าแท่นตรวจ</span>
               </button>
@@ -3115,40 +3282,51 @@
 
     function updateVehicleUI() {
       // Vehicle type icon in hero badge
-      document.getElementById('current-vehicle-icon-box').innerHTML = getVehicleIconHTML(currentVehicle);
+      const iconBox = document.getElementById('current-vehicle-icon-box');
+      if (iconBox) iconBox.innerHTML = getVehicleIconHTML(currentVehicle);
       
       // Main Heading: Plate & Province (As Requested)
-      document.getElementById('current-title-plate').innerText = currentVehicle.plate;
-      document.getElementById('current-title-province').innerText = currentVehicle.province;
+      const plateTitle = document.getElementById('current-title-plate');
+      const provTitle = document.getElementById('current-title-province');
+      if (plateTitle) plateTitle.innerText = currentVehicle.plate;
+      if (provTitle) provTitle.innerText = currentVehicle.province;
       
       // Sub metadata
-      document.getElementById('current-vehicle-brand').innerText = currentVehicle.brand;
-      document.getElementById('current-vehicle-prb').innerText = currentVehicle.prbLabel;
-      document.getElementById('current-vehicle-fuel').innerText = currentVehicle.fuel === 'diesel' ? 'ดีเซล' : (currentVehicle.fuel === 'gasoline' ? 'เบนซิน' : 'LPG/NGV');
-      document.getElementById('current-vehicle-vin').innerText = currentVehicle.vin;
-      document.getElementById('current-vehicle-mileage').innerText = currentVehicle.mileage.toLocaleString();
+      const brandEl = document.getElementById('current-vehicle-brand');
+      const prbEl = document.getElementById('current-vehicle-prb');
+      const fuelEl = document.getElementById('current-vehicle-fuel');
+      const vinEl = document.getElementById('current-vehicle-vin');
+      const mileageEl = document.getElementById('current-vehicle-mileage');
+      if (brandEl) brandEl.innerText = currentVehicle.brand;
+      if (prbEl) prbEl.innerText = currentVehicle.prbLabel;
+      if (fuelEl) fuelEl.innerText = currentVehicle.fuel === 'diesel' ? 'ดีเซล' : (currentVehicle.fuel === 'gasoline' ? 'เบนซิน' : 'LPG/NGV');
+      if (vinEl) vinEl.innerText = currentVehicle.vin;
+      if (mileageEl) mileageEl.innerText = currentVehicle.mileage.toLocaleString();
 
       const statusBadge = document.getElementById('current-badge-status');
-      if (currentVehicle.status === 'inspecting') {
-        statusBadge.innerText = 'กำลังตรวจ';
-        statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-blue-500/20 bg-blue-100 dark:text-blue-300 text-blue-800 dark:border-blue-500/40 border-blue-300 border animate-pulse';
-      } else if (currentVehicle.status === 'waiting') {
-        statusBadge.innerText = 'รอตรวจ';
-        statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-slate-800 bg-slate-200 dark:text-slate-300 text-slate-700 dark:border-slate-700 border-slate-300 border';
-      } else if (currentVehicle.status === 'completed') {
-        statusBadge.innerText = 'ตรวจเสร็จ';
-        statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-300 text-emerald-800 dark:border-emerald-500/40 border-emerald-300 border';
-      } else if (currentVehicle.status === 'failed') {
-        statusBadge.innerText = 'ไม่ผ่าน';
-        statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-rose-500/20 bg-rose-100 dark:text-rose-300 text-rose-800 dark:border-rose-500/40 border-rose-300 border';
-      } else {
-        statusBadge.innerText = 'รอสรุป';
-        statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-amber-500/20 bg-amber-100 dark:text-amber-300 text-amber-800 dark:border-amber-500/40 border-amber-300 border';
+      if (statusBadge) {
+        if (currentVehicle.status === 'inspecting') {
+          statusBadge.innerHTML = '<i class="iconoir-refresh animate-spin text-[8px] mr-0.5 inline-block"></i>กำลังตรวจ';
+          statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-blue-500/20 bg-blue-100 dark:text-blue-300 text-blue-800 dark:border-blue-500/40 border-blue-300 border flex items-center';
+        } else if (currentVehicle.status === 'waiting') {
+          statusBadge.innerText = 'รอตรวจ';
+          statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-slate-800 bg-slate-200 dark:text-slate-300 text-slate-700 dark:border-slate-700 border-slate-300 border';
+        } else if (currentVehicle.status === 'completed') {
+          statusBadge.innerText = 'ตรวจเสร็จ';
+          statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-300 text-emerald-800 dark:border-emerald-500/40 border-emerald-300 border';
+        } else if (currentVehicle.status === 'failed') {
+          statusBadge.innerText = 'ไม่ผ่าน';
+          statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-rose-500/20 bg-rose-100 dark:text-rose-300 text-rose-800 dark:border-rose-500/40 border-rose-300 border';
+        } else {
+          statusBadge.innerText = 'รอสรุป';
+          statusBadge.className = 'absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-amber-500/20 bg-amber-100 dark:text-amber-300 text-amber-800 dark:border-amber-500/40 border-amber-300 border';
+        }
       }
 
       // Sync form & camera preview
       populateFormWithVehicle(currentVehicle);
-      document.getElementById('cam-plate-overlay').innerText = currentVehicle.plate;
+      const camPlateOverlay = document.getElementById('cam-plate-overlay');
+      if (camPlateOverlay) camPlateOverlay.innerText = currentVehicle.plate;
       updateDocumentData();
       updateHUDUI();
     }
@@ -3875,12 +4053,12 @@
           </div>
         `;
         extraControlsHTML = `
-          <div class="flex items-center justify-center gap-1.5 mt-2 pt-2 border-t border-slate-700/60 font-sans">
-            <span class="text-[10px] text-slate-400">จำลองผลบนจอ 2:</span>
-            <button onclick="simulateSmokeRun()" class="px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold transition-all flex items-center gap-1">
+          <div class="flex items-center justify-center gap-1.5 mt-2 pt-2 border-t dark:border-slate-700/60 border-slate-300 font-sans">
+            <span class="text-[10px] dark:text-slate-400 text-slate-600 font-medium">จำลองผลบนจอ 2:</span>
+            <button onclick="simulateSmokeRun()" class="px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold transition-all flex items-center gap-1 shadow-xs">
               <i class="iconoir-check"></i> วัดผ่าน (18.2%)
             </button>
-            <button onclick="handleHUDSimulation('smoke_fail')" class="px-2 py-1 rounded bg-rose-700 hover:bg-rose-600 text-white text-[10px] font-bold transition-all flex items-center gap-1">
+            <button onclick="handleHUDSimulation('smoke_fail')" class="px-2 py-1 rounded bg-rose-700 hover:bg-rose-600 text-white text-[10px] font-bold transition-all flex items-center gap-1 shadow-xs">
               <i class="iconoir-warning-triangle"></i> วัดตก (38.5%)
             </button>
           </div>
@@ -3946,12 +4124,12 @@
           </div>
         `;
         extraControlsHTML = `
-          <div class="flex items-center justify-center gap-1.5 mt-2 pt-2 border-t border-slate-700/60 font-sans">
-            <span class="text-[10px] text-slate-400">จำลองศูนย์ล้อ:</span>
-            <button onclick="simulateSideslipRun()" class="px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold transition-all flex items-center gap-1">
+          <div class="flex items-center justify-center gap-1.5 mt-2 pt-2 border-t dark:border-slate-700/60 border-slate-300 font-sans">
+            <span class="text-[10px] dark:text-slate-400 text-slate-600 font-medium">จำลองศูนย์ล้อ:</span>
+            <button onclick="simulateSideslipRun()" class="px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold transition-all flex items-center gap-1 shadow-xs">
               <i class="iconoir-check"></i> ปกติ (+1.2)
             </button>
-            <button onclick="setHUDStage('sideslip', 1, { val: 6.4 })" class="px-2 py-1 rounded bg-rose-700 hover:bg-rose-600 text-white text-[10px] font-bold transition-all flex items-center gap-1">
+            <button onclick="setHUDStage('sideslip', 1, { val: 6.4 })" class="px-2 py-1 rounded bg-rose-700 hover:bg-rose-600 text-white text-[10px] font-bold transition-all flex items-center gap-1 shadow-xs">
               <i class="iconoir-warning-triangle"></i> เบี่ยงเบน (+6.4)
             </button>
           </div>
@@ -4040,15 +4218,15 @@
           </div>
         `;
         extraControlsHTML = `
-          <div class="flex flex-wrap items-center justify-center gap-1.5 mt-2 pt-2 border-t border-slate-700/60 font-sans">
-            <span class="text-[10px] text-slate-400">สลับขั้นตอน:</span>
-            <button onclick="setHUDStage('weighing', 1)" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 text-[10px] font-bold border border-slate-700 transition-all">
+          <div class="flex flex-wrap items-center justify-center gap-1.5 mt-2 pt-2 border-t dark:border-slate-700/60 border-slate-300 font-sans">
+            <span class="text-[10px] dark:text-slate-400 text-slate-600 font-medium">สลับขั้นตอน:</span>
+            <button onclick="setHUDStage('weighing', 1)" class="px-2 py-1 rounded dark:bg-slate-800 bg-white hover:bg-slate-100 dark:hover:bg-slate-700 text-rose-600 dark:text-rose-300 text-[10px] font-bold border dark:border-slate-700 border-slate-300 transition-all shadow-xs">
               1. ชั่ง Tare
             </button>
-            <button onclick="simulateBrakeRun()" class="px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold transition-all flex items-center gap-1">
+            <button onclick="simulateBrakeRun()" class="px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold transition-all flex items-center gap-1 shadow-xs">
               <i class="iconoir-flash"></i> 2. เบรกเท้า
             </button>
-            <button onclick="setHUDStage('handbrake', 2)" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-purple-300 text-[10px] font-bold border border-slate-700 transition-all">
+            <button onclick="setHUDStage('handbrake', 2)" class="px-2 py-1 rounded dark:bg-slate-800 bg-white hover:bg-slate-100 dark:hover:bg-slate-700 text-purple-600 dark:text-purple-300 text-[10px] font-bold border dark:border-slate-700 border-slate-300 transition-all shadow-xs">
               3. เบรคมือ
             </button>
           </div>
@@ -4102,11 +4280,11 @@
           </div>
         `;
         extraControlsHTML = `
-          <div class="flex items-center justify-center gap-2 mt-2 pt-2 border-t border-slate-700/60 font-sans">
-            <button onclick="simulateGeneralTest(${stationId})" class="px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold transition-all flex items-center gap-1">
+          <div class="flex items-center justify-center gap-2 mt-2 pt-2 border-t dark:border-slate-700/60 border-slate-300 font-sans">
+            <button onclick="simulateGeneralTest(${stationId})" class="px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold transition-all flex items-center gap-1 shadow-xs">
               <i class="iconoir-refresh-double"></i> ดึงค่าสดจากอุปกรณ์
             </button>
-            <button onclick="switchView('overhead')" class="px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold border border-slate-700 transition-all flex items-center gap-1">
+            <button onclick="switchView('overhead')" class="px-3 py-1 rounded dark:bg-slate-800 bg-white hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-[10px] font-bold border dark:border-slate-700 border-slate-300 transition-all flex items-center gap-1 shadow-xs">
               <i class="iconoir-open-new-window"></i> ดูจอเต็ม
             </button>
           </div>
@@ -4118,13 +4296,7 @@
         <div class="lg:col-span-5 flex flex-col gap-2.5 font-sans">
           <!-- Preview Header Bar -->
           <div class="flex items-center justify-between px-1">
-            <div class="flex items-center gap-2">
-              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-[11px] font-bold">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                จอที่ 2 • HUD LIVE PREVIEW
-              </span>
-              <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400">Overhead Monitor</span>
-            </div>
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">จอด้านบน (Overhead Display)</span>
             <button onclick="switchView('overhead')" title="สลับไปยังจอที่ 2 (Overhead HUD) แบบเต็มจอ" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
               <span>ขยายดูจอเต็ม</span>
               <i class="iconoir-open-new-window text-[13px]"></i>
@@ -4132,7 +4304,7 @@
           </div>
 
           <!-- Industrial Monitor Bezel Frame -->
-          <div class="rounded-2xl p-2.5 bg-[#111622] border-2 border-slate-700 shadow-xl flex flex-col text-slate-900 select-none hud-chassis-bezel">
+          <div class="rounded-2xl p-2.5 dark:bg-[#111622] bg-slate-100 border-2 dark:border-slate-700 border-slate-300 shadow-xl flex flex-col text-slate-900 select-none hud-chassis-bezel">
             <!-- Monitor Surface Screen -->
             <div class="w-full rounded-xl bg-[#dce4ec] dark:bg-[#0d1420] text-slate-900 dark:text-slate-100 border border-slate-400 dark:border-slate-700 overflow-hidden flex flex-col justify-between shadow-inner">
               
@@ -4212,12 +4384,9 @@
         container.innerHTML = `
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div class="lg:col-span-7 flex flex-col gap-4">
-              <div class="panel-header flex items-center justify-between pb-2 mb-2 font-sans">
-                <div>
-                  <span class="text-[11px] font-mono dark:text-blue-400 text-blue-600 font-bold">STATION 01 • CAP3030 / DGA1500 OPACIMETER</span>
-                  <h3 class="text-base font-bold dark:text-white text-slate-900">การตรวจวัดควันดำ (ทึบแสง %) - เครื่องยนต์ดีเซล</h3>
-                </div>
-                <span class="px-2.5 py-1 rounded-lg dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-400 text-emerald-800 dark:border-emerald-500/30 border-emerald-300 border text-xs font-sans font-semibold">เกณฑ์มาตรฐาน: ไม่เกิน <span class="font-mono font-bold">30.0%</span></span>
+              <div class="panel-header pb-2 mb-2 font-sans">
+                <span class="text-[11px] font-mono dark:text-blue-400 text-blue-600 font-bold">STATION 01 • CAP3030 / DGA1500 OPACIMETER</span>
+                <h3 class="text-base font-bold dark:text-white text-slate-900">การตรวจวัดควันดำ (ทึบแสง %) - เครื่องยนต์ดีเซล</h3>
               </div>
 
               <!-- Procedure Card from BRD -->
@@ -4275,14 +4444,9 @@
         container.innerHTML = `
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div class="lg:col-span-7 flex flex-col gap-4 font-sans">
-              <div class="panel-header flex items-center justify-between pb-2 mb-2">
-                <div>
-                  <span class="text-[11px] font-mono dark:text-blue-400 text-blue-600 font-bold">STATION 05 • CARTEC MINOR-SLIP DUAL-WAY</span>
-                  <h3 class="text-base font-bold dark:text-white text-slate-900">การตรวจสอบศูนย์ล้อหน้า (Sideslip / Toe-in & Toe-out)</h3>
-                </div>
-                <span class="px-2.5 py-1 rounded-lg dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-400 text-emerald-800 dark:border-emerald-500/30 border-emerald-300 border text-xs font-semibold">
-                  เกณฑ์มาตรฐาน ขบ. : ไม่เกิน &plusmn; 5.0 ม./กม.
-                </span>
+              <div class="panel-header pb-2 mb-2 font-sans">
+                <span class="text-[11px] font-mono dark:text-blue-400 text-blue-600 font-bold">STATION 05 • CARTEC MINOR-SLIP DUAL-WAY</span>
+                <h3 class="text-base font-bold dark:text-white text-slate-900">การตรวจสอบศูนย์ล้อหน้า (Sideslip / Toe-in & Toe-out)</h3>
               </div>
 
               <div class="dark:bg-carbon-900 bg-slate-50 border dark:border-carbon-800 border-slate-300 rounded-xl p-3.5 text-xs dark:text-slate-300 text-slate-700 leading-relaxed font-sans">
@@ -4329,12 +4493,9 @@
         container.innerHTML = `
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div class="lg:col-span-7 flex flex-col gap-4">
-              <div class="panel-header flex items-center justify-between pb-2 mb-2 font-sans">
-                <div>
-                  <span class="text-[11px] font-mono dark:text-blue-400 text-blue-600 font-bold">STATION 06 • GIEGNET ROLLER BRAKE & AXLE SCALES</span>
-                  <h3 class="text-base font-bold dark:text-white text-slate-900">การตรวจประสิทธิภาพระบบห้ามล้อ (เบรคเท้า / เบรคมือ)</h3>
-                </div>
-                <span class="px-2.5 py-1 rounded-lg dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-400 text-emerald-800 dark:border-emerald-500/30 border-emerald-300 border text-xs font-sans font-semibold">เกณฑ์: เท้ารวม $\ge 50\%$ • มือ $\ge 20\%$ • ต่าง $\le 20\%$</span>
+              <div class="panel-header pb-2 mb-2 font-sans">
+                <span class="text-[11px] font-mono dark:text-blue-400 text-blue-600 font-bold">STATION 06 • GIEGNET ROLLER BRAKE & AXLE SCALES</span>
+                <h3 class="text-base font-bold dark:text-white text-slate-900">การตรวจประสิทธิภาพระบบห้ามล้อ (เบรคเท้า / เบรคมือ)</h3>
               </div>
 
               <!-- Axle Graphic Breakdown -->
@@ -4427,14 +4588,9 @@
         container.innerHTML = `
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div class="lg:col-span-7 flex flex-col gap-4 font-sans">
-              <div class="panel-header flex items-center justify-between pb-2 mb-2">
-                <div>
-                  <span class="text-[11px] font-mono dark:text-blue-400 text-blue-600 font-bold">STATION 0${id} • TELEMETRY CONSOLE</span>
-                  <h3 class="text-base font-bold dark:text-white text-slate-900">${titles[id] || 'สถานีตรวจสภาพ'}</h3>
-                </div>
-                <span class="px-2.5 py-1 rounded-lg dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-400 text-emerald-800 dark:border-emerald-500/30 border-emerald-300 border text-xs font-sans font-bold flex items-center gap-1">
-                  <i class="iconoir-check"></i> ผ่านการทดสอบ (Pass)
-                </span>
+              <div class="panel-header pb-2 mb-2 font-sans">
+                <span class="text-[11px] font-mono dark:text-blue-400 text-blue-600 font-bold">STATION 0${id} • TELEMETRY CONSOLE</span>
+                <h3 class="text-base font-bold dark:text-white text-slate-900">${titles[id] || 'สถานีตรวจสภาพ'}</h3>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
@@ -4771,9 +4927,56 @@
       if (inspNameEl) inspNameEl.innerText = round.inspector;
       if (inspDateEl) inspDateEl.innerText = round.date;
 
+      // Check if viewing historical data or already submitted vehicle
+      const isOldData = (selectedHistoryIndex > 0 || currentVehicle.status === 'completed');
+
       // Update Remarks Textarea
       const remarksEl = document.getElementById('technician-remarks');
-      if (remarksEl) remarksEl.value = round.remarks;
+      if (remarksEl) {
+        remarksEl.value = round.remarks || '';
+        remarksEl.disabled = isOldData;
+        remarksEl.readOnly = isOldData;
+        if (isOldData) {
+          remarksEl.className = 'w-full dark:bg-carbon-950/60 bg-slate-100 border dark:border-carbon-750 border-slate-300 rounded-xl p-3 text-xs dark:text-slate-400 text-slate-600 cursor-not-allowed opacity-80 font-sans';
+          remarksEl.title = 'ไม่สามารถแก้ไขได้ เนื่องจากเป็นข้อมูลบันทึกผลการตรวจในอดีตหรือส่ง MDM แล้ว';
+        } else {
+          remarksEl.className = 'w-full dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-xl p-3 text-xs dark:text-white text-slate-900 focus:outline-none focus:border-blue-500 font-sans';
+          remarksEl.title = '';
+        }
+      }
+
+      // Update MDM Dispatch Button and Info Box
+      const btnDispatch = document.getElementById('btn-dispatch-mdm');
+      const infoBox = document.getElementById('summary-mdm-info-box');
+      if (btnDispatch) {
+        if (isOldData) {
+          btnDispatch.disabled = true;
+          if (selectedHistoryIndex > 0) {
+            btnDispatch.className = 'flex-1 py-3 bg-slate-200 dark:bg-carbon-800 text-slate-500 dark:text-slate-500 font-bold text-xs rounded-xl shadow-none cursor-not-allowed flex items-center justify-center gap-2 font-sans border border-slate-300 dark:border-carbon-700';
+            btnDispatch.innerHTML = '<i class="iconoir-lock"></i><span>ประวัติรอบการตรวจเดิม (ปิดการแก้ไข)</span>';
+          } else {
+            btnDispatch.className = 'flex-1 py-3 bg-emerald-600/20 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs rounded-xl shadow-none cursor-not-allowed flex items-center justify-center gap-2 font-sans border border-emerald-500/30';
+            btnDispatch.innerHTML = '<i class="iconoir-check"></i><span>บันทึกและส่งข้อมูลเข้าสู่ระบบ MDM แล้ว</span>';
+          }
+        } else {
+          btnDispatch.disabled = false;
+          btnDispatch.className = 'flex-1 py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 font-sans';
+          btnDispatch.innerHTML = '<i class="iconoir-server"></i><span>ยืนยันบันทึกผลตรวจเข้าสู่ระบบ MDM</span>';
+        }
+      }
+
+      if (infoBox) {
+        if (selectedHistoryIndex > 0) {
+          infoBox.className = 'dark:bg-amber-950/20 bg-amber-50/80 border dark:border-amber-800/40 border-amber-300 rounded-xl p-3 text-[11px] dark:text-amber-300 text-amber-800 font-sans flex items-center gap-2';
+          infoBox.innerHTML = '<i class="iconoir-info-circle text-amber-500 text-base shrink-0"></i><div><strong>ข้อมูลประวัติรอบเดิม:</strong> รายการนี้เป็นผลตรวจรอบเก่า ปิดการแก้ไขและไม่สามารถส่ง MDM ซ้ำได้</div>';
+        } else if (currentVehicle.status === 'completed') {
+          infoBox.className = 'dark:bg-emerald-950/20 bg-emerald-50/80 border dark:border-emerald-800/40 border-emerald-300 rounded-xl p-3 text-[11px] dark:text-emerald-300 text-emerald-800 font-sans flex items-center gap-2';
+          infoBox.innerHTML = '<i class="iconoir-check text-emerald-500 text-base shrink-0"></i><div><strong>ส่งผลตรวจเรียบร้อย:</strong> ผลการตรวจสภาพรถคันนี้ได้ส่งเข้าสู่ฐานข้อมูลระบบ MDM กรมการขนส่งทางบกแล้ว</div>';
+        } else {
+          infoBox.className = 'dark:bg-carbon-900 bg-slate-100 border dark:border-carbon-800 border-slate-300 rounded-xl p-3 text-[11px] dark:text-slate-400 text-slate-600 font-sans';
+          infoBox.innerHTML = '<span class="dark:text-blue-400 text-blue-600 font-semibold">การเชื่อมโยงระบบ MDM:</span> เมื่อกดยืนยัน ข้อมูลผลตรวจจะถูกเข้ารหัสและส่งไปยังเซอร์เวอร์กลางของกรมการขนส่งทางบกทันที';
+        }
+      }
 
       // Render Items Table
       const tbody = document.getElementById('summary-items-table');
@@ -4794,7 +4997,9 @@
                 : '<span class="px-2 py-0.5 rounded-md dark:bg-rose-500/20 bg-rose-100 text-rose-600 font-bold text-xs font-sans inline-flex items-center gap-1"><i class="iconoir-xmark text-[11px]"></i> ไม่ผ่าน</span>'}
             </td>
             <td class="py-2.5 px-3 text-right">
-              <button onclick="retestStation(${it.id})" class="text-[11px] dark:text-blue-400 text-blue-600 hover:underline font-sans font-semibold">ตรวจซ้ำ</button>
+              ${isOldData 
+                ? '<span class="text-[11px] text-slate-400 dark:text-slate-500 font-sans">บันทึกแล้ว</span>' 
+                : `<button onclick="retestStation(${it.id})" class="text-[11px] dark:text-blue-400 text-blue-600 hover:underline font-sans font-semibold">ตรวจซ้ำ</button>`}
             </td>
           `;
           tbody.appendChild(tr);
@@ -4804,7 +5009,7 @@
 
     function dispatchToMDM() {
       const btn = document.getElementById('btn-dispatch-mdm');
-      const originalText = btn.innerHTML;
+      if (!btn || btn.disabled) return;
       btn.innerHTML = `
         <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -4815,10 +5020,9 @@
       btn.disabled = true;
 
       setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
         currentVehicle.status = 'completed';
         renderQueueTable();
+        renderSummaryTab();
         showToast('ส่งข้อมูลผลตรวจสภาพรถเข้าสู่ระบบ MDM ส่วนกลางสำเร็จเรียบร้อย!');
         playBeep(1200, 0.25);
       }, 1400);
@@ -5429,7 +5633,13 @@
       filtered.forEach((v, idx) => {
         const tr = document.createElement('tr');
         const isCurrent = (currentVehicle && v.id === currentVehicle.id);
-        tr.className = `transition-all duration-150 border-b dark:border-carbon-800 border-slate-200 ${isCurrent ? 'dark:bg-blue-950/40 bg-blue-50/70 font-medium' : 'hover:dark:bg-carbon-850 hover:bg-slate-100/70 even:bg-slate-50/40 dark:even:bg-carbon-900/30'}`;
+        tr.className = `cursor-pointer transition-all duration-150 border-b dark:border-carbon-800 border-slate-200 ${isCurrent ? 'active-row dark:bg-blue-950/70 bg-blue-100 font-medium' : 'hover:dark:bg-carbon-850 hover:bg-slate-100/70 even:bg-slate-50/40 dark:even:bg-carbon-900/30'}`;
+        tr.onclick = (e) => {
+          if (!e.target.closest('button')) {
+            selectVehicle(v.id);
+            renderHistoryTable();
+          }
+        };
 
         // Category icon
         const cat = v.category || (v.prb === 'motorcycle' ? 'motorcycle' : (v.brand.includes('ตู้') ? 'van' : (v.prb === 'transport' ? 'truck' : 'car')));
@@ -5535,11 +5745,11 @@
           <!-- 9. Actions & Report View -->
           <td class="py-3 px-3.5 text-right">
             <div class="flex items-center justify-end gap-1.5">
-              <button onclick="selectVehicle('${v.id}'); showSubTab('tab-summary')" class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-carbon-700 bg-slate-50 dark:bg-carbon-800 hover:bg-slate-100 dark:hover:bg-carbon-700 text-slate-700 dark:text-slate-200 font-sans text-xs font-semibold transition-all shadow-2xs flex items-center gap-1" title="ดูสรุป 9 สถานีตรวจ">
+              <button onclick="event.stopPropagation(); selectVehicle('${v.id}'); showSubTab('tab-summary')" class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-carbon-700 bg-slate-50 dark:bg-carbon-800 hover:bg-slate-100 dark:hover:bg-carbon-700 text-slate-700 dark:text-slate-200 font-sans text-xs font-semibold transition-all shadow-2xs flex items-center gap-1" title="ดูสรุป 9 สถานีตรวจ">
                 <i class="iconoir-eye text-xs"></i>
                 <span>สรุปผล</span>
               </button>
-              <button onclick="selectVehicle('${v.id}'); openOfficialPrintModal()" class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-sans text-xs font-bold transition-all shadow-xs flex items-center gap-1" title="เปิดพิมพ์ใบรับรอง ฌข-214 มาตรฐาน ขบ.">
+              <button onclick="event.stopPropagation(); selectVehicle('${v.id}'); openOfficialPrintModal()" class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-sans text-xs font-bold transition-all shadow-xs flex items-center gap-1" title="เปิดพิมพ์ใบรับรอง ฌข-214 มาตรฐาน ขบ.">
                 <i class="iconoir-printer text-xs"></i>
                 <span>ใบตรวจ ฌข-214</span>
               </button>
