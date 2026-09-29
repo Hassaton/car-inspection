@@ -291,6 +291,26 @@
       border-bottom-color: #3b82f6 !important;
     }
 
+    /* High-Contrast Hover for Action Button "เปิดหน้าแท่นตรวจ" */
+    html:not(.dark) .btn-open-bay:hover {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      border-color: #2563eb !important;
+    }
+    html:not(.dark) .btn-open-bay:hover i,
+    html:not(.dark) .btn-open-bay:hover span {
+      color: #ffffff !important;
+    }
+    html.dark .btn-open-bay:hover {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      border-color: #3b82f6 !important;
+    }
+    html.dark .btn-open-bay:hover i,
+    html.dark .btn-open-bay:hover span {
+      color: #ffffff !important;
+    }
+
     html:not(.dark) ::-webkit-scrollbar-thumb {
       background: #94a3b8;
     }
@@ -796,7 +816,7 @@
             <thead>
               <tr class="dark:bg-carbon-850 bg-slate-100 border-b-2 dark:border-carbon-700 border-slate-300 text-[11px] font-sans font-bold dark:text-slate-300 text-slate-700 uppercase tracking-wider">
                 <th class="py-2.5 px-3 text-center border-r dark:border-carbon-800 border-slate-200">สรุปผล</th>
-                <th class="py-2.5 px-3 border-r-2 dark:border-carbon-700 border-slate-300">เลขทะเบียนรถ</th>
+                <th class="py-2.5 px-3.5 border-r-2 dark:border-carbon-700 border-slate-300">ยานพาหนะ / ทะเบียน</th>
                 <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ความเร็ว">ความเร็ว</th>
                 <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ระดับเสียง">เสียง</th>
                 <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ก๊าซ CO/HC (เบนซิน)">เบนซิน</th>
@@ -3204,18 +3224,43 @@
           </button>
         ` : '';
 
+        // 1. Overall verdict icon for Column 1: Only finished inspections show pass/fail, pending/waiting show neutral dot
+        let verdictIcon = '';
+        if (veh.status === 'waiting' || veh.status === 'inspecting') {
+          verdictIcon = '<span class="inline-block w-2.5 h-2.5 rounded-full bg-slate-400/50 dark:bg-slate-500/60" title="อยู่ระหว่างรอตรวจ/กำลังตรวจ"></span>';
+        } else if (veh.overallPass) {
+          verdictIcon = '<span class="w-6 h-6 rounded-full dark:bg-emerald-500/25 bg-emerald-200 text-emerald-600 inline-flex items-center justify-center font-black text-sm shadow-sm" title="ผ่านการตรวจ">✓</span>';
+        } else {
+          verdictIcon = '<span class="w-6 h-6 rounded-full dark:bg-rose-500/25 bg-rose-200 text-rose-600 inline-flex items-center justify-center font-black text-sm shadow-sm" title="ไม่ผ่าน">✗</span>';
+        }
+
+        // 2. Category icon for Column 2 (matching the format in Report Menu: ยานพาหนะ/ทะเบียน)
+        const cat = veh.category || (veh.prb === 'motorcycle' ? 'motorcycle' : (veh.brand && veh.brand.includes('ตู้') ? 'van' : (veh.prb === 'transport' ? 'truck' : 'car')));
+        let iconMarkup = `<i class="iconoir-car text-blue-600 dark:text-blue-400 text-sm"></i>`;
+        if (cat === 'truck') iconMarkup = `<i class="iconoir-delivery-truck text-amber-600 dark:text-amber-400 text-sm"></i>`;
+        else if (cat === 'van') iconMarkup = `<i class="iconoir-bus text-indigo-600 dark:text-indigo-400 text-sm"></i>`;
+        else if (cat === 'motorcycle') iconMarkup = `<i class="iconoir-bicycle text-purple-600 dark:text-purple-400 text-sm"></i>`;
+
         tr.innerHTML = `
           <td ${activeBorder} class="py-3 px-3 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800 border-slate-200">
-            ${veh.overallPass 
-              ? '<span class="w-6 h-6 rounded-full dark:bg-emerald-500/25 bg-emerald-200 text-emerald-600 inline-flex items-center justify-center font-black text-sm shadow-sm">✓</span>' 
-              : '<span class="w-6 h-6 rounded-full dark:bg-rose-500/25 bg-rose-200 text-rose-600 inline-flex items-center justify-center font-black text-sm shadow-sm">✗</span>'}
+            ${verdictIcon}
           </td>
-          <td class="py-3 px-3 border-b dark:border-carbon-800 border-slate-200 border-r-2 dark:border-carbon-700 border-slate-300">
-            <div class="font-bold font-mono dark:text-white text-slate-900 text-sm flex items-center gap-1.5">
-              <span>${veh.plate}</span>
-              ${laneBadge}
+          <td class="py-3 px-3.5 border-b dark:border-carbon-800 border-slate-200 border-r-2 dark:border-carbon-700 border-slate-300">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg dark:bg-carbon-800 bg-slate-100 border border-slate-300 dark:border-carbon-700 flex items-center justify-center shrink-0 shadow-2xs">
+                ${iconMarkup}
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="font-black font-mono text-sm tracking-tight dark:text-white text-slate-900">${veh.plate}</span>
+                  ${laneBadge}
+                  <span class="text-xs font-semibold dark:text-slate-300 text-slate-700 font-sans">${veh.province}</span>
+                </div>
+                <div class="text-[10px] font-mono text-slate-500 dark:text-slate-400 leading-tight">
+                  VIN: ${veh.vin || '-'} <span class="font-sans text-slate-400">• ${veh.brand}</span>
+                </div>
+              </div>
             </div>
-            <div class="text-[11px] dark:text-slate-400 text-slate-600 font-sans">${veh.province} • ${veh.brand}</div>
           </td>
           <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${checkIcon(t.speed ? t.speed.pass : null)}</td>
           <td class="py-3 px-2 text-center border-b dark:border-carbon-800 border-slate-200 border-r dark:border-carbon-800/60 border-slate-200/80">${checkIcon(t.sound ? t.sound.pass : null)}</td>
@@ -3230,7 +3275,7 @@
           <td class="py-3 px-3 text-right border-b dark:border-carbon-800 border-slate-200">
             <div class="flex items-center justify-end gap-1.5">
               ${summaryBtn}
-              <button onclick="event.stopPropagation(); inspectThisVehicle('${veh.id}')" class="px-3 py-1.5 rounded-lg ${isCurrent ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-carbon-750 text-slate-700 dark:text-slate-200 hover:bg-blue-600 hover:text-white border border-slate-300 dark:border-transparent'} font-sans text-xs shadow-sm transition-all flex items-center gap-1.5">
+              <button onclick="event.stopPropagation(); inspectThisVehicle('${veh.id}')" class="btn-open-bay px-3 py-1.5 rounded-lg ${isCurrent ? 'bg-blue-600 hover:bg-blue-700 text-white font-bold' : 'bg-white dark:bg-carbon-750 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-transparent'} font-sans text-xs shadow-sm transition-all flex items-center gap-1.5">
                 <i class="iconoir-open-new-window text-xs"></i>
                 <span>เปิดหน้าแท่นตรวจ</span>
               </button>
