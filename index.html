@@ -16,6 +16,9 @@
   <!-- Iconoir Icons CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
 
+  <!-- Chart.js Standalone UMD CDN (Robust for direct file:// and web browser execution) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -1124,239 +1127,381 @@
     </div>
 
     <!-- ======================================================== -->
-    <!-- SUBTAB 4: REPORTS & INSPECTION HISTORY                   -->
+    <!-- SUBTAB 4: REPORTS & INSPECTION HISTORY (UNIFIED SECTION) -->
     <!-- ======================================================== -->
     <div id="tab-reports" class="hidden flex-col gap-5 font-sans">
       
-      <!-- 1. Header Banner & Quick Actions -->
-      <div class="telemetry-card p-5 sm:p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-l-blue-600">
-        <div class="flex items-start gap-3.5">
-          <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/25 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 shadow-xs">
-            <i class="iconoir-stats-report text-2xl"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-[10px] font-mono uppercase tracking-wider font-bold dark:text-blue-400 text-blue-600 px-2 py-0.5 rounded-md dark:bg-blue-500/10 bg-blue-50 border dark:border-blue-500/20 border-blue-200">DLT AUDIT & TELEMETRY LOG</span>
-              <span class="inline-flex items-center gap-1 text-[11px] font-sans font-medium text-emerald-600 dark:text-emerald-400">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                MDM เชื่อมต่อสด
-              </span>
-            </div>
-            <h2 class="text-xl sm:text-2xl font-black dark:text-white text-slate-900 tracking-tight font-sans mt-0.5">
-              รายงานและประวัติผลการตรวจสภาพรถ
-            </h2>
-            <p class="text-xs dark:text-slate-400 text-slate-600 mt-0.5">
-              บันทึกผลการทดสอบมาตรฐาน ขบ. ทุกสถานีตรวจ พร้อมสรุปสถิติและใบรับรองผลตรวจรายคัน
-            </p>
-          </div>
-        </div>
+      <!-- UNIFIED MASTER CONTAINER: Groups Header, Executive Insights & Records Table in 1 Cohesive Section -->
+      <div class="telemetry-card p-5 sm:p-7 shadow-2xl border border-slate-200 dark:border-carbon-800 flex flex-col gap-6">
 
-        <div class="flex flex-wrap items-center gap-2.5">
-          <button onclick="exportExcelSim()" class="px-3.5 py-2 rounded-xl dark:bg-emerald-600/20 bg-emerald-50 text-emerald-700 dark:text-emerald-300 border dark:border-emerald-500/40 border-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-600/30 font-bold flex items-center gap-2 transition-all shadow-xs text-xs">
-            <i class="iconoir-page-flip text-sm"></i>
-            <span>ส่งออก Excel (.xlsx)</span>
-          </button>
-          <button onclick="window.print()" class="px-3.5 py-2 rounded-xl dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 text-slate-700 dark:text-slate-200 border dark:border-carbon-700 border-slate-300 font-bold flex items-center gap-2 transition-all shadow-xs text-xs">
-            <i class="iconoir-printer text-sm"></i>
-            <span>พิมพ์รายงานสรุป A4</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 2. KPI Summary Dashboard Cards (4 Metre Cards with Visual Bars) -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-        
-        <!-- Total Inspected Card -->
-        <div class="telemetry-card p-4 sm:p-5 flex flex-col justify-between gap-3 shadow-md hover:border-blue-400/50 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold dark:text-slate-400 text-slate-600 uppercase tracking-wide">ตรวจทั้งหมด</span>
-            <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/20">
-              <i class="iconoir-car text-base"></i>
+        <!-- 1. Header Banner & Quick Actions -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-200 dark:border-carbon-750">
+          <div class="flex items-start gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/25 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 shadow-xs">
+              <i class="iconoir-stats-report text-2xl"></i>
             </div>
-          </div>
-          <div>
-            <div class="flex items-baseline gap-1.5">
-              <span id="rep-kpi-total" class="text-3xl font-black font-mono dark:text-white text-slate-900 tracking-tight">128</span>
-              <span class="text-xs dark:text-slate-400 text-slate-500 font-medium">คัน</span>
-            </div>
-            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
-              <span>ข้อมูลประจำวันนี้</span>
-              <span class="font-mono text-blue-500 font-semibold">(27 ก.ย. 2569)</span>
-            </div>
-          </div>
-          <div class="w-full bg-slate-200 dark:bg-carbon-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-blue-600 h-full rounded-full" style="width: 100%"></div>
-          </div>
-        </div>
-
-        <!-- Passed Inspection Card -->
-        <div class="telemetry-card p-4 sm:p-5 flex flex-col justify-between gap-3 shadow-md hover:border-emerald-400/50 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">ผ่านเกณฑ์ ขบ.</span>
-            <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs border border-emerald-500/20">
-              <i class="iconoir-check text-base"></i>
-            </div>
-          </div>
-          <div>
-            <div class="flex items-baseline gap-1.5">
-              <span id="rep-kpi-pass" class="text-3xl font-black font-mono text-emerald-600 dark:text-emerald-400 tracking-tight">109</span>
-              <span class="text-xs font-medium text-emerald-700 dark:text-emerald-300">คัน</span>
-              <span class="text-xs font-bold font-mono px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 ml-auto border border-emerald-300 dark:border-emerald-800">85.2%</span>
-            </div>
-            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-              ออกใบรับรอง ฌข-214 เรียบร้อย
-            </div>
-          </div>
-          <div class="w-full bg-slate-200 dark:bg-carbon-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-emerald-500 h-full rounded-full" style="width: 85.2%"></div>
-          </div>
-        </div>
-
-        <!-- Failed Inspection Card -->
-        <div class="telemetry-card p-4 sm:p-5 flex flex-col justify-between gap-3 shadow-md hover:border-rose-400/50 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wide">ไม่ผ่านเกณฑ์</span>
-            <div class="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-xs border border-rose-500/20">
-              <i class="iconoir-xmark text-base"></i>
-            </div>
-          </div>
-          <div>
-            <div class="flex items-baseline gap-1.5">
-              <span id="rep-kpi-fail" class="text-3xl font-black font-mono text-rose-600 dark:text-rose-400 tracking-tight">14</span>
-              <span class="text-xs font-medium text-rose-700 dark:text-rose-300">คัน</span>
-              <span class="text-xs font-bold font-mono px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 ml-auto border border-rose-300 dark:border-rose-800">10.9%</span>
-            </div>
-            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-              ออกใบแจ้งบกพร่อง/รอแก้ไข
-            </div>
-          </div>
-          <div class="w-full bg-slate-200 dark:bg-carbon-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-rose-500 h-full rounded-full" style="width: 10.9%"></div>
-          </div>
-        </div>
-
-        <!-- In-progress / Pending Card -->
-        <div class="telemetry-card p-4 sm:p-5 flex flex-col justify-between gap-3 shadow-md hover:border-amber-400/50 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide">กำลังตรวจ/รอผล</span>
-            <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-xs border border-amber-500/20">
-              <i class="iconoir-timer text-base"></i>
-            </div>
-          </div>
-          <div>
-            <div class="flex items-baseline gap-1.5">
-              <span id="rep-kpi-pending" class="text-3xl font-black font-mono text-amber-600 dark:text-amber-400 tracking-tight">5</span>
-              <span class="text-xs font-medium text-amber-700 dark:text-amber-300">คัน</span>
-              <span class="text-xs font-bold font-mono px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 ml-auto border border-amber-300 dark:border-amber-800">3.9%</span>
-            </div>
-            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-              อยู่ระหว่างทดสอบบนเลน
-            </div>
-          </div>
-          <div class="w-full bg-slate-200 dark:bg-carbon-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-amber-500 h-full rounded-full" style="width: 3.9%"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- 3. Main Data Card: Filter Bar + Records Table -->
-      <div class="telemetry-card p-5 sm:p-6 shadow-2xl flex flex-col gap-4">
-        
-        <!-- Filter Bar Header -->
-        <div class="flex flex-col gap-3 pb-3 border-b dark:border-carbon-750 border-slate-300">
-          
-          <!-- Top Row: Search Input + Status Pills -->
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-            
-            <!-- Search by Plate / VIN -->
-            <div class="relative w-full md:w-80">
-              <i class="iconoir-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-              <input type="text" id="report-search-input" oninput="filterReportTable()" placeholder="ค้นหาทะเบียน, เลขคัสซี, รุ่น..." class="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-300 dark:border-carbon-700 bg-white dark:bg-carbon-900 dark:text-white text-slate-900 focus:outline-none focus:border-blue-500 font-sans shadow-2xs">
-            </div>
-
-            <!-- Quick Filter Status Pills -->
-            <div class="flex flex-wrap items-center gap-1.5 text-xs font-sans">
-              <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium mr-1 hidden sm:inline">ผลการตรวจ:</span>
-              <button onclick="setReportVerdictFilter('all', this)" class="report-verdict-filter px-3 py-1 rounded-lg font-bold text-xs transition-all dark:bg-carbon-800 bg-blue-600 text-white shadow-xs border border-blue-500 dark:border-carbon-600">
-                ทั้งหมด (<span class="font-mono" id="rep-badge-all">10</span>)
-              </button>
-              <button onclick="setReportVerdictFilter('pass', this)" class="report-verdict-filter px-3 py-1 rounded-lg font-semibold text-xs transition-all dark:text-slate-300 text-slate-600 hover:bg-slate-200 dark:hover:bg-carbon-800">
-                ผ่าน (<span class="font-mono" id="rep-badge-pass">9</span>)
-              </button>
-              <button onclick="setReportVerdictFilter('fail', this)" class="report-verdict-filter px-3 py-1 rounded-lg font-semibold text-xs transition-all dark:text-slate-300 text-slate-600 hover:bg-slate-200 dark:hover:bg-carbon-800">
-                ไม่ผ่าน (<span class="font-mono" id="rep-badge-fail">1</span>)
-              </button>
-            </div>
-
-          </div>
-
-          <!-- Bottom Row: Date Range & PRB Dropdown -->
-          <div class="flex flex-wrap items-center justify-between gap-3 text-xs pt-1">
-            <div class="flex flex-wrap items-center gap-2">
-              <div class="flex items-center gap-1.5 dark:text-slate-400 text-slate-600 font-medium">
-                <i class="iconoir-calendar text-xs"></i>
-                <span>ช่วงวันที่:</span>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-mono uppercase tracking-wider font-bold dark:text-blue-400 text-blue-600 px-2 py-0.5 rounded-md dark:bg-blue-500/10 bg-blue-50 border dark:border-blue-500/20 border-blue-200">DLT AUDIT & TELEMETRY LOG</span>
+                <span class="inline-flex items-center gap-1 text-[11px] font-sans font-medium text-emerald-600 dark:text-emerald-400">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  MDM ขบ. เชื่อมต่อสด 100%
+                </span>
               </div>
-              <input type="date" value="2026-09-27" class="dark:bg-carbon-900 bg-white border dark:border-carbon-700 border-slate-300 rounded-lg px-2.5 py-1 dark:text-white text-slate-900 font-mono shadow-2xs">
-              <span class="dark:text-slate-400 text-slate-500 font-sans">ถึง</span>
-              <input type="date" value="2026-09-27" class="dark:bg-carbon-900 bg-white border dark:border-carbon-700 border-slate-300 rounded-lg px-2.5 py-1 dark:text-white text-slate-900 font-mono shadow-2xs">
+              <h2 class="text-xl sm:text-2xl font-black dark:text-white text-slate-900 tracking-tight font-sans mt-0.5">
+                รายงานและประวัติผลการตรวจสภาพรถ
+              </h2>
+              <p class="text-xs dark:text-slate-400 text-slate-600 mt-0.5">
+                ภาพรวมสถิติเชิงลึกสำหรับผู้ประกอบการ (Executive Insights) พร้อมประวัติผลตรวจมาตรฐาน ขบ. ทุกสถานี
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button onclick="exportExcelSim()" class="px-3.5 py-2 rounded-xl dark:bg-emerald-600/20 bg-emerald-50 text-emerald-700 dark:text-emerald-300 border dark:border-emerald-500/40 border-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-600/30 font-bold flex items-center gap-2 transition-all shadow-xs text-xs">
+              <i class="iconoir-page-flip text-sm"></i>
+              <span>ส่งออก Excel (.xlsx)</span>
+            </button>
+            <button onclick="window.print()" class="px-3.5 py-2 rounded-xl dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 text-slate-700 dark:text-slate-200 border dark:border-carbon-700 border-slate-300 font-bold flex items-center gap-2 transition-all shadow-xs text-xs">
+              <i class="iconoir-printer text-sm"></i>
+              <span>พิมพ์รายงานสรุป A4</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Entrepreneur Executive Summary: Top 4 KPI Metric Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+          
+          <!-- Card 1: Total Inspected -->
+          <div class="rounded-xl p-4 dark:bg-carbon-850/80 bg-slate-50 border border-slate-200 dark:border-carbon-750 flex flex-col justify-between gap-2.5 shadow-2xs hover:border-blue-400/50 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold dark:text-slate-400 text-slate-600 uppercase tracking-wide">ยอดตรวจสะสมวันนี้</span>
+              <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/20">
+                <i class="iconoir-car text-base"></i>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <span id="rep-kpi-total" data-static="true" class="text-3xl font-black font-mono dark:text-white text-slate-900 tracking-tight">128</span>
+                <span class="text-xs dark:text-slate-400 text-slate-500 font-medium">คัน</span>
+                <span class="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 ml-auto border border-blue-300 dark:border-blue-800">85.3% เป้า</span>
+              </div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex items-center justify-between">
+                <span>เป้าหมาย 150 คัน/วัน</span>
+                <span class="text-emerald-600 dark:text-emerald-400 font-medium">+12 จากเมื่อวาน</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-carbon-800 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-blue-600 h-full rounded-full" style="width: 85.3%"></div>
+            </div>
+          </div>
+
+          <!-- Card 2: Estimated Revenue -->
+          <div class="rounded-xl p-4 dark:bg-carbon-850/80 bg-slate-50 border border-slate-200 dark:border-carbon-750 flex flex-col justify-between gap-2.5 shadow-2xs hover:border-emerald-400/50 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">ประมาณการรายได้วันนี้</span>
+              <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs border border-emerald-500/20">
+                <i class="iconoir-coins text-base"></i>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <span id="rep-kpi-revenue" class="text-3xl font-black font-mono text-emerald-600 dark:text-emerald-400 tracking-tight">฿24,600</span>
+                <span class="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 ml-auto border border-emerald-300 dark:border-emerald-800">87.8% เป้า</span>
+              </div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex items-center justify-between">
+                <span>เป้า ฿28,000</span>
+                <span class="font-mono text-slate-600 dark:text-slate-400">เฉลี่ย ฿192/คัน</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-carbon-800 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-emerald-500 h-full rounded-full" style="width: 87.8%"></div>
+            </div>
+          </div>
+
+          <!-- Card 3: Pass Rate & DLT Pass -->
+          <div class="rounded-xl p-4 dark:bg-carbon-850/80 bg-slate-50 border border-slate-200 dark:border-carbon-750 flex flex-col justify-between gap-2.5 shadow-2xs hover:border-emerald-400/50 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">อัตราผ่านเกณฑ์ ขบ.</span>
+              <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs border border-emerald-500/20">
+                <i class="iconoir-check text-base"></i>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <span id="rep-kpi-pass-rate" class="text-3xl font-black font-mono text-emerald-600 dark:text-emerald-400 tracking-tight">85.2%</span>
+                <span class="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 ml-auto border border-emerald-300 dark:border-emerald-800">109 คัน</span>
+              </div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex items-center justify-between">
+                <span>ผ่าน <strong id="rep-kpi-pass" data-static="true" class="text-emerald-600 font-mono">109</strong> คัน</span>
+                <span class="text-rose-600 dark:text-rose-400">ไม่ผ่าน <strong id="rep-kpi-fail" data-static="true" class="font-mono">14</strong> คัน</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-carbon-800 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-emerald-500 h-full rounded-full" style="width: 85.2%"></div>
+            </div>
+          </div>
+
+          <!-- Card 4: Inspection Efficiency & MDM -->
+          <div class="rounded-xl p-4 dark:bg-carbon-850/80 bg-slate-50 border border-slate-200 dark:border-carbon-750 flex flex-col justify-between gap-2.5 shadow-2xs hover:border-blue-400/50 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">ความเร็วเฉลี่ย & MDM</span>
+              <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/20">
+                <i class="iconoir-timer text-base"></i>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-3xl font-black font-mono text-blue-600 dark:text-blue-400 tracking-tight">4.8</span>
+                <span class="text-xs dark:text-slate-400 text-slate-500 font-medium">นาที/คัน</span>
+                <span class="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 ml-auto border border-emerald-300 dark:border-emerald-800">เกณฑ์ ขบ. &le; 7</span>
+              </div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex items-center justify-between">
+                <span>ความเร็วเลนไหลลื่น</span>
+                <span class="text-emerald-600 dark:text-emerald-400 font-medium font-mono">ซิงก์ MDM 100%</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-carbon-800 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-blue-600 h-full rounded-full" style="width: 100%"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. Entrepreneur Visual Analytics & Actionable Business Insights with Recharts (3 Cards Grid) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          
+          <!-- Insight Widget 1: Fleet & Revenue Distribution -->
+          <div class="dark:bg-carbon-850 bg-slate-50/80 rounded-xl p-4 border border-slate-200 dark:border-carbon-750 flex flex-col justify-between gap-3 shadow-xs">
+            <div>
+              <div class="flex items-center justify-between pb-2 border-b dark:border-carbon-750 border-slate-200">
+                <span class="text-xs font-bold dark:text-slate-200 text-slate-800 flex items-center gap-1.5">
+                  <i class="iconoir-pie-chart text-blue-500 text-sm"></i>
+                  <span>สัดส่วนประเภทรถและรายได้</span>
+                </span>
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">
+                  128 คันสะสม
+                </span>
+              </div>
+
+              <!-- Chart Canvas Container -->
+              <div class="w-full h-44 my-1 flex items-center justify-center relative">
+                <canvas id="chart-fleet"></canvas>
+              </div>
+
+              <!-- Fleet breakdown details -->
+              <div class="mt-2 space-y-1.5 text-xs font-sans">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></span>
+                    <span class="dark:text-slate-300 text-slate-700">รถยนต์นั่ง / เก๋ง (รย.1)</span>
+                  </div>
+                  <div class="font-mono text-right">
+                    <span class="font-bold text-slate-900 dark:text-white">68 คัน (53%)</span>
+                    <span class="text-[11px] text-slate-500 ml-1.5">• ฿13,600</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
+                    <span class="dark:text-slate-300 text-slate-700">รถกระบะ / ขนส่ง (รย.3)</span>
+                  </div>
+                  <div class="font-mono text-right">
+                    <span class="font-bold text-slate-900 dark:text-white">38 คัน (30%)</span>
+                    <span class="text-[11px] text-slate-500 ml-1.5">• ฿11,400</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-purple-500 shrink-0"></span>
+                    <span class="dark:text-slate-300 text-slate-700">รถจักรยานยนต์ (รย.12)</span>
+                  </div>
+                  <div class="font-mono text-right">
+                    <span class="font-bold text-slate-900 dark:text-white">22 คัน (17%)</span>
+                    <span class="text-[11px] text-slate-500 ml-1.5">• ฿1,320</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Entrepreneur Takeaway -->
+            <div class="p-2.5 rounded-lg bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 text-[11px] text-blue-900 dark:text-blue-300 flex items-start gap-2 mt-1">
+              <i class="iconoir-light-bulb text-blue-600 dark:text-blue-400 text-sm shrink-0 mt-0.5"></i>
+              <span><strong>มุมมองผู้ประกอบการ:</strong> กลุ่มรถยนต์และรถขนส่งสร้างรายได้รวม <strong>94.6%</strong> แนะนำเน้นระบบคิวเร็วสำหรับรถเก๋ง และเปิดแพ็กเกจ พ.ร.บ.+ภาษี คู่กัน</span>
+            </div>
+          </div>
+
+          <!-- Insight Widget 2: Failure Bottlenecks & Service Cross-sell Opportunity -->
+          <div class="dark:bg-carbon-850 bg-slate-50/80 rounded-xl p-4 border border-slate-200 dark:border-carbon-750 flex flex-col justify-between gap-3 shadow-xs">
+            <div>
+              <div class="flex items-center justify-between pb-2 border-b dark:border-carbon-750 border-slate-200">
+                <span class="text-xs font-bold dark:text-slate-200 text-slate-800 flex items-center gap-1.5">
+                  <i class="iconoir-warning-triangle text-rose-500 text-sm"></i>
+                  <span>สาเหตุไม่ผ่าน & โอกาสบริการเสริม</span>
+                </span>
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
+                  14 คันตกเกณฑ์ (10.9%)
+                </span>
+              </div>
+
+              <!-- Chart Canvas Container -->
+              <div class="w-full h-44 my-1 flex items-center justify-center relative">
+                <canvas id="chart-failure"></canvas>
+              </div>
+
+              <div class="space-y-1 text-[10px] text-slate-500 dark:text-slate-400 pt-1 font-sans">
+                <div>• ควันดำ (6 คัน / 43%): ล้างหัวฉีด / เปลี่ยนกรองอากาศ</div>
+                <div>• ระบบเบรก (5 คัน / 36%): เจียรจาน / ไล่น้ำมัน / ตั้งระยะเบรก</div>
+                <div>• ไฟหน้า (2 คัน / 14%): ตั้งระดับลำแสง / เปลี่ยนหลอดไฟ</div>
+              </div>
+            </div>
+
+            <!-- Entrepreneur Takeaway -->
+            <div class="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 text-[11px] text-emerald-900 dark:text-emerald-300 flex items-start gap-2 mt-1">
+              <i class="iconoir-wrench text-emerald-600 dark:text-emerald-400 text-sm shrink-0 mt-0.5"></i>
+              <span><strong>โอกาสเพิ่มรายได้:</strong> ควันดำและเบรกคิดเป็น <strong>78.6%</strong> ของรถตกเกณฑ์ หากมีช่างช่วยปรับตั้งหน้างานจะช่วยให้ตรวจซ้ำผ่านทันทีและเพิ่ม Ticket Size</span>
+            </div>
+          </div>
+
+          <!-- Insight Widget 3: Hourly Peak Traffic & Manpower Allocation -->
+          <div class="dark:bg-carbon-850 bg-slate-50/80 rounded-xl p-4 border border-slate-200 dark:border-carbon-750 flex flex-col justify-between gap-3 shadow-xs">
+            <div>
+              <div class="flex items-center justify-between pb-2 border-b dark:border-carbon-750 border-slate-200">
+                <span class="text-xs font-bold dark:text-slate-200 text-slate-800 flex items-center gap-1.5">
+                  <i class="iconoir-clock text-amber-500 text-sm"></i>
+                  <span>ความหนาแน่นตามช่วงเวลา</span>
+                </span>
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300">
+                  08:00 - 17:00
+                </span>
+              </div>
+
+              <!-- Chart Canvas Container -->
+              <div class="w-full h-44 my-1 flex items-center justify-center relative">
+                <canvas id="chart-hourly"></canvas>
+              </div>
+            </div>
+
+            <!-- Entrepreneur Takeaway -->
+            <div class="p-2.5 rounded-lg bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-[11px] text-amber-900 dark:text-amber-300 flex items-start gap-2 mt-1">
+              <i class="iconoir-group text-amber-600 dark:text-amber-400 text-sm shrink-0 mt-0.5"></i>
+              <span><strong>การบริหารเลนตรวจ:</strong> ช่วง <strong>10:00 - 12:00 น.</strong> มีรถหนาแน่นสูงสุด ควรเปิดแท่นตรวจครบ 3 เลนเต็มกำลัง เพื่อระบายคิวไม่ให้รอนานเกิน 12 นาที</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 4. Records Table & Filter Sub-section (Seamlessly Grouped in the Same Section) -->
+        <div class="pt-2 flex flex-col gap-4 border-t border-slate-200 dark:border-carbon-750">
+          
+          <!-- Sub-header & Filter Bar -->
+          <div class="flex flex-col gap-3 pb-1">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h3 class="text-sm sm:text-base font-bold dark:text-white text-slate-900 flex items-center gap-2">
+                  <i class="iconoir-table text-blue-600 dark:text-blue-400"></i>
+                  <span>บันทึกผลการตรวจสภาพรถรายคัน (Inspection Audit Log)</span>
+                </h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  ประวัติผลตรวจมาตรฐาน ขบ. คลิกที่แถวเพื่อดูข้อมูล หรือคลิกปุ่มเพื่อพิมพ์เอกสารรับรอง
+                </p>
+              </div>
+
+              <!-- Quick Filter Status Pills -->
+              <div class="flex flex-wrap items-center gap-1.5 text-xs font-sans">
+                <span class="text-[11px] text-slate-500 dark:text-slate-400 font-medium mr-1 hidden sm:inline">ผลการตรวจ:</span>
+                <button onclick="setReportVerdictFilter('all', this)" class="report-verdict-filter px-3 py-1 rounded-lg font-bold text-xs transition-all dark:bg-carbon-800 bg-blue-600 text-white shadow-xs border border-blue-500 dark:border-carbon-600">
+                  ทั้งหมด (<span class="font-mono" id="rep-badge-all">10</span>)
+                </button>
+                <button onclick="setReportVerdictFilter('pass', this)" class="report-verdict-filter px-3 py-1 rounded-lg font-semibold text-xs transition-all dark:text-slate-300 text-slate-600 hover:bg-slate-200 dark:hover:bg-carbon-800">
+                  ผ่าน (<span class="font-mono" id="rep-badge-pass">9</span>)
+                </button>
+                <button onclick="setReportVerdictFilter('fail', this)" class="report-verdict-filter px-3 py-1 rounded-lg font-semibold text-xs transition-all dark:text-slate-300 text-slate-600 hover:bg-slate-200 dark:hover:bg-carbon-800">
+                  ไม่ผ่าน (<span class="font-mono" id="rep-badge-fail">1</span>)
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter Controls Row: Search Input + Date Range + PRB Dropdown -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pt-2">
               
-              <div class="h-4 w-px bg-slate-300 dark:bg-carbon-700 mx-1 hidden sm:block"></div>
+              <!-- Search by Plate / VIN -->
+              <div class="relative w-full lg:w-80">
+                <i class="iconoir-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="report-search-input" oninput="filterReportTable()" placeholder="ค้นหาทะเบียน, เลขคัสซี, รุ่น..." class="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-300 dark:border-carbon-700 bg-white dark:bg-carbon-900 dark:text-white text-slate-900 focus:outline-none focus:border-blue-500 font-sans shadow-2xs">
+              </div>
 
-              <select id="report-prb-filter" onchange="filterReportTable()" class="dark:bg-carbon-900 bg-white border dark:border-carbon-700 border-slate-300 rounded-lg px-2.5 py-1 dark:text-white text-slate-900 font-sans shadow-2xs">
-                <option value="all">ทุกประเภท พ.ร.บ.</option>
-                <option value="transport">พ.ร.บ. รถขนส่ง</option>
-                <option value="car">พ.ร.บ. รถยนต์</option>
-                <option value="motorcycle">พ.ร.บ. รถจักรยานยนต์</option>
-              </select>
+              <!-- Date Range & PRB Dropdown -->
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                <div class="flex items-center gap-1.5 dark:text-slate-400 text-slate-600 font-medium">
+                  <i class="iconoir-calendar text-xs"></i>
+                  <span>ช่วงวันที่:</span>
+                </div>
+                <input type="date" value="2026-09-27" class="dark:bg-carbon-900 bg-white border dark:border-carbon-700 border-slate-300 rounded-lg px-2.5 py-1 dark:text-white text-slate-900 font-mono shadow-2xs text-xs">
+                <span class="dark:text-slate-400 text-slate-500 font-sans">ถึง</span>
+                <input type="date" value="2026-09-27" class="dark:bg-carbon-900 bg-white border dark:border-carbon-700 border-slate-300 rounded-lg px-2.5 py-1 dark:text-white text-slate-900 font-mono shadow-2xs text-xs">
+                
+                <div class="h-4 w-px bg-slate-300 dark:bg-carbon-700 mx-1 hidden sm:block"></div>
+
+                <select id="report-prb-filter" onchange="filterReportTable()" class="dark:bg-carbon-900 bg-white border dark:border-carbon-700 border-slate-300 rounded-lg px-2.5 py-1 dark:text-white text-slate-900 font-sans shadow-2xs text-xs">
+                  <option value="all">ทุกประเภท พ.ร.บ.</option>
+                  <option value="transport">พ.ร.บ. รถขนส่ง</option>
+                  <option value="car">พ.ร.บ. รถยนต์</option>
+                  <option value="motorcycle">พ.ร.บ. รถจักรยานยนต์</option>
+                </select>
+
+                <!-- Result Counter -->
+                <div class="text-[11px] font-sans text-slate-500 dark:text-slate-400 flex items-center gap-1 ml-auto">
+                  <span>แสดงผล:</span>
+                  <strong id="report-table-count" class="font-mono font-bold dark:text-blue-400 text-blue-600">10</strong>
+                  <span>รายการ</span>
+                </div>
+              </div>
+
             </div>
 
-            <!-- Result Counter -->
-            <div class="text-[11px] font-sans text-slate-500 dark:text-slate-400 flex items-center gap-1 ml-auto">
-              <span>แสดงผล:</span>
-              <strong id="report-table-count" class="font-mono font-bold dark:text-blue-400 text-blue-600">10</strong>
-              <span>รายการ</span>
+          </div>
+
+          <!-- History Records Table with Distinct Visual Hierarchy -->
+          <div class="overflow-x-auto rounded-xl border-2 dark:border-carbon-700 border-slate-300 bg-white dark:bg-carbon-900 shadow-sm">
+            <table class="w-full text-left text-xs border-collapse font-sans">
+              <thead>
+                <tr class="dark:bg-carbon-850 bg-slate-100/90 border-b-2 dark:border-carbon-700 border-slate-300 dark:text-slate-200 text-slate-800 font-sans font-bold text-[11px]">
+                  <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300 w-12 text-center">#</th>
+                  <th class="py-3 px-3.5 border-r-2 dark:border-carbon-700 border-slate-300">ยานพาหนะ / ทะเบียน</th>
+                  <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300">ประเภท พ.ร.บ.</th>
+                  <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300">ยี่ห้อ / รุ่น</th>
+                  <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300">เลขไมล์สะสม</th>
+                  <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300">เวลาตรวจ & นายช่าง</th>
+                  <th class="py-3 px-3.5 text-center border-r dark:border-carbon-750 border-slate-300">การส่ง MDM</th>
+                  <th class="py-3 px-3.5 text-center border-r-2 dark:border-carbon-700 border-slate-300">ผลการตัดสิน</th>
+                  <th class="py-3 px-3.5 text-right">เอกสาร & สรุปผล</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body" class="divide-y dark:divide-carbon-800 divide-slate-200 text-xs">
+                <!-- Injected by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table Footer Pagination / Statistics -->
+          <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400 font-sans pt-1">
+            <div class="flex items-center gap-1.5" id="report-footer-stats">
+              <span>แสดงข้อมูลทั้งหมด <strong class="font-mono dark:text-white text-slate-900">10</strong> รายการ</span>
+              <span>•</span>
+              <span class="text-emerald-600 dark:text-emerald-400 font-semibold">ผ่าน 9 คัน (90%)</span>
+              <span>•</span>
+              <span class="text-rose-600 dark:text-rose-400 font-semibold">ไม่ผ่าน 1 คัน (10%)</span>
+            </div>
+            <div class="text-[11px] text-slate-500 flex items-center gap-1">
+              <i class="iconoir-info-circle text-xs"></i>
+              <span>คลิกที่ปุ่ม <strong>"ใบตรวจ ฌข-214"</strong> เพื่อพิมพ์หรือดาวน์โหลดเอกสารมาตรฐาน ขบ.</span>
             </div>
           </div>
 
-        </div>
-
-        <!-- History Records Table with Distinct Visual Hierarchy -->
-        <div class="overflow-x-auto rounded-xl border-2 dark:border-carbon-700 border-slate-300 bg-white dark:bg-carbon-900 shadow-sm">
-          <table class="w-full text-left text-xs border-collapse font-sans">
-            <thead>
-              <tr class="dark:bg-carbon-850 bg-slate-100/90 border-b-2 dark:border-carbon-700 border-slate-300 dark:text-slate-200 text-slate-800 font-sans font-bold text-[11px]">
-                <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300 w-12 text-center">#</th>
-                <th class="py-3 px-3.5 border-r-2 dark:border-carbon-700 border-slate-300">ยานพาหนะ / ทะเบียน</th>
-                <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300">ประเภท พ.ร.บ.</th>
-                <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300">ยี่ห้อ / รุ่น</th>
-                <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300">เลขไมล์สะสม</th>
-                <th class="py-3 px-3.5 border-r dark:border-carbon-750 border-slate-300">เวลาตรวจ & นายช่าง</th>
-                <th class="py-3 px-3.5 text-center border-r dark:border-carbon-750 border-slate-300">การส่ง MDM</th>
-                <th class="py-3 px-3.5 text-center border-r-2 dark:border-carbon-700 border-slate-300">ผลการตัดสิน</th>
-                <th class="py-3 px-3.5 text-right">เอกสาร & สรุปผล</th>
-              </tr>
-            </thead>
-            <tbody id="history-table-body" class="divide-y dark:divide-carbon-800 divide-slate-200 text-xs">
-              <!-- Injected by JS -->
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Table Footer Pagination / Statistics -->
-        <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400 font-sans pt-1">
-          <div class="flex items-center gap-1.5" id="report-footer-stats">
-            <span>แสดงข้อมูลทั้งหมด <strong class="font-mono dark:text-white text-slate-900">10</strong> รายการ</span>
-            <span>•</span>
-            <span class="text-emerald-600 dark:text-emerald-400 font-semibold">ผ่าน 9 คัน (90%)</span>
-            <span>•</span>
-            <span class="text-rose-600 dark:text-rose-400 font-semibold">ไม่ผ่าน 1 คัน (10%)</span>
-          </div>
-          <div class="text-[11px] text-slate-500 flex items-center gap-1">
-            <i class="iconoir-info-circle text-xs"></i>
-            <span>คลิกที่ปุ่ม <strong>"ใบรับรอง ฌข-214"</strong> เพื่อพิมพ์หรือดาวน์โหลด PDF รายคัน</span>
-          </div>
         </div>
 
       </div>
@@ -2717,6 +2862,7 @@
         label.innerText = 'ธีมมืด';
         showToast('สลับเป็นธีม Light Mode (Clean Modern Grey)');
       }
+      setTimeout(initReportCharts, 60);
     }
 
     // --- Audio Feedback ---
@@ -2826,7 +2972,10 @@
         renderStationDetail(activeStationId);
       }
       if (tabId === 'tab-summary') renderSummaryTab();
-      if (tabId === 'tab-reports') renderHistoryTable();
+      if (tabId === 'tab-reports') {
+        renderHistoryTable();
+        setTimeout(initReportCharts, 60);
+      }
     }
 
     function setGlobalMode(mode) {
@@ -5618,9 +5767,9 @@
       const kpiTotal = document.getElementById('rep-kpi-total');
       const kpiPass = document.getElementById('rep-kpi-pass');
       const kpiFail = document.getElementById('rep-kpi-fail');
-      if (kpiTotal) kpiTotal.innerText = totalCount;
-      if (kpiPass) kpiPass.innerText = passCount;
-      if (kpiFail) kpiFail.innerText = failCount;
+      if (kpiTotal && !kpiTotal.dataset.static) kpiTotal.innerText = totalCount;
+      if (kpiPass && !kpiPass.dataset.static) kpiPass.innerText = passCount;
+      if (kpiFail && !kpiFail.dataset.static) kpiFail.innerText = failCount;
 
       // Filter vehicles
       const filtered = queueVehicles.filter(v => {
@@ -5819,12 +5968,179 @@
       }, 3500);
     }
 
-    // --- Initial Boot ---
-    window.addEventListener('DOMContentLoaded', () => {
-      renderQueueTable();
-      renderLaneCards();
-      updateVehicleUI();
-    });
+    // --- Interactive Visual Charts for Entrepreneur Reports (Chart.js & Native Canvas) ---
+    let _chartFleet = null;
+    let _chartFailure = null;
+    let _chartHourly = null;
+
+    function initReportCharts() {
+      const tabReports = document.getElementById('tab-reports');
+      if (!tabReports || tabReports.classList.contains('hidden')) return;
+
+      const isDark = document.documentElement.classList.contains('dark');
+      const textColor = isDark ? '#94a3b8' : '#64748b';
+      const gridColor = isDark ? '#1e2434' : '#e2e8f0';
+      const tooltipBg = isDark ? '#11151e' : '#ffffff';
+      const tooltipTitleColor = isDark ? '#ffffff' : '#0f172a';
+      const tooltipBodyColor = isDark ? '#cbd5e1' : '#334155';
+
+      // Ensure Chart.js is ready; if not yet loaded from CDN, retry gently
+      if (typeof Chart === 'undefined') {
+        setTimeout(initReportCharts, 250);
+        return;
+      }
+
+      Chart.defaults.font.family = '"IBM Plex Sans Thai", sans-serif';
+
+      // 1. Fleet Mix Donut Chart
+      const fleetCanvas = document.getElementById('chart-fleet');
+      if (fleetCanvas) {
+        if (_chartFleet) _chartFleet.destroy();
+        _chartFleet = new Chart(fleetCanvas, {
+          type: 'doughnut',
+          data: {
+            labels: ['รถยนต์นั่ง / เก๋ง (รย.1)', 'รถกระบะ / ขนส่ง (รย.3)', 'จักรยานยนต์ (รย.12)'],
+            datasets: [{
+              data: [68, 38, 22],
+              backgroundColor: ['#2563eb', '#f59e0b', '#8b5cf6'],
+              borderWidth: 2,
+              borderColor: isDark ? '#11151e' : '#ffffff',
+              hoverOffset: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '62%',
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: tooltipBg,
+                titleColor: tooltipTitleColor,
+                bodyColor: tooltipBodyColor,
+                borderColor: isDark ? '#273044' : '#cbd5e1',
+                borderWidth: 1,
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: (ctx) => ` ${ctx.label}: ${ctx.raw} คัน (${((ctx.raw/128)*100).toFixed(1)}%)`
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // 2. Failure Bottlenecks Horizontal Bar Chart
+      const failureCanvas = document.getElementById('chart-failure');
+      if (failureCanvas) {
+        if (_chartFailure) _chartFailure.destroy();
+        _chartFailure = new Chart(failureCanvas, {
+          type: 'bar',
+          data: {
+            labels: ['ควันดำ', 'เบรกต่าง', 'ไฟหน้า', 'ศูนย์ล้อ'],
+            datasets: [{
+              data: [6, 5, 2, 1],
+              backgroundColor: ['#f43f5e', '#fb7185', '#f59e0b', '#eab308'],
+              borderRadius: 6,
+              maxBarThickness: 18
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: tooltipBg,
+                titleColor: tooltipTitleColor,
+                bodyColor: tooltipBodyColor,
+                borderColor: isDark ? '#273044' : '#cbd5e1',
+                borderWidth: 1,
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: (ctx) => ` ตกเกณฑ์ ${ctx.raw} คัน (${((ctx.raw/14)*100).toFixed(0)}%)`
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: gridColor },
+                ticks: { color: textColor, font: { size: 10 }, stepSize: 2 }
+              },
+              y: {
+                grid: { display: false },
+                ticks: { color: textColor, font: { size: 10 } }
+              }
+            }
+          }
+        });
+      }
+
+      // 3. Hourly Traffic Bar Chart
+      const hourlyCanvas = document.getElementById('chart-hourly');
+      if (hourlyCanvas) {
+        if (_chartHourly) _chartHourly.destroy();
+        _chartHourly = new Chart(hourlyCanvas, {
+          type: 'bar',
+          data: {
+            labels: ['08-10', '10-12 (Peak)', '12-14', '14-16', '16-17'],
+            datasets: [{
+              data: [22, 42, 20, 36, 8],
+              backgroundColor: ['#60a5fa', '#2563eb', '#60a5fa', '#3b82f6', '#94a3b8'],
+              borderRadius: 6,
+              maxBarThickness: 28
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: tooltipBg,
+                titleColor: tooltipTitleColor,
+                bodyColor: tooltipBodyColor,
+                borderColor: isDark ? '#273044' : '#cbd5e1',
+                borderWidth: 1,
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: (ctx) => ` ปริมาณรถ: ${ctx.raw} คัน ${ctx.dataIndex === 1 ? '🔥 ช่วงพีคสูงสุด' : ''}`
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { color: textColor, font: { size: 10 } }
+              },
+              y: {
+                grid: { color: gridColor },
+                ticks: { color: textColor, font: { size: 10 }, stepSize: 10 }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // --- Guaranteed Boot for Both Local file:// and Web Server (HTTP/HTTPS) ---
+    function bootApplication() {
+      try { renderQueueTable(); } catch (e) { console.error('Boot queue error:', e); }
+      try { renderLaneCards(); } catch (e) { console.error('Boot lane error:', e); }
+      try { updateVehicleUI(); } catch (e) { console.error('Boot vehicle UI error:', e); }
+      try { setTimeout(initReportCharts, 120); } catch (e) { console.error('Boot charts error:', e); }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootApplication);
+    } else {
+      // document already parsed (standard when opened directly via file://)
+      bootApplication();
+    }
   </script>
 </body>
 </html>
