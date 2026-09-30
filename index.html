@@ -392,6 +392,100 @@
     .hud-chassis-bezel {
       box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.1), 0 12px 35px -5px rgba(0, 0, 0, 0.6);
     }
+
+    /* ════════════════════════════════════════════════════
+       Tesla / Futuristic Queue v2 — Additional Styles
+       ════════════════════════════════════════════════════ */
+
+    /* Filter pill active state in queue table (override generic .q-filter-btn) */
+    .q-filter-btn.active-filter {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: rgba(37,99,235,0.4);
+      box-shadow: 0 0 10px rgba(37,99,235,0.4);
+      font-weight: 700;
+    }
+    html:not(.dark) .q-filter-btn.active-filter {
+      background: #2563eb !important;
+      color: #ffffff !important;
+    }
+
+    /* Queue table rows — subtle hover neon underline on left edge */
+    #queue-table-body tr {
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+    }
+    html.dark #queue-table-body tr:hover {
+      background-color: rgba(37,99,235,0.06) !important;
+      box-shadow: inset 3px 0 0 rgba(59,130,246,0.7);
+    }
+    html:not(.dark) #queue-table-body tr:hover {
+      background-color: rgba(37,99,235,0.04) !important;
+      box-shadow: inset 3px 0 0 rgba(37,99,235,0.5);
+    }
+
+    /* Tesla shimmer sweep — reusable on any element with class .tesla-shimmer */
+    @keyframes teslaShimmer {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(250%); }
+    }
+    .tesla-shimmer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+      transform: translateX(-100%);
+      animation: teslaShimmer 2.8s ease-in-out infinite;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    /* Pipeline status bar segment animated entrance */
+    @keyframes pipelineIn {
+      from { opacity: 0; transform: translateX(-8px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    #queue-sticky-bottom-sheet .relative.z-10 > * {
+      animation: pipelineIn 0.3s ease both;
+    }
+
+    /* Bottom dock top glow pulse */
+    @keyframes dockGlowPulse {
+      0%, 100% { opacity: 0.5; }
+      50%      { opacity: 1; }
+    }
+    #queue-sticky-bottom-sheet .absolute.top-0 {
+      animation: dockGlowPulse 3s ease-in-out infinite;
+    }
+
+    /* Input focus glow ring — enhanced for dark Tesla look */
+    html.dark input:focus,
+    html.dark select:focus {
+      box-shadow: 0 0 0 2px rgba(37,99,235,0.35), 0 0 8px rgba(37,99,235,0.2) !important;
+    }
+
+    /* Current vehicle icon box — pulsing glow */
+    @keyframes iconGlow {
+      0%, 100% { box-shadow: 0 0 16px rgba(59,130,246,0.3); }
+      50%      { box-shadow: 0 0 28px rgba(59,130,246,0.6); }
+    }
+    html.dark #current-vehicle-icon-box {
+      animation: iconGlow 3s ease-in-out infinite;
+    }
+
+    /* Pipeline badge live-pulse ring for "กำลังตรวจ" stage */
+    @keyframes stagePing {
+      0%   { transform: scale(1);   opacity: 0.6; }
+      75%  { transform: scale(2);   opacity: 0; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    /* Override light-mode queue bottom sheet for v2 */
+    html:not(.dark) #queue-sticky-bottom-sheet .relative {
+      background: rgba(255,255,255,0.98) !important;
+      border-top-color: rgba(203,213,225,0.9) !important;
+      box-shadow: 0 -8px 40px rgba(8,38,92,0.12) !important;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-blue-500 selection:text-white">
@@ -478,486 +572,357 @@
   <main id="view-workstation" class="flex-1 flex flex-col p-3 lg:p-4 gap-4 max-w-[1920px] w-full mx-auto">
 
     <!-- ======================================================== -->
-    <!-- SUBTAB 1: QUEUE BOARD & SMART REGISTRATION (ASIS LAYOUT) -->
+    <!-- SUBTAB 1: QUEUE BOARD - Tesla Futuristic Redesign v2    -->
     <!-- ======================================================== -->
-    <div id="tab-queue" class="flex flex-col gap-4">
-      
-      <!-- TOP SECTION: DLT REGISTRATION CONSOLE (Compact Split Layout with Vehicle Preview on Right) -->
-      <div class="telemetry-card p-3 sm:p-3.5 flex flex-col gap-2.5">
-        
-        <!-- Header Banner: Program DLT Title & System Notification -->
-        <div class="panel-header flex flex-wrap items-center justify-between pb-1.5 gap-2 text-xs">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></span>
-            <h3 class="font-bold dark:text-white text-slate-900 tracking-tight font-sans text-base flex items-center gap-2">
-              โปรแกรมลงทะเบียนข้อมูลรถ DLT Report Ver.25.10 <span class="text-xs font-normal dark:text-slate-400 text-slate-500">(-สำนักงานขนส่งจังหวัด-)</span>
-            </h3>
-          </div>
-          <div class="text-[11px] dark:text-amber-400 text-amber-700 font-sans font-medium flex items-center gap-1.5">
-            <i class="iconoir-info-circle"></i>
-            <span>หากค้นหา "ฐานข้อมูลภายใน" ต้องปรับปรุงข้อมูล หัวข้อที่มีเครื่องหมาย * ใหม่ทุกครั้ง เพื่อให้ถูกต้องตามระบบ MDM</span>
-          </div>
-        </div>
+    <div id="tab-queue" class="flex flex-col gap-3 relative">
 
-        <!-- 12-Column Grid: Left 9 cols (Form inputs & Actions), Right 3 cols (Vehicle Preview Image) -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
-          
-          <!-- LEFT: Compact Form Input Fields & Action Bar (lg:col-span-9 xl:col-span-9) -->
-          <div class="lg:col-span-9 xl:col-span-9 flex flex-col gap-1.5 text-xs">
-            
-            <!-- Row 1: ทะเบียนรถ + ค้นหา + Checkbox + เลขโครงคัสซี -->
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-1.5 items-center">
-              <div class="sm:col-span-6 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-24 text-right pr-1">*เลขทะเบียน :</label>
-                <input id="form-plate-prefix" type="text" placeholder="00" value="00" class="w-14 text-center dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-lg px-1.5 py-1 dark:text-white text-slate-900 font-mono font-bold focus:border-blue-500 text-xs">
-                <input id="form-plate-number" type="text" placeholder="0051" value="0051" class="w-20 dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-lg px-2 py-1 dark:text-white text-slate-900 font-mono font-bold focus:border-blue-500 text-xs">
-                <button id="btn-vehicle-search" onclick="handleVehicleSearch()" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold rounded-lg shadow-sm flex items-center gap-1 transition-all text-xs">
-                  <i class="iconoir-search"></i>
-                  <span>ค้นหา</span>
-                </button>
-                <div class="hidden sm:flex items-center gap-2 text-[10px] pl-1 font-sans">
-                  <label class="inline-flex items-center gap-1 cursor-pointer dark:text-slate-300 text-slate-600">
-                    <input id="chk-search-new" type="checkbox" class="rounded border-slate-400 text-blue-600 focus:ring-0">
-                    <span>รายใหม่</span>
-                  </label>
-                  <label class="inline-flex items-center gap-1 cursor-pointer dark:text-slate-300 text-slate-600">
-                    <input id="chk-internal-db" type="checkbox" checked class="rounded border-slate-400 text-blue-600 focus:ring-0">
-                    <span>ฐานข้อมูลใน</span>
-                  </label>
-                </div>
-              </div>
+      <!-- ══════════════════════════════════════════════════════════
+           TOP BAR: Search Panel + Large Filter Pills + Large View Switcher
+           ══════════════════════════════════════════════════════════ -->
+      <div class="flex flex-wrap items-center justify-between gap-2.5">
 
-              <div class="sm:col-span-6 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-24 text-right pr-1">*เลขคัสซี :</label>
-                <input id="form-vin" type="text" value="MNKFGJR3XHX10051" readonly title="ข้อมูลจากฐานข้อมูลขนส่ง (ห้ามแก้ไข)" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-2 py-1 dark:text-slate-400 text-slate-600 font-mono uppercase cursor-not-allowed select-none text-xs">
-              </div>
-            </div>
-
-            <!-- Row 2: จังหวัด + วันที่จดทะเบียน (ล็อค) + เลขเครื่องยนต์ (ล็อค) + ชนิดรถ (ล็อค) -->
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-1.5 items-center">
-              <div class="sm:col-span-3 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-24 text-right pr-1">*จังหวัด :</label>
-                <select id="form-province" class="flex-1 dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-lg px-1.5 py-1 dark:text-white text-slate-900 focus:border-blue-500 font-sans text-xs">
-                  <option selected>กรุงเทพมหานคร</option>
-                  <option>ชลบุรี</option>
-                  <option>สมุทรปราการ</option>
-                  <option>ปัตตานี</option>
-                  <option>กระบี่</option>
-                </select>
-              </div>
-
-              <div class="sm:col-span-3 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-24 text-right pr-1">*วันที่จด :</label>
-                <input id="form-reg-date" type="date" value="2016-09-04" readonly title="ข้อมูลจากฐานข้อมูลขนส่ง (ห้ามแก้ไข)" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-1.5 py-1 dark:text-slate-400 text-slate-600 cursor-not-allowed font-mono select-none text-xs">
-              </div>
-
-              <div class="sm:col-span-3 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-20 text-right pr-1">เลขเครื่อง :</label>
-                <input id="form-engine-no" type="text" value="GH112097333C1L" placeholder="เลขเครื่องยนต์" readonly title="ข้อมูลจากฐานข้อมูลขนส่ง (ห้ามแก้ไข)" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-2 py-1 dark:text-slate-400 text-slate-600 font-mono cursor-not-allowed select-none text-xs">
-              </div>
-
-              <div class="sm:col-span-3 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-16 text-right pr-1">ชนิดรถ :</label>
-                <input id="form-brand" type="text" value="HINO 500 Victor" readonly title="ข้อมูลจากฐานข้อมูลขนส่ง (ห้ามแก้ไข)" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-2 py-1 dark:text-slate-400 text-slate-600 font-sans cursor-not-allowed select-none text-xs">
-              </div>
-            </div>
-
-            <!-- Row 3: ประเภทรถ + ลักษณะรถ + พ.ร.บ. + ประเภทอ้างอิง -->
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-1.5 items-center">
-              <div class="sm:col-span-3 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-24 text-right pr-1">*ประเภท :</label>
-                <select id="form-vehicle-type" disabled title="ข้อมูลจากฐานข้อมูลขนส่ง (ห้ามแก้ไข)" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-1.5 py-1 dark:text-slate-400 text-slate-600 cursor-not-allowed select-none font-sans text-xs">
-                  <option selected>รถบรรทุกไม่ประจำทาง</option>
-                  <option>รถบรรทุกส่วนบุคคล</option>
-                  <option>รถยนต์นั่งส่วนบุคคล</option>
-                  <option>รถตู้โดยสาร</option>
-                  <option>รถจักรยานยนต์</option>
-                </select>
-              </div>
-
-              <div class="sm:col-span-3 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-24 text-right pr-1">*ลักษณะ :</label>
-                <select id="form-body-type" disabled title="ข้อมูลจากฐานข้อมูลขนส่ง (ห้ามแก้ไข)" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-1.5 py-1 dark:text-slate-400 text-slate-600 cursor-not-allowed select-none font-sans text-xs">
-                  <option selected>กระบะบรรทุก</option>
-                  <option>ลากจูง</option>
-                  <option>ตู้บรรทุก</option>
-                  <option>นั่งสองตอนท้ายบรรทุก</option>
-                  <option>เก๋งสองตอน</option>
-                </select>
-              </div>
-
-              <div class="sm:col-span-3 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-20 text-right pr-1">พ.ร.บ. :</label>
-                <select id="form-prb" disabled onchange="handlePRBChange()" title="ข้อมูลจากฐานข้อมูลขนส่ง (ห้ามแก้ไข)" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-1.5 py-1 dark:text-slate-400 text-slate-600 cursor-not-allowed select-none font-sans text-xs">
-                  <option value="transport" selected>พ.ร.บ. รถขนส่ง</option>
-                  <option value="car">พ.ร.บ. รถยนต์</option>
-                  <option value="motorcycle">พ.ร.บ. รถจักรยานยนต์</option>
-                </select>
-              </div>
-
-              <div class="sm:col-span-3 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-16 text-right pr-1">อ้างอิง :</label>
-                <select id="form-ref-type" disabled title="ข้อมูลจากฐานข้อมูลขนส่ง (ห้ามแก้ไข)" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-1.5 py-1 dark:text-slate-400 text-slate-600 cursor-not-allowed select-none font-sans text-xs">
-                  <option selected>รถบรรทุก</option>
-                  <option>รถยนต์</option>
-                  <option>รถจักรยานยนต์</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Row 4: จำนวนเพลา/เบรกมือ + 4WD + เพลา 1,2,3 + เลขวัดระยะทาง -->
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-1.5 items-center">
-              <div class="sm:col-span-6 flex flex-wrap items-center gap-1.5">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-24 text-right pr-1">เพลา/เบรกมือ :</label>
-                <select id="form-axles" class="w-14 dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-lg px-1.5 py-1 dark:text-white text-slate-900 focus:border-blue-500 font-mono text-xs">
-                  <option>1</option>
-                  <option selected>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                </select>
-                <label class="inline-flex items-center gap-1 ml-1 px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-500 border border-amber-500/30 text-[11px] font-mono font-bold cursor-pointer">
-                  <input id="chk-4wd" type="checkbox" class="rounded border-amber-400 text-amber-600"> 4WD
-                </label>
-                <div class="inline-flex items-center gap-1.5 ml-1 text-xs font-mono">
-                  <label class="inline-flex items-center gap-0.5 cursor-pointer"><input type="checkbox" id="chk-axle-1" class="rounded border-slate-400 text-blue-600"> 1</label>
-                  <label class="inline-flex items-center gap-0.5 cursor-pointer"><input type="checkbox" id="chk-axle-2" checked class="rounded border-slate-400 text-blue-600"> 2</label>
-                  <label class="inline-flex items-center gap-0.5 cursor-pointer"><input type="checkbox" id="chk-axle-3" class="rounded border-slate-400 text-blue-600"> 3</label>
-                </div>
-              </div>
-
-              <div class="sm:col-span-6 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-24 text-right pr-1">*เลขวัดระยะทาง :</label>
-                <input id="form-mileage" type="number" value="142510" class="flex-1 dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-lg px-2 py-1 dark:text-white text-slate-900 font-mono font-bold focus:border-blue-500 text-xs">
-                <span class="dark:text-slate-400 text-slate-500 font-sans text-xs">กม.</span>
-              </div>
-            </div>
-
-            <!-- Row 5: เชื้อเพลิง + หลักเกณฑ์เชื้อเพลิง + หลักเกณฑ์เสียง -->
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-1.5 items-center">
-              <div class="sm:col-span-4 flex items-center gap-1">
-                <label class="whitespace-nowrap text-rose-500 dark:text-rose-400 font-medium font-sans w-24 text-right pr-1">*เชื้อเพลิง :</label>
-                <select id="form-fuel" class="flex-1 dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-lg px-1.5 py-1 dark:text-white text-slate-900 focus:border-blue-500 font-sans text-xs">
-                  <option value="diesel" selected>ดีเซล</option>
-                  <option value="gasoline">เบนซิน</option>
-                  <option value="lpg_ngv">LPG / NGV / CNG</option>
-                  <option value="ev">ไฟฟ้า (EV)</option>
-                  <option value="none">ไม่ใช้เชื้อเพลิง</option>
-                </select>
-              </div>
-
-              <div class="sm:col-span-4 flex items-center gap-1">
-                <label class="whitespace-nowrap text-rose-500 dark:text-rose-400 font-medium font-sans w-20 text-right pr-1">*เกณฑ์ไอเสีย :</label>
-                <select id="form-fuel-rule" disabled title="กำหนดตามเกณฑ์มาตรฐาน DLT" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-1.5 py-1 dark:text-slate-400 text-slate-600 cursor-not-allowed select-none font-sans text-xs">
-                  <option selected>ดีเซล (ควันดำทึบแสง $\le$ 30%)</option>
-                  <option>เบนซิน (CO/HC ตามปีจด)</option>
-                  <option>ไม่ใช้เชื้อเพลิง</option>
-                </select>
-              </div>
-
-              <div class="sm:col-span-4 flex items-center gap-1">
-                <label class="whitespace-nowrap text-rose-500 dark:text-rose-400 font-medium font-sans w-20 text-right pr-1">*เกณฑ์เสียง :</label>
-                <select id="form-sound-rule" disabled title="กำหนดตามเกณฑ์มาตรฐาน DLT" class="flex-1 dark:bg-carbon-900/60 bg-slate-100/90 border dark:border-carbon-700/80 border-slate-300 rounded-lg px-1.5 py-1 dark:text-slate-400 text-slate-600 cursor-not-allowed select-none font-sans text-xs">
-                  <option selected>1. รถบรรทุก (ไม่เกิน 100 dBA)</option>
-                  <option>2. รถยนต์นั่ง (ไม่เกิน 100 dBA)</option>
-                  <option>3. รถจักรยานยนต์ (ไม่เกิน 95 dBA)</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Row 6: ตรวจสภาพครั้งที่ + รอบเครื่องยนต์ + ชื่อผู้ตรวจสอบ -->
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-1.5 items-center">
-              <div class="sm:col-span-3 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-24 text-right pr-1">ครั้งที่ :</label>
-                <input id="form-round-no" type="number" value="1" class="w-14 dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-lg px-1.5 py-1 dark:text-white text-slate-900 font-mono text-center text-xs">
-              </div>
-
-              <div class="sm:col-span-4 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-20 text-right pr-1">รอบที่ใช้ :</label>
-                <input id="form-test-rpm" type="number" value="3000" class="w-16 dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-lg px-1.5 py-1 dark:text-white text-slate-900 font-mono text-center text-xs">
-                <span class="text-[11px] dark:text-slate-400 text-slate-500 font-sans">rpm</span>
-                <label class="inline-flex items-center gap-1 ml-1.5 cursor-pointer dark:text-slate-400 text-slate-600 text-[11px] font-sans">
-                  <input id="chk-rpm-unknown" type="checkbox" class="rounded border-slate-400 text-blue-600"> ไม่ทราบ
-                </label>
-              </div>
-
-              <div class="sm:col-span-5 flex items-center gap-1">
-                <label class="whitespace-nowrap dark:text-slate-300 text-slate-700 font-medium font-sans w-20 text-right pr-1">ผู้ตรวจ :</label>
-                <input id="form-inspector" type="text" value="พีรพล มณีโชติวงศ์" class="flex-1 dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-lg px-2 py-1 dark:text-white text-slate-900 font-sans text-xs">
-              </div>
-            </div>
-
-            <!-- Row 7: สรุปผลเบื้องต้น & Radio Options -->
-            <div class="flex flex-wrap items-center gap-3 pt-1.5 border-t dark:border-carbon-800 border-slate-300 text-xs font-sans">
-              <span class="dark:text-slate-300 text-slate-700 font-semibold w-24 text-right pr-1">ผลตรวจ :</span>
-              <label class="inline-flex items-center gap-1 cursor-pointer dark:text-slate-300 text-slate-700">
-                <input type="radio" name="form-pre-verdict" value="pass" checked class="text-emerald-600 focus:ring-0">
-                <span class="text-emerald-500 font-medium">ผ่านการตรวจสภาพ</span>
-              </label>
-              <label class="inline-flex items-center gap-1 cursor-pointer dark:text-slate-300 text-slate-700">
-                <input type="radio" name="form-pre-verdict" value="fail" class="text-rose-600 focus:ring-0">
-                <span class="text-rose-500 font-medium">ไม่ผ่าน</span>
-              </label>
-              <label class="inline-flex items-center gap-1 cursor-pointer dark:text-slate-300 text-slate-700">
-                <input type="radio" name="form-pre-verdict" value="conditional" class="text-amber-600 focus:ring-0">
-                <span>แก้ไขข้อบกพร่องภายใน</span>
-                <input id="form-grace-period" type="number" value="15" class="w-10 text-center dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded px-1 py-0.5 font-mono text-xs">
-                <span>วัน</span>
-              </label>
-            </div>
-
-            <!-- Action Buttons Row (Solid Pure Blue, Pure Emerald, Pure Dark, No Gradients) -->
-            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t dark:border-carbon-800 border-slate-300">
-              <div class="flex flex-wrap items-center gap-1.5">
-                <!-- + เพิ่มข้อมูลรถ (Solid Pure Blue Primary) -->
-                <button onclick="handleSaveVehicle()" class="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-xs shadow-sm flex items-center gap-1.5 transition-all">
-                  <i class="iconoir-plus-circle font-bold"></i>
-                  <span>เพิ่มข้อมูลรถ</span>
-                </button>
-
-                <!-- ปรับปรุงข้อมูล -->
-                <button onclick="handleUpdateVehicle()" class="px-3 py-1.5 rounded-lg dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 dark:text-slate-200 text-slate-800 border dark:border-carbon-600 border-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-all">
-                  <i class="iconoir-wrench font-bold text-blue-500"></i>
-                  <span>ปรับปรุงข้อมูล</span>
-                </button>
-
-                <!-- เพิ่มรายละเอียด -->
-                <button onclick="openVehicleSpecsModal()" class="px-3 py-1.5 rounded-lg dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 dark:text-slate-200 text-slate-800 border dark:border-carbon-600 border-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-all">
-                  <i class="iconoir-notes font-bold text-amber-500"></i>
-                  <span>เพิ่มรายละเอียด</span>
-                </button>
-
-                <!-- ตรวจสภาพใหม่ -->
-                <button onclick="handleRetestCurrentVehicle()" class="px-3 py-1.5 rounded-lg dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 dark:text-slate-200 text-slate-800 border dark:border-carbon-600 border-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-all">
-                  <i class="iconoir-refresh-double text-blue-500 font-bold"></i>
-                  <span>ตรวจสภาพใหม่</span>
-                </button>
-              </div>
-
-              <div class="flex items-center gap-2">
-                <span id="search-feedback" class="text-[11px] text-emerald-500 font-sans font-medium flex items-center gap-1">
-                  <i class="iconoir-check-circle"></i>
-                  <span>พบข้อมูล: HINO กระบะบรรทุก</span>
-                </span>
-                <button onclick="clearFormForNew()" class="px-2.5 py-1 rounded-lg dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 dark:text-slate-400 text-slate-600 text-[11px] font-sans border dark:border-carbon-700 border-slate-300">
-                  ล้างค่า
-                </button>
-              </div>
-            </div>
-
+        <!-- Left Group: Search + Filter Pills -->
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Search cluster (Balanced height, clean placeholders) -->
+          <div class="h-9 flex items-center gap-1.5 dark:bg-carbon-900 bg-white rounded-xl border dark:border-carbon-700/80 border-slate-300 px-2.5 shadow-2xs flex-shrink-0">
+            <i class="iconoir-search dark:text-blue-400 text-blue-600 text-sm flex-shrink-0"></i>
+            <input id="form-plate-prefix" type="text" placeholder="หมวด" value=""
+              onkeydown="if(event.key==='Enter') handleVehicleSearch()"
+              class="w-12 sm:w-14 dark:bg-transparent bg-transparent border-0 dark:text-white text-slate-900 font-mono font-bold focus:ring-0 text-xs placeholder:dark:text-slate-500 placeholder:text-slate-400 px-0">
+            <span class="dark:text-slate-600 text-slate-300 font-bold">-</span>
+            <input id="form-plate-number" type="text" placeholder="เลขทะเบียน" value=""
+              onkeydown="if(event.key==='Enter') handleVehicleSearch()"
+              class="w-16 sm:w-20 dark:bg-transparent bg-transparent border-0 dark:text-white text-slate-900 font-mono font-bold focus:ring-0 text-xs placeholder:dark:text-slate-500 placeholder:text-slate-400 px-0">
+            <button id="btn-vehicle-search" onclick="handleVehicleSearch()"
+              class="h-6 px-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold rounded-lg shadow-2xs flex items-center gap-1 transition-all text-[11px] ml-1">
+              <i class="iconoir-search text-[10px]"></i>
+              <span>ค้นหา</span>
+            </button>
           </div>
 
-          <!-- RIGHT: Vehicle Photo Preview & Real-time Status Card (lg:col-span-3 xl:col-span-3) -->
-          <div class="lg:col-span-3 xl:col-span-3 flex flex-col gap-2 p-2.5 rounded-xl dark:bg-carbon-900 bg-slate-50 border dark:border-carbon-700 border-slate-300 shadow-sm h-full justify-between">
-            <div class="flex items-center justify-between text-xs font-sans">
-              <span class="font-bold dark:text-slate-300 text-slate-700 flex items-center gap-1.5">
-                <i class="iconoir-camera dark:text-blue-400 text-blue-600"></i> ภาพถ่ายยานพาหนะ
-              </span>
-              <span class="text-[10px] font-mono bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> CAM 01
-              </span>
-            </div>
+          <!-- Divider -->
+          <div class="hidden sm:block w-px h-5 dark:bg-carbon-800 bg-slate-300 flex-shrink-0"></div>
 
-            <!-- Vehicle Photo Frame with Plate Overlay -->
-            <div class="relative w-full h-32 sm:h-36 rounded-lg overflow-hidden border dark:border-carbon-700 border-slate-300 bg-black group shadow-inner">
-              <img id="form-vehicle-preview-img" src="https://images.unsplash.com/photo-1586191582152-78d120a1122a?w=800&auto=format&fit=crop&q=80" alt="Vehicle preview" class="w-full h-full object-cover">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
-              <div class="absolute bottom-1.5 left-2 right-2 text-xs font-mono text-white font-bold truncate drop-shadow-md" id="form-preview-plate-tag">
-                00-0051 กรุงเทพมหานคร
-              </div>
-              <button onclick="openPhotoModal()" class="absolute inset-0 m-auto w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-lg transition-all opacity-0 group-hover:opacity-100" title="ถ่ายภาพใหม่">
-                <i class="iconoir-camera text-sm"></i>
-              </button>
-            </div>
-
-            <!-- Status Display & Camera Action Button -->
-            <div class="flex flex-col gap-1.5">
-              <div id="form-status-display" class="py-1 px-2.5 rounded-lg text-center font-sans font-bold text-xs dark:bg-amber-500/20 bg-amber-100 text-amber-800 dark:text-amber-300 border dark:border-amber-500/40 border-amber-300">
-                รอสรุปผลตรวจ
-              </div>
-              <button onclick="openPhotoModal()" class="w-full py-1.5 px-3 rounded-lg dark:bg-carbon-800 bg-white hover:bg-slate-100 dark:hover:bg-carbon-700 text-xs font-semibold dark:text-slate-200 text-slate-800 border dark:border-carbon-700 border-slate-300 flex items-center justify-center gap-1.5 shadow-sm transition-all">
-                <i class="iconoir-camera dark:text-blue-400 text-blue-600"></i>
-                <span>ถ่ายภาพรถ (Capture)</span>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- BOTTOM SECTION: DAILY LIVE QUEUE TABLE (Full Width Table Panel) -->
-      <div class="telemetry-card p-4 sm:p-5 flex flex-col gap-3">
-        
-        <!-- Table Toolbar & Filters -->
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b dark:border-carbon-700/60 border-slate-300 pb-3">
-          <div class="flex items-center gap-2.5">
-            <h3 class="text-base font-bold dark:text-white text-slate-900 flex items-center gap-2 uppercase tracking-wide font-sans">
-              <i class="iconoir-table-rows dark:text-blue-400 text-blue-600 text-lg"></i>
-              รายการรถที่รอตรวจ/กำลังตรวจประจำวัน (DLT Queue Board)
-            </h3>
-            <span id="queue-count-badge" class="px-2.5 py-0.5 rounded-full text-xs font-sans font-bold dark:bg-blue-500/20 bg-blue-100 dark:text-blue-300 text-blue-800 dark:border-blue-500/30 border-blue-200 border">8 คัน</span>
-          </div>
-
-          <div class="flex items-center gap-2 text-xs">
-            <div class="flex flex-wrap dark:bg-carbon-900 bg-slate-100 p-1 rounded-xl border dark:border-carbon-700 border-slate-300">
-              <button onclick="filterQueue('all', this)" data-filter="all" class="q-filter-btn px-2.5 py-1 rounded-lg dark:bg-carbon-750 bg-white dark:text-white text-blue-600 font-bold shadow-sm font-sans border border-blue-200 dark:border-transparent">ทั้งหมด (<span id="q-badge-all">11</span>)</button>
-              <button onclick="filterQueue('waiting', this)" data-filter="waiting" class="q-filter-btn px-2.5 py-1 rounded-lg dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 font-sans border border-transparent">รอตรวจ (<span id="q-badge-waiting">2</span>)</button>
-              <button onclick="filterQueue('inspecting', this)" data-filter="inspecting" class="q-filter-btn px-2.5 py-1 rounded-lg dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 font-sans border border-transparent">กำลังตรวจ (<span id="q-badge-inspecting">2</span>)</button>
-              <button onclick="filterQueue('pending', this)" data-filter="pending" class="q-filter-btn px-2.5 py-1 rounded-lg dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 font-sans border border-transparent">รอสรุปผล (<span id="q-badge-pending">2</span>)</button>
-              <button onclick="filterQueue('completed', this)" data-filter="completed" class="q-filter-btn px-2.5 py-1 rounded-lg dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 font-sans border border-transparent">เสร็จสิ้น (<span id="q-badge-completed">4</span>)</button>
-              <button onclick="filterQueue('failed', this)" data-filter="failed" class="q-filter-btn px-2.5 py-1 rounded-lg dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 font-sans border border-transparent">ไม่ผ่าน (<span id="q-badge-failed">1</span>)</button>
-            </div>
-            <button id="btn-queue-refresh" onclick="refreshQueue()" class="p-2 rounded-xl dark:bg-carbon-900 bg-slate-100 dark:hover:bg-carbon-800 hover:bg-slate-200 dark:text-slate-300 text-slate-700 border dark:border-carbon-700 border-slate-300 transition-all" title="รีเฟรชคิว">
-              <i class="iconoir-refresh-double"></i>
+          <!-- Balanced Filter pills (Design Consistency with Navigation) -->
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button onclick="filterQueue('all', this)" data-filter="all" class="q-filter-btn px-3 py-1.5 rounded-xl font-sans transition-all text-xs font-semibold flex items-center gap-1.5 border" style="background:#2563eb;color:#fff;box-shadow:0 0 10px rgba(37,99,235,0.4);font-weight:700">
+              ทั้งหมด <span id="q-badge-all" class="font-black text-xs font-mono">11</span>
+            </button>
+            <button onclick="filterQueue('waiting', this)" data-filter="waiting" class="q-filter-btn px-3 py-1.5 rounded-xl dark:text-slate-300 text-slate-700 dark:hover:bg-carbon-800 hover:bg-slate-100 font-sans border dark:border-carbon-700 border-slate-300 transition-all text-xs font-semibold flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0"></span>รอตรวจ <span id="q-badge-waiting" class="font-black text-xs font-mono">2</span>
+            </button>
+            <button onclick="filterQueue('inspecting', this)" data-filter="inspecting" class="q-filter-btn px-3 py-1.5 rounded-xl dark:text-slate-300 text-slate-700 dark:hover:bg-carbon-800 hover:bg-slate-100 font-sans border dark:border-carbon-700 border-slate-300 transition-all text-xs font-semibold flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse flex-shrink-0"></span>กำลังตรวจ <span id="q-badge-inspecting" class="font-black text-xs font-mono">2</span>
+            </button>
+            <button onclick="filterQueue('pending', this)" data-filter="pending" class="q-filter-btn px-3 py-1.5 rounded-xl dark:text-slate-300 text-slate-700 dark:hover:bg-carbon-800 hover:bg-slate-100 font-sans border dark:border-carbon-700 border-slate-300 transition-all text-xs font-semibold flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0"></span>รอสรุปผล <span id="q-badge-pending" class="font-black text-xs font-mono">2</span>
+            </button>
+            <button onclick="filterQueue('completed', this)" data-filter="completed" class="q-filter-btn px-3 py-1.5 rounded-xl dark:text-slate-300 text-slate-700 dark:hover:bg-carbon-800 hover:bg-slate-100 font-sans border dark:border-carbon-700 border-slate-300 transition-all text-xs font-semibold flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0"></span>เสร็จสิ้น <span id="q-badge-completed" class="font-black text-xs font-mono">4</span>
+            </button>
+            <button onclick="filterQueue('failed', this)" data-filter="failed" class="q-filter-btn px-3 py-1.5 rounded-xl dark:text-slate-300 text-slate-700 dark:hover:bg-carbon-800 hover:bg-slate-100 font-sans border dark:border-carbon-700 border-slate-300 transition-all text-xs font-semibold flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-500 flex-shrink-0"></span>ไม่ผ่าน <span id="q-badge-failed" class="font-black text-xs font-mono">1</span>
             </button>
           </div>
         </div>
 
-        <!-- High-Density Telemetry Table (with Raised Larger Status Icons & High Readability Grid) -->
-        <div class="overflow-x-auto flex-1 rounded-xl border dark:border-carbon-700 border-slate-300 bg-white dark:bg-carbon-900 shadow-xs">
-          <table class="w-full text-left text-xs border-collapse font-sans">
-            <thead>
-              <tr class="dark:bg-carbon-850 bg-slate-100 border-b-2 dark:border-carbon-700 border-slate-300 text-[11px] font-sans font-bold dark:text-slate-300 text-slate-700 uppercase tracking-wider">
-                <th class="py-2.5 px-3 text-center border-r dark:border-carbon-800 border-slate-200">สรุปผล</th>
-                <th class="py-2.5 px-3.5 border-r-2 dark:border-carbon-700 border-slate-300">ยานพาหนะ / ทะเบียน</th>
-                <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ความเร็ว">ความเร็ว</th>
-                <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ระดับเสียง">เสียง</th>
-                <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ก๊าซ CO/HC (เบนซิน)">เบนซิน</th>
-                <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ควันดำ (ดีเซล)">ดีเซล</th>
-                <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ศูนย์ล้อหน้า">ศูนย์ล้อ</th>
-                <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ระบบห้ามล้อ">เบรค</th>
-                <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="ตรวจพินิจ">ตรวจพินิจ</th>
-                <th class="py-2.5 px-2 text-center border-r dark:border-carbon-800/60 border-slate-200/80" title="โคมไฟหน้า">ไฟหน้า</th>
-                <th class="py-2.5 px-2 text-center border-r-2 dark:border-carbon-700 border-slate-300" title="ชั่งน้ำหนัก">ชั่ง น.น.</th>
-                <th class="py-2.5 px-3 border-r dark:border-carbon-800 border-slate-200">สถานะ</th>
-                <th class="py-2.5 px-3 text-right">ดำเนินการ</th>
-              </tr>
-            </thead>
-            <tbody id="queue-table-body" class="divide-y dark:divide-carbon-800 divide-slate-200">
-              <!-- Rows injected dynamically via JavaScript with large icons -->
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Table Footer: Queue Count & Pagination -->
-        <div class="mt-2 pt-2.5 border-t dark:border-carbon-750 border-slate-300 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div id="queue-footer-stats" class="text-xs dark:text-slate-400 text-slate-500 font-sans flex flex-wrap items-center gap-2">
-            <span>แสดงทั้งหมด <strong class="dark:text-white text-slate-900 font-mono">11</strong> คัน</span>
-            <span>•</span>
-            <span class="text-amber-600 dark:text-amber-400 font-medium">รอตรวจ 2 คัน</span>
-            <span>•</span>
-            <span class="text-blue-600 dark:text-blue-400 font-medium">กำลังตรวจ 2 คัน</span>
-            <span>•</span>
-            <span class="text-indigo-600 dark:text-indigo-400 font-medium">รอสรุปผล 2 คัน</span>
-            <span>•</span>
-            <span class="text-emerald-600 dark:text-emerald-400 font-medium">เสร็จสิ้น 4 คัน</span>
-            <span>•</span>
-            <span class="text-rose-600 dark:text-rose-400 font-medium">ไม่ผ่าน 1 คัน</span>
+        <!-- Right Group: View Switcher + Refresh (Consistent with Navbar) -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <!-- View mode toggle: Styled exactly like header navigation tabs -->
+          <div class="h-9 p-0.5 rounded-xl dark:bg-carbon-950 bg-slate-100 border dark:border-carbon-700 border-slate-300 flex items-center gap-0.5 shadow-inner">
+            <button id="btn-view-grid" onclick="setQueueViewMode('grid')" class="h-7.5 px-3 rounded-lg text-xs font-bold dark:bg-carbon-800 bg-white dark:text-blue-400 text-blue-600 border dark:border-blue-500/40 border-blue-400 flex items-center gap-1.5 shadow-xs transition-all" title="การ์ดข้อมูล (Wide Cards Grid)">
+              <i class="iconoir-view-grid text-sm"></i>
+              <span>การ์ด</span>
+            </button>
+            <button id="btn-view-list" onclick="setQueueViewMode('list')" class="h-7.5 px-3 rounded-lg text-xs font-semibold dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 flex items-center gap-1.5 transition-all" title="รายการแถว (Compact List)">
+              <i class="iconoir-list text-sm"></i>
+              <span>แถว</span>
+            </button>
           </div>
-          <div class="flex items-center gap-1.5 text-xs font-mono">
-            <span class="px-2 py-1 rounded-lg dark:bg-carbon-900 bg-slate-100 dark:text-slate-400 text-slate-600 font-sans text-[11px]">หน้า 1/1</span>
-            <button class="px-2 py-1 rounded-lg dark:bg-carbon-900 bg-slate-200 dark:text-slate-400 text-slate-600 disabled opacity-50">&laquo;</button>
-            <button class="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-bold text-xs">1</button>
-            <button class="px-2 py-1 rounded-lg dark:bg-carbon-900 bg-slate-200 dark:text-slate-400 text-slate-600 disabled opacity-50">&raquo;</button>
-          </div>
-        </div>
 
+          <!-- Refresh button -->
+          <button id="btn-queue-refresh" onclick="refreshQueue()" class="w-9 h-9 rounded-xl dark:bg-carbon-900 bg-white border dark:border-carbon-700 border-slate-300 dark:text-slate-300 text-slate-600 flex items-center justify-center transition-all hover:dark:bg-carbon-800 hover:bg-slate-100 flex-shrink-0 shadow-2xs" title="รีเฟรช">
+            <i class="iconoir-refresh-double text-sm"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- ======================================================== -->
-      <!-- STICKY BOTTOM SHEET / VEHICLE INSPECTION DOCK BAR        -->
-      <!-- ======================================================== -->
-      <div id="queue-sticky-bottom-sheet" class="sticky bottom-0 z-30 mt-3 -mx-3 sm:-mx-4 px-4 py-3 backdrop-blur-xl dark:bg-carbon-900/95 bg-white/95 border-t-2 dark:border-carbon-700/90 border-slate-300 shadow-[0_-8px_30px_rgba(0,0,0,0.25)] rounded-t-2xl flex flex-wrap items-center justify-between gap-4 transition-all">
-        
-        <!-- Left: Selected Vehicle Type Icon and Full Telemetry (Photo preview is in registration form above) -->
-        <div class="flex items-center gap-3.5 flex-1 min-w-[280px]">
-          <!-- Vehicle Type Icon Badge -->
-          <div class="relative flex-shrink-0">
-            <div id="current-vehicle-icon-box" class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl dark:bg-carbon-950 bg-slate-100 border-2 dark:border-blue-400/50 border-blue-500/50 flex items-center justify-center shadow-glow-blue dark:text-blue-400 text-blue-600 text-2xl transition-all">
-              <i id="current-vehicle-type-icon" class="iconoir-delivery-truck text-2xl"></i>
+      <!-- ══════════════════════════════════════════════════════════
+           VEHICLE CARD LIST
+           ══════════════════════════════════════════════════════════ -->
+      <div id="queue-card-list" class="flex flex-col gap-6">
+        <!-- Injected by renderQueueCards() -->
+      </div>
+
+      <!-- Hidden vehicle state container (replaces former bottom sheet dock) -->
+      <div id="queue-sticky-bottom-sheet" class="hidden">
+        <div id="current-vehicle-icon-box"></div>
+        <span id="current-badge-status"></span>
+        <span id="current-title-plate"></span>
+        <span id="current-title-province"></span>
+        <span id="current-vehicle-brand"></span>
+        <span id="current-vehicle-fuel"></span>
+        <span id="current-vehicle-vin"></span>
+        <span id="current-vehicle-mileage"></span>
+        <span id="current-vehicle-prb"></span>
+        <input type="checkbox" id="chk-test-auto" checked>
+        <input type="checkbox" id="chk-save-auto" checked>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SEARCH RESULT MODAL — shows vehicle data with Add to Queue
+           ══════════════════════════════════════════════════════════ -->
+      <div id="search-result-modal-backdrop" class="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeSearchResultModal()"></div>
+      <div id="search-result-modal" class="fixed inset-0 z-[61] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 scale-95" style="will-change:transform,opacity;">
+        <div class="relative w-full max-w-lg dark:bg-carbon-900 bg-white rounded-3xl border dark:border-carbon-700/60 border-slate-200 shadow-[0_24px_60px_rgba(0,0,0,0.4)] overflow-hidden" onclick="event.stopPropagation()">
+          <!-- Glow top accent -->
+          <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-500/80 to-transparent pointer-events-none"></div>
+
+          <!-- Header -->
+          <div class="flex items-center justify-between px-6 py-4 border-b dark:border-carbon-700/60 border-slate-200">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl dark:bg-blue-500/10 bg-blue-50 border dark:border-blue-500/20 border-blue-200 flex items-center justify-center">
+                <i class="iconoir-search dark:text-blue-400 text-blue-600 text-sm"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold dark:text-white text-slate-900 font-sans">ผลการค้นหาข้อมูลรถ DLT</h3>
+                <p id="search-feedback" class="text-[11px] dark:text-slate-400 text-slate-500 font-sans mt-0.5">กรุณาค้นหาเลขทะเบียน</p>
+              </div>
             </div>
-            <span id="current-badge-status" class="absolute -top-1.5 -right-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold dark:bg-blue-500/20 bg-blue-100 dark:text-blue-300 text-blue-800 dark:border-blue-500/40 border-blue-300 border font-sans">กำลังตรวจ</span>
+            <button onclick="closeSearchResultModal()" class="w-8 h-8 rounded-xl dark:bg-carbon-800 bg-slate-100 dark:hover:bg-carbon-700 hover:bg-slate-200 flex items-center justify-center transition-all dark:text-slate-400 text-slate-500">
+              <i class="iconoir-xmark text-base font-bold"></i>
+            </button>
           </div>
 
-          <!-- Vehicle Metadata (Plate, Province, Brand, PRB, Fuel, VIN, Mileage) -->
-          <div class="flex flex-col justify-center gap-1 min-w-0">
-            <!-- Line 1: Plate & Province + Metadata Badges -->
-            <div class="flex flex-wrap items-center gap-2">
-              <h2 class="text-base sm:text-lg font-black tracking-tight dark:text-white text-slate-900 flex items-center gap-1.5 font-mono leading-tight">
-                <span id="current-title-plate">00-0051</span>
-                <span id="current-title-province" class="text-xs sm:text-sm font-bold dark:text-slate-300 text-slate-700 font-sans">กรุงเทพมหานคร</span>
-              </h2>
-              <span id="current-vehicle-brand" class="text-[11px] px-2 py-0.5 rounded-md dark:bg-blue-500/10 bg-blue-50 dark:text-blue-300 text-blue-800 dark:border-blue-500/30 border-blue-200 border font-sans font-medium">HINO 500 Victor (กระบะบรรทุก)</span>
-              <span id="current-vehicle-prb" class="text-[10px] px-1.5 py-0.5 rounded dark:bg-blue-500/20 bg-blue-100 dark:text-blue-300 text-blue-800 border dark:border-blue-500/30 border-blue-200 font-sans">พ.ร.บ. รถขนส่ง</span>
-              <span id="current-vehicle-fuel" class="text-[10px] px-1.5 py-0.5 rounded dark:bg-orange-500/20 bg-orange-100 dark:text-orange-300 text-orange-800 border dark:border-orange-500/30 border-orange-200 font-sans">ดีเซล</span>
+          <!-- Vehicle Preview + Data -->
+          <div class="px-6 py-5 flex flex-col gap-4 max-h-[70vh] overflow-y-auto">
+
+            <!-- Vehicle card preview -->
+            <div id="search-result-vehicle-card" class="rounded-2xl dark:bg-carbon-950/80 bg-slate-50 border dark:border-carbon-700/40 border-slate-200 overflow-hidden">
+              <!-- Photo + plate -->
+              <div class="relative h-36 bg-black overflow-hidden">
+                <img id="form-vehicle-preview-img" src="https://images.unsplash.com/photo-1586191582152-78d120a1122a?w=800&auto=format&fit=crop&q=80" alt="Vehicle" class="w-full h-full object-cover opacity-70">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none"></div>
+                <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+                  <div>
+                    <span id="form-preview-plate-tag" class="text-lg font-black font-mono text-white tracking-wide drop-shadow-lg">-- ค้นหาทะเบียน --</span>
+                    <div id="search-result-brand" class="text-xs dark:text-blue-300 text-blue-200 font-sans mt-0.5 opacity-0 transition-opacity">-</div>
+                  </div>
+                  <div id="form-status-display" class="px-2.5 py-1 rounded-lg text-[10px] font-bold dark:bg-blue-500/20 bg-blue-600/80 dark:text-blue-300 text-white border dark:border-blue-500/30 border-blue-400/50 font-sans opacity-0 transition-opacity">รอตรวจ</div>
+                </div>
+              </div>
+
+              <!-- Data grid (inside modal) -->
+              <div class="p-4 flex flex-col gap-3 text-xs" id="search-result-data-section" style="display:none">
+                <!-- Row: VIN + Engine -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">เลขคัสซี (VIN)</label>
+                    <input id="form-vin" type="text" readonly class="w-full dark:bg-carbon-900/60 bg-white border dark:border-carbon-700/60 border-slate-200 rounded-xl px-3 py-2 dark:text-blue-300/80 text-slate-600 font-mono text-[11px] cursor-not-allowed">
+                  </div>
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">เลขเครื่องยนต์</label>
+                    <input id="form-engine-no" type="text" readonly class="w-full dark:bg-carbon-900/60 bg-white border dark:border-carbon-700/60 border-slate-200 rounded-xl px-3 py-2 dark:text-slate-400 text-slate-600 font-mono text-[11px] cursor-not-allowed">
+                  </div>
+                </div>
+                <!-- Row: Province + RegDate -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">จังหวัด</label>
+                    <select id="form-province" class="w-full dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-xl px-3 py-2 dark:text-white text-slate-900 font-sans text-[11px]">
+                      <option selected>กรุงเทพมหานคร</option><option>ชลบุรี</option><option>สมุทรปราการ</option><option>ปัตตานี</option><option>กระบี่</option><option>นนทบุรี</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">วันที่จดทะเบียน</label>
+                    <input id="form-reg-date" type="date" readonly class="w-full dark:bg-carbon-900/60 bg-white border dark:border-carbon-700/60 border-slate-200 rounded-xl px-3 py-2 dark:text-slate-400 text-slate-500 font-mono text-[11px] cursor-not-allowed">
+                  </div>
+                </div>
+                <!-- Row: Brand + Vehicle Type -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">ชนิดรถ</label>
+                    <input id="form-brand" type="text" readonly class="w-full dark:bg-carbon-900/60 bg-white border dark:border-carbon-700/60 border-slate-200 rounded-xl px-3 py-2 dark:text-slate-400 text-slate-500 font-sans text-[11px] cursor-not-allowed">
+                  </div>
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">ประเภท</label>
+                    <select id="form-vehicle-type" disabled class="w-full dark:bg-carbon-900/60 bg-white border dark:border-carbon-700/60 border-slate-200 rounded-xl px-3 py-2 dark:text-slate-400 text-slate-500 font-sans text-[11px] cursor-not-allowed">
+                      <option>รถบรรทุกไม่ประจำทาง</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Row: Body + พ.ร.บ. + Ref -->
+                <div class="grid grid-cols-3 gap-3">
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">ลักษณะ</label>
+                    <select id="form-body-type" disabled class="w-full dark:bg-carbon-900/60 bg-white border dark:border-carbon-700/60 border-slate-200 rounded-xl px-2 py-2 dark:text-slate-400 text-slate-500 font-sans text-[10px] cursor-not-allowed">
+                      <option>กระบะบรรทุก</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">พ.ร.บ.</label>
+                    <select id="form-prb" disabled onchange="handlePRBChange()" class="w-full dark:bg-carbon-900/60 bg-white border dark:border-carbon-700/60 border-slate-200 rounded-xl px-2 py-2 dark:text-slate-400 text-slate-500 font-sans text-[10px] cursor-not-allowed">
+                      <option value="transport">รถขนส่ง</option><option value="car">รถยนต์</option><option value="motorcycle">จักรยานยนต์</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">อ้างอิง</label>
+                    <select id="form-ref-type" disabled class="w-full dark:bg-carbon-900/60 bg-white border dark:border-carbon-700/60 border-slate-200 rounded-xl px-2 py-2 dark:text-slate-400 text-slate-500 font-sans text-[10px] cursor-not-allowed">
+                      <option>รถบรรทุก</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Row: Fuel + Mileage -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-rose-500 dark:text-rose-400 block mb-1">*เชื้อเพลิง</label>
+                    <select id="form-fuel" class="w-full dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-xl px-3 py-2 dark:text-white text-slate-900 font-sans text-[11px]">
+                      <option value="diesel">ดีเซล</option><option value="gasoline">เบนซิน</option><option value="lpg_ngv">LPG / NGV / CNG</option><option value="ev">ไฟฟ้า (EV)</option><option value="none">ไม่ใช้</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-rose-500 dark:text-rose-400 block mb-1">*เลขวัดระยะทาง (กม.)</label>
+                    <input id="form-mileage" type="number" class="w-full dark:bg-carbon-900 bg-white border dark:border-carbon-600 border-slate-300 rounded-xl px-3 py-2 dark:text-white text-slate-900 font-mono font-bold text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30">
+                  </div>
+                </div>
+                <!-- Hidden fields for JS compat (never shown) -->
+                <div class="hidden">
+                  <select id="form-fuel-rule"><option>ดีเซล (ควันดำทึบแสง ≤ 30%)</option></select>
+                  <select id="form-sound-rule"><option>1. รถบรรทุก (ไม่เกิน 100 dBA)</option></select>
+                  <select id="form-axles"><option>1</option><option selected>2</option><option>3</option><option>4</option></select>
+                  <input id="chk-4wd" type="checkbox">
+                  <input id="chk-axle-1" type="checkbox"><input id="chk-axle-2" type="checkbox" checked><input id="chk-axle-3" type="checkbox">
+                  <input id="form-round-no" type="number" value="1">
+                  <input id="form-test-rpm" type="number" value="3000">
+                  <input id="chk-rpm-unknown" type="checkbox">
+                  <input id="form-inspector" type="text" value="พีรพล มณีโชติวงศ์">
+                  <input id="form-grace-period" type="number" value="15">
+                  <input type="radio" name="form-pre-verdict" value="pass" checked>
+                  <input type="radio" name="form-pre-verdict" value="fail">
+                  <input type="radio" name="form-pre-verdict" value="conditional">
+                  <input id="chk-search-new" type="checkbox">
+                  <input id="chk-internal-db" type="checkbox" checked>
+                </div>
+                <!-- Row: Inspector + RPM -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">ผู้ตรวจสภาพ</label>
+                    <div id="search-result-inspector" class="text-[11px] dark:text-slate-300 text-slate-700 font-sans py-2">พีรพล มณีโชติวงศ์</div>
+                  </div>
+                  <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest dark:text-slate-500 text-slate-400 block mb-1">เพลา / เชื้อเพลิง</label>
+                    <div id="search-result-axle-info" class="text-[11px] dark:text-slate-300 text-slate-700 font-sans py-2 flex items-center gap-2">2 เพลา</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- Line 2: VIN & Mileage Telemetry -->
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-0.5 text-xs dark:text-slate-400 text-slate-600 font-mono">
-              <span>VIN: <strong id="current-vehicle-vin" class="dark:text-slate-200 text-slate-800">MNKFGJR3XHX10051</strong></span>
-              <span>เลขไมล์: <strong id="current-vehicle-mileage" class="dark:text-slate-200 text-slate-800">142,510</strong> กม.</span>
+            <!-- Empty state (before search) -->
+            <div id="search-result-empty" class="text-center py-8">
+              <i class="iconoir-search text-4xl dark:text-carbon-700 text-slate-300 block mb-3"></i>
+              <p class="text-sm dark:text-slate-500 text-slate-400 font-sans">กรอกเลขทะเบียนรถแล้วกดค้นหา</p>
+              <p class="text-[11px] dark:text-slate-600 text-slate-300 font-sans mt-1">ระบบจะค้นหาจากฐานข้อมูล DLT / MDM</p>
             </div>
+
+          </div>
+
+          <!-- Footer actions -->
+          <div id="search-result-actions" class="px-6 py-4 border-t dark:border-carbon-700/60 border-slate-200 flex items-center gap-3" style="display:none">
+            <button onclick="closeSearchResultModal()" class="px-4 py-2.5 rounded-xl dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 dark:text-slate-300 text-slate-700 border dark:border-carbon-700 border-slate-300 text-xs font-semibold transition-all flex-1">ยกเลิก</button>
+            <button onclick="handleSaveVehicleFromModal()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs shadow-[0_0_14px_rgba(37,99,235,0.4)] transition-all flex-1 flex items-center justify-center gap-1.5">
+              <i class="iconoir-plus-circle text-sm"></i>
+              <span>เพิ่มเข้าคิว</span>
+            </button>
+            <button onclick="handleSelectExistingFromModal()" id="btn-select-existing" class="hidden px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-[0_0_14px_rgba(16,185,129,0.4)] transition-all flex-1 flex items-center justify-center gap-1.5">
+              <i class="iconoir-check-circle text-sm"></i>
+              <span>เลือกรายการนี้</span>
+            </button>
+            <button onclick="handleUpdateVehicleFromModal()" id="btn-update-existing" class="hidden px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-[0_0_14px_rgba(37,99,235,0.4)] transition-all flex-1 flex items-center justify-center gap-1.5">
+              <i class="iconoir-wrench text-sm"></i>
+              <span>บันทึกปรับปรุงข้อมูล</span>
+            </button>
           </div>
         </div>
+      </div>
 
-        <!-- Center: Queue Auto-Flags (TestAuto / SaveAuto only) -->
-        <div class="hidden xl:flex items-center gap-3 font-mono text-xs border-x dark:border-carbon-800 border-slate-300 px-4">
-          <label class="inline-flex items-center gap-1.5 cursor-pointer dark:text-slate-300 text-slate-700 hover:text-blue-500 font-bold">
-            <input type="checkbox" id="chk-test-auto" checked class="rounded border-slate-400 text-blue-600 focus:ring-0">
-            <span>TestAuto</span>
-          </label>
-          <label class="inline-flex items-center gap-1.5 cursor-pointer dark:text-slate-300 text-slate-700 hover:text-blue-500 font-bold">
-            <input type="checkbox" id="chk-save-auto" checked class="rounded border-slate-400 text-blue-600 focus:ring-0">
-            <span>SaveAuto</span>
-          </label>
+      <!-- ══════════════════════════════════════════════════════════
+           RIGHT-SIDE DRAWER — Station Progress Detail
+           ══════════════════════════════════════════════════════════ -->
+      <div id="station-drawer-backdrop" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeStationDrawer()"></div>
+      <div id="station-drawer" class="fixed top-0 right-0 h-full z-50 w-full sm:w-[420px] xl:w-[460px] flex flex-col translate-x-full transition-transform duration-300 ease-in-out" style="will-change:transform;">
+        <div class="flex-1 flex flex-col dark:bg-carbon-900 bg-white border-l dark:border-carbon-700/80 border-slate-300 shadow-[-20px_0_60px_rgba(0,0,0,0.35)] overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500/80 via-blue-400/60 to-transparent pointer-events-none"></div>
+          <!-- Drawer Header -->
+          <div class="flex items-center justify-between px-5 py-4 border-b dark:border-carbon-700/60 border-slate-200 flex-shrink-0">
+            <div class="flex items-center gap-3">
+              <div id="drawer-vehicle-icon" class="w-10 h-10 rounded-xl dark:bg-carbon-950 bg-slate-100 border-2 dark:border-blue-400/50 border-blue-500/40 flex items-center justify-center dark:text-blue-400 text-blue-600" style="box-shadow:0 0 14px rgba(59,130,246,0.3)">
+                <i class="iconoir-delivery-truck text-lg"></i>
+              </div>
+              <div>
+                <div id="drawer-plate" class="text-base font-black font-mono dark:text-white text-slate-900 tracking-wide">00-0051</div>
+                <div id="drawer-province-brand" class="text-[11px] dark:text-slate-400 text-slate-500 font-sans">กรุงเทพมหานคร · HINO 500 Victor</div>
+              </div>
+            </div>
+            <button onclick="closeStationDrawer()" class="w-8 h-8 rounded-xl dark:bg-carbon-800 bg-slate-100 dark:hover:bg-carbon-700 hover:bg-slate-200 flex items-center justify-center transition-all dark:text-slate-400 text-slate-500"><i class="iconoir-xmark text-base font-bold"></i></button>
+          </div>
+          <!-- Status pills -->
+          <div class="px-5 py-3 flex flex-wrap items-center gap-2 border-b dark:border-carbon-700/40 border-slate-100 flex-shrink-0">
+            <div id="drawer-status-badge" class="px-3 py-1 rounded-full text-xs font-black dark:bg-blue-500/20 bg-blue-100 dark:text-blue-300 text-blue-800 dark:border-blue-500/30 border-blue-200 border flex items-center gap-1.5 font-sans"><span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>กำลังตรวจ</div>
+            <span id="drawer-prb" class="px-2 py-1 rounded-lg text-[10px] dark:bg-carbon-800 bg-slate-100 dark:text-slate-300 text-slate-600 border dark:border-carbon-700 border-slate-200 font-sans">พ.ร.บ. รถขนส่ง</span>
+            <span id="drawer-fuel" class="px-2 py-1 rounded-lg text-[10px] dark:bg-orange-500/15 bg-orange-50 dark:text-orange-300 text-orange-700 border dark:border-orange-500/20 border-orange-200 font-sans">ดีเซล</span>
+            <span id="drawer-mileage" class="px-2 py-1 rounded-lg text-[10px] dark:bg-carbon-800 bg-slate-100 dark:text-slate-300 text-slate-600 border dark:border-carbon-700 border-slate-200 font-mono ml-auto">142,510 กม.</span>
+          </div>
+          <!-- Body -->
+          <div class="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-5">
+            <!-- Current station -->
+            <div>
+              <p id="drawer-station-section-label" class="text-[10px] font-black uppercase tracking-[0.14em] dark:text-blue-400 text-blue-600 mb-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>สถานีที่กำลังดำเนินการ</p>
+              <div id="drawer-current-station" class="relative overflow-hidden rounded-2xl dark:bg-blue-500/10 bg-blue-50 border dark:border-blue-500/30 border-blue-200 p-4">
+                <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-60"></div>
+                <div class="relative flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl dark:bg-blue-600/20 bg-blue-100 border dark:border-blue-500/30 border-blue-300 flex items-center justify-center flex-shrink-0">
+                    <span class="text-base font-black font-mono dark:text-blue-300 text-blue-700" id="drawer-cur-station-num">1</span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-sm font-bold dark:text-white text-slate-900 font-sans" id="drawer-cur-station-name">ควันดำ (Opacity Meter)</div>
+                    <div class="text-[11px] dark:text-blue-300/70 text-blue-700 font-sans mt-0.5" id="drawer-cur-station-detail">กำลังเร่งเครื่อง 3,000 RPM</div>
+                  </div>
+                  <div class="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.9)] flex-shrink-0"></div>
+                </div>
+                <div class="mt-3 flex items-center gap-2">
+                  <div class="flex-1 h-1.5 rounded-full dark:bg-carbon-800 bg-blue-100 overflow-hidden">
+                    <div id="drawer-station-progress-bar" class="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-700" style="width:11%"></div>
+                  </div>
+                  <span id="drawer-station-progress-pct" class="text-[10px] font-mono font-black dark:text-blue-300 text-blue-600 flex-shrink-0">1/9</span>
+                </div>
+              </div>
+            </div>
+            <!-- 9-station list -->
+            <div>
+              <p class="text-[10px] font-black uppercase tracking-[0.14em] dark:text-slate-500 text-slate-400 mb-2">รายการตรวจสภาพ 9 สถานี</p>
+              <div id="drawer-station-list" class="flex flex-col gap-1.5"></div>
+            </div>
+            <!-- Inspector -->
+            <div id="drawer-inspector-row" class="flex items-center gap-2 pt-3 border-t dark:border-carbon-800 border-slate-200">
+              <div class="w-8 h-8 rounded-full dark:bg-carbon-800 bg-slate-200 border dark:border-carbon-700 border-slate-300 flex items-center justify-center text-[11px] font-bold dark:text-blue-400 text-blue-700 font-sans flex-shrink-0">พม</div>
+              <div class="text-xs dark:text-slate-400 text-slate-500 font-sans">
+                <div class="font-bold dark:text-slate-200 text-slate-800" id="drawer-inspector-name">นายพีรพล มณีโชติวงศ์</div>
+                <div class="text-[10px]" id="drawer-inspect-round">ครั้งที่ 1 · กำลังตรวจ</div>
+              </div>
+            </div>
+          </div>
+          <!-- Drawer footer -->
+          <div class="px-5 py-4 border-t dark:border-carbon-700/60 border-slate-200 flex gap-2 flex-shrink-0">
+            <button onclick="closeStationDrawer(); showSubTab('tab-station')" class="flex-1 py-2.5 rounded-xl dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 dark:text-slate-200 text-slate-800 border dark:border-carbon-700 border-slate-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all"><i class="iconoir-dashboard-speed text-sm"></i>สถานีตรวจ</button>
+            <button onclick="closeStationDrawer(); showSubTab('tab-summary')" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.35)] transition-all"><i class="iconoir-check-circle text-sm"></i>สรุปผล</button>
+            <button onclick="closeStationDrawer(); handleSendMDM()" class="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-[0_0_12px_rgba(37,99,235,0.4)] transition-all"><i class="iconoir-send-diagonal text-sm"></i>ส่ง MDM</button>
+          </div>
         </div>
-
-        <!-- Right: Action Bar Group ("ถ่ายรูป, ลบรายการ, รีเฟรช, พิมพ์, สรุปผล, ส่งข้อมูล") -->
-        <div class="flex flex-wrap items-center gap-2 font-sans">
-          <!-- ถ่ายรูปรถ -->
-          <button onclick="openPhotoModal()" class="px-3 py-1.5 rounded-xl dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 text-slate-700 dark:text-slate-300 border dark:border-carbon-700 border-slate-300 flex items-center gap-1.5 text-xs font-semibold transition-all" title="ถ่ายภาพรถ">
-            <i class="iconoir-camera dark:text-blue-400 text-blue-600 text-sm"></i>
-            <span>ถ่ายรูปรถ</span>
-          </button>
-
-          <!-- ลบรายการ -->
-          <button onclick="handleDeleteCurrentVehicle()" class="px-3 py-1.5 rounded-xl dark:bg-rose-950/40 bg-rose-50 text-rose-600 hover:bg-rose-100 border dark:border-rose-900 border-rose-300 flex items-center gap-1.5 text-xs font-semibold transition-all" title="ลบรายการที่เลือก">
-            <i class="iconoir-trash text-sm"></i>
-            <span>ลบรายการ</span>
-          </button>
-
-          <!-- รีเฟรช -->
-          <button onclick="refreshQueue()" class="px-3 py-1.5 rounded-xl dark:bg-carbon-850 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:text-slate-300 border dark:border-carbon-700 border-slate-300 flex items-center gap-1.5 text-xs font-semibold transition-all" title="รีเฟรชรายการคิว">
-            <i class="iconoir-refresh-double text-sm"></i>
-            <span>รีเฟรช</span>
-          </button>
-
-          <!-- พิมพ์รายงาน -->
-          <button onclick="openOfficialPrintModal()" class="px-3 py-1.5 rounded-xl dark:bg-amber-950/40 bg-amber-50 text-amber-700 hover:bg-amber-100 border dark:border-amber-900 border-amber-300 flex items-center gap-1.5 text-xs font-semibold shadow-sm transition-all" title="พิมพ์รายงานรับรองการตรวจสภาพ">
-            <i class="iconoir-printer text-sm"></i>
-            <span>พิมพ์รายงาน</span>
-          </button>
-
-          <!-- สรุปผลตรวจ -->
-          <button onclick="showSubTab('tab-summary')" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold flex items-center gap-1.5 text-xs shadow-sm transition-all" title="ไปยังหน้าสรุปผลการตรวจสภาพ">
-            <i class="iconoir-check-circle text-sm"></i>
-            <span>สรุปผลตรวจ</span>
-          </button>
-
-          <!-- ส่งข้อมูลใหม่ (MDM) - Solid Pure Blue Button -->
-          <button onclick="handleSendMDM()" class="px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold flex items-center gap-1.5 text-xs shadow-sm transition-all" title="ส่งผลตรวจสภาพขึ้นระบบ DLT MDM">
-            <i class="iconoir-send-diagonal text-sm"></i>
-            <span>ส่งข้อมูลใหม่ (MDM)</span>
-          </button>
-        </div>
-
       </div>
 
     </div>
 
-    <!-- ======================================================== -->
-    <!-- SUBTAB 2: 9-STATION INTERACTIVE TESTING CONSOLE          -->
-    <!-- ======================================================== -->
+
     <div id="tab-station" class="hidden flex-col gap-4">
       
       <!-- Multi-Lane Active Bays Controller (Lanes 1, 2, 3) -->
@@ -2996,51 +2961,178 @@
     }
 
     // --- Search & Registration BRD Enforcement (DLT Ver.25.10) ---
+    // ── Search Result Modal helpers ─────────────────────────────
+    let searchResultMatch = null;  // holds the matched vehicle object
+
+    function openSearchResultModal() {
+      const bd = document.getElementById('search-result-modal-backdrop');
+      const md = document.getElementById('search-result-modal');
+      if (bd) { bd.style.opacity='1'; bd.style.pointerEvents='auto'; }
+      if (md) { md.style.opacity='1'; md.style.pointerEvents='auto'; md.style.transform='scale(1)'; }
+    }
+    function closeSearchResultModal() {
+      const bd = document.getElementById('search-result-modal-backdrop');
+      const md = document.getElementById('search-result-modal');
+      if (bd) { bd.style.opacity='0'; bd.style.pointerEvents='none'; }
+      if (md) { md.style.opacity='0'; md.style.pointerEvents='none'; md.style.transform='scale(0.95)'; }
+      const updateBtn = document.getElementById('btn-update-existing');
+      if (updateBtn) { updateBtn.classList.add('hidden'); updateBtn.style.display = 'none'; }
+      searchResultMatch = null;
+    }
+
+    function handleUpdateVehicleFromModal() {
+      handleUpdateVehicle();
+      closeSearchResultModal();
+    }
+
+    function showSearchResultInModal(match) {
+      const dataSection = document.getElementById('search-result-data-section');
+      const emptyState  = document.getElementById('search-result-empty');
+      const actions     = document.getElementById('search-result-actions');
+      const brandLabel  = document.getElementById('search-result-brand');
+      const statusDisp  = document.getElementById('form-status-display');
+      const plateTag    = document.getElementById('form-preview-plate-tag');
+      const addBtn      = document.querySelector('#search-result-actions button:nth-child(2)');
+      const selectBtn   = document.getElementById('btn-select-existing');
+
+      if (match) {
+        // Populate form fields (keeps existing populateFormWithVehicle logic intact)
+        populateFormWithVehicle(match);
+        if (dataSection) dataSection.style.display = '';
+        if (emptyState)  emptyState.style.display = 'none';
+        if (actions)     actions.style.display = '';
+        if (brandLabel)  { brandLabel.textContent = match.brand + ' · ' + match.province; brandLabel.style.opacity='1'; }
+        if (statusDisp)  statusDisp.style.opacity='1';
+        if (plateTag)    plateTag.textContent = match.plate + ' ' + match.province;
+        // If vehicle already in queue, show "Select" button; otherwise show "Add"
+        const alreadyInQueue = queueVehicles.find(v => v.id === match.id);
+        if (alreadyInQueue) {
+          if (addBtn)    addBtn.style.display = 'none';
+          if (selectBtn) { selectBtn.classList.remove('hidden'); selectBtn.style.display = ''; }
+        } else {
+          if (addBtn)    addBtn.style.display = '';
+          if (selectBtn) selectBtn.style.display = 'none';
+        }
+        // Inspector + axle info
+        const inspEl = document.getElementById('search-result-inspector');
+        if (inspEl) inspEl.textContent = match.inspectorName || 'พีรพล มณีโชติวงศ์';
+        const axleEl = document.getElementById('search-result-axle-info');
+        if (axleEl) axleEl.textContent = (match.axles||2) + ' เพลา · ' + (match.fuel==='diesel'?'ดีเซล':match.fuel==='gasoline'?'เบนซิน':match.fuel||'-');
+      } else {
+        // Not found — show empty state with "ready to register" message
+        if (dataSection) dataSection.style.display = 'none';
+        if (emptyState) {
+          emptyState.style.display = '';
+          emptyState.innerHTML = `
+            <i class="iconoir-warning-triangle text-4xl text-amber-400 block mb-3"></i>
+            <p class="text-sm dark:text-amber-300 text-amber-700 font-sans font-bold">ไม่พบข้อมูลรถในระบบ DLT</p>
+            <p class="text-[11px] dark:text-slate-500 text-slate-400 font-sans mt-1">สามารถเพิ่มเป็นรายการใหม่ได้ โดยกรอกข้อมูลเพิ่มเติม</p>`;
+        }
+        if (actions) actions.style.display = '';
+        if (addBtn)  addBtn.style.display = '';
+        if (selectBtn) selectBtn.style.display = 'none';
+        if (brandLabel)  brandLabel.style.opacity='0';
+        if (statusDisp)  { statusDisp.textContent='ลงทะเบียนใหม่'; statusDisp.style.opacity='1'; }
+        if (plateTag) {
+          const pfx = (document.getElementById('form-plate-prefix')?.value||'').trim();
+          const num = (document.getElementById('form-plate-number')?.value||'').trim();
+          plateTag.textContent = (pfx&&num) ? pfx+'-'+num : 'ไม่พบรายการ';
+        }
+      }
+    }
+
+    function handleSaveVehicleFromModal() {
+      // If there's a matched existing vehicle, just add/update it in queue
+      if (searchResultMatch) {
+        handleSaveVehicle();
+      } else {
+        // For new vehicle, need at minimum plate + mileage
+        const mileage = document.getElementById('form-mileage')?.value;
+        if (!mileage) {
+          showToast('กรุณากรอกเลขวัดระยะทางก่อนเพิ่มเข้าคิว');
+          document.getElementById('form-mileage')?.focus();
+          return;
+        }
+        handleSaveVehicle();
+      }
+      closeSearchResultModal();
+      renderQueueTable();
+    }
+
+    function handleSelectExistingFromModal() {
+      if (searchResultMatch) {
+        selectVehicle(searchResultMatch.id);
+        openStationDrawer(searchResultMatch.id);
+      }
+      closeSearchResultModal();
+    }
+
     function handleVehicleSearch() {
       const pfx = (document.getElementById('form-plate-prefix')?.value || '').trim();
       const num = (document.getElementById('form-plate-number')?.value || '').trim();
       const fullTerm = (pfx && num) ? `${pfx}-${num}` : (num || pfx);
-      const vinInput = (document.getElementById('form-vin')?.value || '').trim();
       const feedback = document.getElementById('search-feedback');
       const searchBtn = document.getElementById('btn-vehicle-search');
 
+      if (!fullTerm) {
+        showToast('กรุณากรอกเลขทะเบียนก่อนค้นหา');
+        return;
+      }
+
+      // Open modal immediately
+      openSearchResultModal();
+
       if (searchBtn) {
         searchBtn.disabled = true;
-        searchBtn.innerHTML = `<i class="iconoir-refresh animate-spin text-xs"></i><span>ค้นหา...</span>`;
+        searchBtn.innerHTML = `<i class="iconoir-refresh animate-spin text-[11px]"></i><span>ค้นหา...</span>`;
       }
       if (feedback) {
-        feedback.innerHTML = `<i class="iconoir-refresh animate-spin text-xs"></i><span>กำลังสืบค้นฐานข้อมูลขนส่ง DLT / MDM...</span>`;
-        feedback.className = 'text-xs dark:text-blue-400 text-blue-600 font-sans font-medium flex items-center gap-1';
+        feedback.innerHTML = `<i class="iconoir-refresh animate-spin text-[10px]"></i> กำลังสืบค้นฐานข้อมูล DLT / MDM...`;
+        feedback.className = 'text-[11px] dark:text-blue-400 text-blue-600 font-sans font-medium';
       }
+
+      // Show loading state in modal
+      const emptyState = document.getElementById('search-result-empty');
+      const dataSection = document.getElementById('search-result-data-section');
+      const actions = document.getElementById('search-result-actions');
+      if (emptyState) {
+        emptyState.style.display = '';
+        emptyState.innerHTML = `
+          <i class="iconoir-refresh animate-spin text-3xl dark:text-blue-400 text-blue-500 block mb-3"></i>
+          <p class="text-sm dark:text-slate-300 text-slate-600 font-sans">กำลังค้นหา <strong class="font-mono">${fullTerm}</strong> ...</p>
+          <p class="text-[11px] dark:text-slate-500 text-slate-400 font-sans mt-1">สืบค้นฐานข้อมูลกรมการขนส่งทางบก</p>`;
+      }
+      if (dataSection) dataSection.style.display = 'none';
+      if (actions) actions.style.display = 'none';
 
       setTimeout(() => {
         if (searchBtn) {
           searchBtn.disabled = false;
-          searchBtn.innerHTML = `<i class="iconoir-search"></i><span>ค้นหา</span>`;
+          searchBtn.innerHTML = `<i class="iconoir-search text-[11px]"></i><span>ค้นหา</span>`;
         }
 
-        const match = queueVehicles.find(v => 
-          (fullTerm && (v.plate.includes(fullTerm) || (v.platePrefix === pfx && v.plateNumber === num))) ||
-          (vinInput && v.vin.includes(vinInput))
+        const match = queueVehicles.find(v =>
+          fullTerm && (v.plate.includes(fullTerm) || (v.platePrefix === pfx && v.plateNumber === num))
         );
+
+        searchResultMatch = match || null;
 
         if (match) {
           if (feedback) {
-            feedback.innerHTML = `<i class="iconoir-check-circle"></i><span>พบข้อมูลในระบบ: <strong class="font-mono">${match.plate}</strong> ${match.brand} (ดึงข้อมูลสำเร็จ)</span>`;
-            feedback.className = 'text-xs text-emerald-500 font-sans font-semibold flex items-center gap-1';
+            feedback.innerHTML = `<i class="iconoir-check-circle"></i> พบ: <strong class="font-mono">${match.plate}</strong> ${match.brand}`;
+            feedback.className = 'text-[11px] text-emerald-500 font-sans font-semibold';
           }
-          selectVehicle(match.id);
-          showToast(`ดึงข้อมูลรถ ${match.plate} ${match.brand} เรียบร้อย`);
           playBeep(880, 0.1);
         } else {
           if (feedback) {
-            feedback.innerHTML = `<i class="iconoir-warning-triangle"></i><span>ไม่พบข้อมูลรถเดิม — พร้อมลงทะเบียนคันใหม่</span>`;
-            feedback.className = 'text-xs text-amber-500 font-sans font-semibold flex items-center gap-1';
+            feedback.innerHTML = `<i class="iconoir-warning-triangle"></i> ไม่พบข้อมูลรถ — พร้อมลงทะเบียนใหม่`;
+            feedback.className = 'text-[11px] text-amber-500 font-sans font-semibold';
           }
-          showToast('ไม่พบข้อมูลรถเดิม สามารถกรอกข้อมูลเพื่อลงทะเบียนใหม่ได้');
           playBeep(650, 0.1);
         }
-      }, 240);
+
+        showSearchResultInModal(match);
+      }, 350);
     }
 
     function clearFormForNew() {
@@ -3058,8 +3150,7 @@
 
     function populateFormWithVehicle(v) {
       if (!v) return;
-      if (document.getElementById('form-plate-prefix')) document.getElementById('form-plate-prefix').value = v.platePrefix || v.plate.split('-')[0] || '';
-      if (document.getElementById('form-plate-number')) document.getElementById('form-plate-number').value = v.plateNumber || v.plate.split('-')[1] || v.plate;
+      // Kept empty with placeholder for search: do NOT overwrite search inputs on vehicle select
       if (document.getElementById('form-province')) document.getElementById('form-province').value = v.province || 'กรุงเทพมหานคร';
       if (document.getElementById('form-reg-date')) document.getElementById('form-reg-date').value = v.regDate || '2016-09-04';
       if (document.getElementById('form-vin')) document.getElementById('form-vin').value = v.vin || '';
@@ -3239,9 +3330,858 @@
     // --- Queue Rendering with Raised Larger Status Icons & Guaranteed Selection Highlight ---
     let currentQueueFilter = 'all';
 
+
+    // ════════════════════════════════════════════════════════════════
+    // QUEUE v3: Card list renderer + Station Drawer + Sidebar toggle
+    // ════════════════════════════════════════════════════════════════
+
+    const STATIONS_DEF = [
+      { id:1, name:'ควันดำ / ไอเสีย',      icon:'iconoir-cloud',             key:'smoke',    altKey:'gas'  },
+      { id:2, name:'ระดับเสียง',            icon:'iconoir-sound-high',        key:'sound'        },
+      { id:3, name:'มาตรวัดความเร็ว',       icon:'iconoir-dashboard-speed',   key:'speed'        },
+      { id:4, name:'ศูนย์ล้อหน้า',          icon:'iconoir-car-arrow-right',   key:'sideslip'     },
+      { id:5, name:'ระบบห้ามล้อ (เบรก)',    icon:'iconoir-circle-dashed',     key:'brake'        },
+      { id:6, name:'ตรวจพินิจ',             icon:'iconoir-eye',               key:'visual'       },
+      { id:7, name:'โคมไฟหน้า',             icon:'iconoir-brightness',        key:'headlight'    },
+      { id:8, name:'ชั่งน้ำหนัก',           icon:'iconoir-scale',             key:'weight'       },
+      { id:9, name:'แตร / เสียงเตือน',      icon:'iconoir-bell',              key:'horn'         },
+    ];
+
+    // toggleQueueSidebar removed in v4 (sidebar replaced with inline search + modal)
+    function toggleQueueSidebar() { /* noop */ }
+
+    let drawerVehicle = null;
+
+    function openStationDrawer(vehId) {
+      const v = queueVehicles.find(x => x.id === vehId);
+      if (!v) return;
+      drawerVehicle = v;
+      selectVehicle(vehId);
+
+      const catIcon  = c => ({truck:'iconoir-delivery-truck',van:'iconoir-bus',motorcycle:'iconoir-bicycle',car:'iconoir-car'}[c]||'iconoir-car');
+      const catColor = c => ({truck:'dark:text-amber-400 text-amber-600',van:'dark:text-indigo-400 text-indigo-600',motorcycle:'dark:text-purple-400 text-purple-600',car:'dark:text-blue-400 text-blue-600'}[c]||'dark:text-blue-400 text-blue-600');
+      const cat = v.category||'car';
+      const photo = v.photoUrl || 'https://images.unsplash.com/photo-1586191582152-78d120a1122a?w=800&auto=format&fit=crop&q=80';
+
+      const dIcon = document.getElementById('drawer-vehicle-icon');
+      if (dIcon) {
+        dIcon.innerHTML = `<img src="${photo}" alt="${v.plate}" class="w-full h-full object-cover rounded-lg" onerror="this.outerHTML='<i class=\\'${catIcon(cat)} ${catColor(cat)} text-lg\\'></i>'">`;
+      }
+
+      // Clean, concise status text matching the cards exactly
+      let statusStepText = 'รอตรวจ';
+      if (v.status === 'waiting') {
+        statusStepText = 'รอตรวจ';
+      } else if (v.status === 'inspecting') {
+        statusStepText = 'กำลังตรวจ';
+      } else if (v.status === 'pending') {
+        statusStepText = 'รอสรุปผล';
+      } else if (v.status === 'completed' || v.status === 'failed') {
+        statusStepText = 'ตรวจแล้ว';
+      }
+
+      const setT = (id,txt) => { const el=document.getElementById(id); if(el) el.textContent=txt; };
+      setT('drawer-plate', v.plate);
+      setT('drawer-province-brand', v.province+' · '+v.brand);
+      setT('drawer-mileage', (v.mileage||0).toLocaleString()+' กม.');
+      const inspName = v.inspectorName || 'พีรพล มณีโชติวงศ์';
+      setT('drawer-inspector-name', inspName.startsWith('นาย') ? inspName : ('นาย' + inspName));
+      setT('drawer-inspect-round', 'ครั้งที่ ' + (v.roundNo || 1) + ' · ' + statusStepText);
+      setT('drawer-fuel', v.fuelLabel||(v.fuel==='diesel'?'ดีเซล':v.fuel==='gasoline'?'เบนซิน':v.fuel||'-'));
+      setT('drawer-prb', v.prbLabel||'พ.ร.บ. รถขนส่ง');
+
+      const badge = document.getElementById('drawer-status-badge');
+      if (badge) {
+        const cfgMap = {
+          waiting:    {cls:'dark:bg-amber-500/15 bg-amber-50 dark:text-amber-300 text-amber-800 dark:border-amber-500/30 border-amber-200',   dot:'bg-amber-500',   label: statusStepText},
+          inspecting: {cls:'dark:bg-blue-500/20 bg-blue-50 dark:text-blue-300 text-blue-700 dark:border-blue-500/40 border-blue-200',         dot:'bg-blue-500 animate-pulse', label: statusStepText},
+          pending:    {cls:'dark:bg-indigo-500/15 bg-indigo-50 dark:text-indigo-300 text-indigo-700 dark:border-indigo-500/30 border-indigo-200', dot:'bg-indigo-400', label: statusStepText},
+          completed:  {cls: v.overallPass ? 'dark:bg-emerald-500/15 bg-emerald-50 dark:text-emerald-300 text-emerald-700 dark:border-emerald-500/30 border-emerald-200' : 'dark:bg-rose-500/15 bg-rose-50 dark:text-rose-300 text-rose-700 dark:border-rose-500/30 border-rose-200', dot: v.overallPass ? 'bg-emerald-500' : 'bg-rose-500', label: statusStepText},
+          failed:     {cls:'dark:bg-rose-500/15 bg-rose-50 dark:text-rose-300 text-rose-700 dark:border-rose-500/30 border-rose-200',         dot:'bg-rose-500',    label: statusStepText},
+        };
+        const cfg = cfgMap[v.status]||{cls:'dark:bg-slate-700 bg-slate-200 dark:text-slate-300 text-slate-700 border border-slate-300',dot:'bg-slate-400',label:statusStepText};
+        badge.className='px-3 py-1 rounded-full text-xs font-black border flex items-center gap-1.5 font-sans '+cfg.cls;
+        badge.innerHTML='<span class="w-2 h-2 rounded-full '+cfg.dot+'"></span><span>'+cfg.label+'</span>';
+      }
+
+      const t = v.tests||{};
+      const assignedLane = (typeof inspectionLanes!=='undefined') ? inspectionLanes.find(l=>l.vehicleId===v.id) : null;
+      const doneCount = STATIONS_DEF.filter(s=>t[s.key]!==undefined||(s.altKey&&t[s.altKey]!==undefined)).length;
+      let curStDef = STATIONS_DEF.find(s=>t[s.key]===undefined&&!(s.altKey&&t[s.altKey]!==undefined));
+      if (!curStDef) curStDef = STATIONS_DEF[STATIONS_DEF.length-1];
+      if (assignedLane && assignedLane.activeStationId) {
+        curStDef = STATIONS_DEF.find(s => s.id === assignedLane.activeStationId) || curStDef;
+      }
+      const isActive = v.status==='inspecting';
+
+      // Section title above current station card
+      const secLbl = document.getElementById('drawer-station-section-label');
+      if (secLbl) {
+        if (v.status === 'waiting') {
+          secLbl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>สถานะคิวตรวจสภาพ';
+        } else if (v.status === 'inspecting') {
+          secLbl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>สถานีที่กำลังดำเนินการ (Active Bay)';
+        } else if (v.status === 'pending') {
+          secLbl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>รอการรับรองผลตรวจสภาพ';
+        } else {
+          secLbl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full ' + (v.overallPass ? 'bg-emerald-400' : 'bg-rose-400') + '"></span>ผลการตรวจสภาพโดยรวม';
+        }
+      }
+
+      const curStEl = document.getElementById('drawer-current-station');
+      if (curStEl) {
+        if (v.status === 'waiting') {
+          curStEl.className = 'relative overflow-hidden rounded-2xl dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/30 border-amber-200 p-4';
+          curStEl.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl dark:bg-amber-500/20 bg-amber-100 border dark:border-amber-500/30 border-amber-200 flex items-center justify-center flex-shrink-0">
+                <i class="iconoir-clock dark:text-amber-400 text-amber-600 text-lg"></i>
+              </div>
+              <div>
+                <div class="text-sm font-bold dark:text-slate-200 text-slate-800">รอเข้าเลนตรวจสภาพ</div>
+                <div class="text-[11px] dark:text-slate-400 text-slate-500 mt-0.5">คิวตรวจสภาพขั้นตอนที่ 1/4 · ยังไม่เริ่มตรวจ</div>
+              </div>
+            </div>
+            <div class="mt-3 flex items-center gap-2">
+              <div class="flex-1 h-1.5 rounded-full dark:bg-carbon-800 bg-slate-200 overflow-hidden">
+                <div class="h-full rounded-full bg-amber-500" style="width:0%"></div>
+              </div>
+              <span class="text-[10px] font-mono dark:text-slate-400 text-slate-500 font-bold">${doneCount}/9</span>
+            </div>`;
+        } else if (v.status === 'completed' || v.status === 'failed') {
+          const allPass = v.overallPass;
+          curStEl.className = 'relative overflow-hidden rounded-2xl ' + (allPass ? 'dark:bg-emerald-500/10 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200' : 'dark:bg-rose-500/10 bg-rose-50 border dark:border-rose-500/30 border-rose-200') + ' p-4';
+          curStEl.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl ${allPass ? 'dark:bg-emerald-600/20 bg-emerald-100 border dark:border-emerald-500/30 border-emerald-300' : 'dark:bg-rose-600/20 bg-rose-100 border dark:border-rose-500/30 border-rose-300'} flex items-center justify-center flex-shrink-0">
+                <i class="${allPass ? 'iconoir-check-circle text-emerald-500' : 'iconoir-xmark-circle text-rose-500'} text-xl"></i>
+              </div>
+              <div>
+                <div class="text-sm font-bold ${allPass ? 'dark:text-emerald-300 text-emerald-700' : 'dark:text-rose-300 text-rose-700'}">${allPass ? 'ผ่านการตรวจสภาพ (DLT Certified)' : 'ไม่ผ่านการตรวจสภาพ'}</div>
+                <div class="text-[11px] dark:text-slate-400 text-slate-500 mt-0.5">ตรวจครบ ${doneCount} สถานี · ส่ง MDM แล้ว</div>
+              </div>
+            </div>
+            <div class="mt-3 flex items-center gap-2">
+              <div class="flex-1 h-1.5 rounded-full dark:bg-carbon-800 bg-slate-200 overflow-hidden">
+                <div class="h-full rounded-full ${allPass ? 'bg-emerald-500' : 'bg-rose-500'}" style="width:100%"></div>
+              </div>
+              <span class="text-[10px] font-mono ${allPass ? 'dark:text-emerald-400 text-emerald-600' : 'dark:text-rose-400 text-rose-600'} font-black">${doneCount}/9</span>
+            </div>`;
+        } else if (v.status === 'pending') {
+          curStEl.className = 'relative overflow-hidden rounded-2xl dark:bg-indigo-500/10 bg-indigo-50 border dark:border-indigo-500/30 border-indigo-200 p-4';
+          curStEl.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl dark:bg-indigo-600/20 bg-indigo-100 border dark:border-indigo-500/30 border-indigo-300 flex items-center justify-center flex-shrink-0">
+                <i class="iconoir-notes dark:text-indigo-400 text-indigo-600 text-lg"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-bold dark:text-indigo-300 text-indigo-800 font-sans">รอสรุปผลและลงนาม</div>
+                <div class="text-[11px] dark:text-slate-400 text-slate-500 mt-0.5">ตรวจครบทุกสถานีแล้ว รอการรับรองผลจากนายช่าง</div>
+              </div>
+            </div>
+            <div class="mt-3 flex items-center gap-2">
+              <div class="flex-1 h-1.5 rounded-full dark:bg-carbon-800 bg-slate-200 overflow-hidden">
+                <div class="h-full rounded-full bg-indigo-500" style="width:100%"></div>
+              </div>
+              <span class="text-[10px] font-mono font-black dark:text-indigo-400 text-indigo-600 flex-shrink-0">${doneCount}/9</span>
+            </div>`;
+        } else {
+          // inspecting
+          curStEl.className = 'relative overflow-hidden rounded-2xl dark:bg-blue-500/10 bg-blue-50 border dark:border-blue-500/30 border-blue-200 p-4';
+          const laneInfo = assignedLane ? ` · <span class="font-mono font-bold">LANE ${assignedLane.id}</span>` : '';
+          const stDetail = assignedLane ? assignedLane.detail : 'อยู่ระหว่างดำเนินการ';
+          const pct = Math.max(10, Math.round(doneCount / 9 * 100));
+          curStEl.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl dark:bg-blue-600/20 bg-blue-100 border dark:border-blue-500/30 border-blue-300 flex items-center justify-center flex-shrink-0">
+                <span class="text-base font-black font-mono dark:text-blue-300 text-blue-700">${curStDef.id}</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-bold dark:text-white text-slate-900 font-sans">${curStDef.name}</div>
+                <div class="text-[11px] dark:text-blue-300/80 text-blue-700 font-sans mt-0.5">${stDetail}${laneInfo}</div>
+              </div>
+              <div class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.9)] flex-shrink-0"></div>
+            </div>
+            <div class="mt-3 flex items-center gap-2">
+              <div class="flex-1 h-1.5 rounded-full dark:bg-carbon-800 bg-blue-100 overflow-hidden">
+                <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-500" style="width:${pct}%"></div>
+              </div>
+              <span class="text-[10px] font-mono font-black dark:text-blue-300 text-blue-600 flex-shrink-0">${doneCount}/9</span>
+            </div>`;
+        }
+      }
+
+      const listEl = document.getElementById('drawer-station-list');
+      if (listEl) {
+        listEl.innerHTML = STATIONS_DEF.map(s => {
+          const td = t[s.key]||(s.altKey?t[s.altKey]:undefined);
+          const isCur = (s.id===curStDef.id && isActive);
+          let sIcon='', sBg='', sTxt='';
+          if (isCur) {
+            sIcon='<span class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0"><span class="w-2 h-2 rounded-full bg-white animate-pulse"></span></span>';
+            sBg='dark:bg-blue-500/10 bg-blue-50 border dark:border-blue-500/20 border-blue-200'; sTxt='dark:text-white text-slate-900 font-bold';
+          } else if (td===undefined) {
+            sIcon='<span class="w-5 h-5 rounded-full dark:bg-carbon-800 bg-slate-200 border dark:border-carbon-700 border-slate-300 flex items-center justify-center flex-shrink-0"><span class="w-1.5 h-1.5 rounded-full dark:bg-slate-600 bg-slate-400"></span></span>';
+            sBg=''; sTxt='dark:text-slate-400 text-slate-500';
+          } else if (td.skip) {
+            sIcon='<span class="w-5 h-5 rounded-full dark:bg-slate-700 bg-slate-200 flex items-center justify-center text-[9px] font-bold dark:text-slate-400 text-slate-500 flex-shrink-0">N/A</span>';
+            sBg=''; sTxt='dark:text-slate-500 text-slate-400 line-through';
+          } else if (td.pass) {
+            sIcon='<span class="w-5 h-5 rounded-full dark:bg-emerald-500/25 bg-emerald-100 flex items-center justify-center text-emerald-500 font-black text-xs flex-shrink-0">✓</span>';
+            sBg=''; sTxt='dark:text-slate-300 text-slate-700';
+          } else {
+            sIcon='<span class="w-5 h-5 rounded-full dark:bg-rose-500/25 bg-rose-100 flex items-center justify-center text-rose-500 font-black text-xs flex-shrink-0">✗</span>';
+            sBg='dark:bg-rose-500/5 bg-rose-50 border dark:border-rose-500/15 border-rose-100'; sTxt='dark:text-rose-300 text-rose-700 font-semibold';
+          }
+          let vStr='';
+          if (td&&!td.skip) {
+            if (s.key==='smoke'&&td.val1!==undefined) vStr='<span class="font-mono text-[10px] dark:text-slate-400 text-slate-500 ml-auto">'+td.val1+'%</span>';
+            else if (s.key==='sound'&&td.val1!==undefined) vStr='<span class="font-mono text-[10px] dark:text-slate-400 text-slate-500 ml-auto">'+td.val1+' dB</span>';
+            else if (s.altKey==='gas'&&td.co!==undefined) vStr='<span class="font-mono text-[10px] dark:text-slate-400 text-slate-500 ml-auto">CO '+td.co+'%</span>';
+            else if (s.key==='sideslip'&&td.val!==undefined) vStr='<span class="font-mono text-[10px] dark:text-slate-400 text-slate-500 ml-auto">'+td.val+' m/km</span>';
+            else if (s.key==='brake'&&td.footEff!==undefined) vStr='<span class="font-mono text-[10px] dark:text-slate-400 text-slate-500 ml-auto">'+td.footEff+'%</span>';
+            else if (s.key==='speed'&&td.actual!==undefined) vStr='<span class="font-mono text-[10px] dark:text-slate-400 text-slate-500 ml-auto">'+td.actual+' km/h</span>';
+            else if (s.key==='weight'&&td.weightTotal!==undefined) vStr='<span class="font-mono text-[10px] dark:text-slate-400 text-slate-500 ml-auto">'+td.weightTotal.toLocaleString()+' kg</span>';
+          }
+          return '<div class="flex items-center gap-2.5 px-3 py-2 rounded-xl '+sBg+' transition-all">'+sIcon+'<span class="text-[11px] font-sans '+sTxt+' flex-1">'+s.id+'. '+s.name+'</span>'+vStr+'</div>';
+        }).join('');
+      }
+
+      const backdrop=document.getElementById('station-drawer-backdrop');
+      const drawer=document.getElementById('station-drawer');
+      if (backdrop){backdrop.style.opacity='1';backdrop.style.pointerEvents='auto';}
+      if (drawer) drawer.style.transform='translateX(0)';
+      document.body.style.overflow='hidden';
+    }
+
+    function closeStationDrawer() {
+      const backdrop=document.getElementById('station-drawer-backdrop');
+      const drawer=document.getElementById('station-drawer');
+      if (backdrop){backdrop.style.opacity='0';backdrop.style.pointerEvents='none';}
+      if (drawer) drawer.style.transform='translateX(100%)';
+      document.body.style.overflow='';
+      drawerVehicle=null;
+    }
+
+    // ── Queue View Mode: 'grid' (Compact Vertical Card) or 'list' (Compact Row) ──
+    let queueViewMode = 'grid';
+
+    function setQueueViewMode(mode) {
+      queueViewMode = mode;
+      const btnGrid = document.getElementById('btn-view-grid');
+      const btnList = document.getElementById('btn-view-list');
+      if (btnGrid && btnList) {
+        if (mode === 'grid') {
+          btnGrid.className = 'h-7.5 px-3 rounded-lg text-xs font-bold dark:bg-carbon-800 bg-white dark:text-blue-400 text-blue-600 border dark:border-blue-500/40 border-blue-400 flex items-center gap-1.5 shadow-xs transition-all';
+          btnList.className = 'h-7.5 px-3 rounded-lg text-xs font-semibold dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 flex items-center gap-1.5 transition-all';
+        } else {
+          btnList.className = 'h-7.5 px-3 rounded-lg text-xs font-bold dark:bg-carbon-800 bg-white dark:text-blue-400 text-blue-600 border dark:border-blue-500/40 border-blue-400 flex items-center gap-1.5 shadow-xs transition-all';
+          btnGrid.className = 'h-7.5 px-3 rounded-lg text-xs font-semibold dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 flex items-center gap-1.5 transition-all';
+        }
+      }
+      renderQueueCards(currentQueueFilter);
+    }
+
+    function createVehicleCard(v, queueIndex, options = {}) {
+      const isCurr = (v.id === currentVehicle.id);
+      const cat = v.category || 'car';
+      const t = v.tests || {};
+      const isWaiting = options.isWaiting || (v.status === 'waiting');
+      const isInspecting = options.isInspecting || (v.status === 'inspecting');
+
+      const catIconM = { truck: 'iconoir-delivery-truck', van: 'iconoir-bus', motorcycle: 'iconoir-bicycle', car: 'iconoir-car' };
+      const catColorM = { truck: 'text-amber-400', van: 'text-indigo-400', motorcycle: 'text-purple-400', car: 'text-blue-400' };
+
+      const stCfg = {
+        waiting:    { bg: 'dark:bg-amber-500/15 bg-amber-50 dark:text-amber-300 text-amber-800 border dark:border-amber-500/30 border-amber-200', dot: 'bg-amber-500', pulse: false },
+        inspecting: { bg: 'dark:bg-blue-500/20 bg-blue-50 dark:text-blue-300 text-blue-700 border dark:border-blue-500/40 border-blue-200',       dot: 'bg-blue-500',  pulse: true },
+        pending:    { bg: 'dark:bg-indigo-500/15 bg-indigo-50 dark:text-indigo-300 text-indigo-700 border dark:border-indigo-500/30 border-indigo-200', dot: 'bg-indigo-400', pulse: false },
+        completed:  { bg: 'dark:bg-emerald-500/15 bg-emerald-50 dark:text-emerald-300 text-emerald-700 border dark:border-emerald-500/30 border-emerald-200', dot: 'bg-emerald-500', pulse: false },
+        failed:     { bg: 'dark:bg-rose-500/15 bg-rose-50 dark:text-rose-300 text-rose-700 border dark:border-rose-500/30 border-rose-200',         dot: 'bg-rose-500',    pulse: false },
+      };
+      const cfg = stCfg[v.status] || stCfg.waiting;
+      const lane = (typeof inspectionLanes !== 'undefined') ? inspectionLanes.find(l => l.vehicleId === v.id) : null;
+      const doneCount = STATIONS_DEF.filter(s => t[s.key] !== undefined || (s.altKey && t[s.altKey] !== undefined)).length;
+
+      // Clean, concise status text (prevents overlapping plate license)
+      let statusStepText = 'รอตรวจ';
+      if (v.status === 'waiting') {
+        statusStepText = 'รอตรวจ';
+      } else if (v.status === 'inspecting') {
+        statusStepText = 'กำลังตรวจ';
+      } else if (v.status === 'pending') {
+        statusStepText = 'รอสรุปผล';
+      } else if (v.status === 'completed' || v.status === 'failed') {
+        statusStepText = 'ตรวจแล้ว';
+      }
+
+      // Verdict chip
+      const verdict = (v.status === 'completed' || v.status === 'failed') ? (v.overallPass
+        ? '<span class="text-[10px] font-bold text-emerald-500 flex items-center gap-0.5"><i class="iconoir-check-circle text-xs"></i> ผ่าน</span>'
+        : '<span class="text-[10px] font-bold text-rose-500 flex items-center gap-0.5"><i class="iconoir-xmark-circle text-xs"></i> ไม่ผ่าน</span>') : '';
+
+      const photo = v.photoUrl || 'https://images.unsplash.com/photo-1586191582152-78d120a1122a?w=800&auto=format&fit=crop&q=80';
+
+      if (queueViewMode === 'grid') {
+        const card = document.createElement('div');
+        // Default calm border without yellow or blue highlight across all sections
+        const borderCls = 'dark:border-carbon-700/60 border-slate-200 hover:dark:border-blue-500/40 hover:border-blue-300';
+
+        // Compact horizontal card layout (~420px width, sleek height, high-contrast visual hierarchy, calm neutral border)
+        card.className = `relative flex flex-row items-stretch rounded-2xl dark:bg-carbon-900 bg-white border transition-all duration-200 cursor-pointer group hover:shadow-[0_6px_20px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 ${borderCls}`;
+        card.onclick = () => openStationDrawer(v.id);
+
+        // Primary action button depending on stage
+        let primaryActionBtn = '';
+        if (v.status === 'waiting') {
+          primaryActionBtn = `
+            <button onclick="event.stopPropagation(); inspectThisVehicle('${v.id}')" class="px-2 py-1 rounded-lg bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white text-[11px] font-bold font-sans shadow-2xs transition-all flex items-center gap-1" title="เรียกเข้าแท่นตรวจ">
+              <i class="iconoir-open-new-window text-xs"></i>
+              <span>เรียกเข้าตรวจ</span>
+            </button>`;
+        } else if (v.status === 'inspecting') {
+          primaryActionBtn = `
+            <button onclick="event.stopPropagation(); inspectThisVehicle('${v.id}')" class="px-2 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-[11px] font-bold font-sans shadow-2xs transition-all flex items-center gap-1" title="เปิดหน้าจอควบคุมแท่นตรวจ">
+              <i class="iconoir-dashboard-speed text-xs"></i>
+              <span>เปิดแท่นควบคุม</span>
+            </button>`;
+        } else {
+          primaryActionBtn = `
+            <button onclick="event.stopPropagation(); selectVehicle('${v.id}'); showSubTab('tab-summary')" class="px-2 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white text-[11px] font-semibold font-sans shadow-2xs transition-all">
+              <span>สรุปผล</span>
+            </button>`;
+        }
+
+        // Badges on 1:1 image
+        let topBadges = '';
+        if (isWaiting) {
+          topBadges = `
+            <span class="px-1.5 py-0.5 rounded-md bg-amber-500 text-white font-mono font-black text-[9px] shadow-xs flex items-center gap-1">
+              <i class="iconoir-clock text-[9px]"></i>
+              <span>คิว ${queueIndex}</span>
+            </span>`;
+        } else if (isInspecting) {
+          topBadges = `
+            <span class="px-1.5 py-0.5 rounded-md bg-blue-600 text-white font-mono font-black text-[9px] shadow-xs flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-ping"></span>
+              <span>LANE ${lane ? lane.id : '1'}</span>
+            </span>`;
+        } else {
+          topBadges = lane ? `
+            <span class="px-1.5 py-0.5 rounded-md bg-blue-600 text-white font-mono font-black text-[9px] shadow-xs">
+              LANE ${lane.id}
+            </span>` : '';
+        }
+
+        card.innerHTML = `
+          <!-- Left: Compact 1:1 Square Image Container -->
+          <div class="relative w-28 h-28 sm:w-32 sm:h-32 aspect-square rounded-xl overflow-hidden bg-slate-950 border dark:border-carbon-700/80 border-slate-200 shrink-0 m-2.5 shadow-2xs">
+            <img src="${photo}" alt="${v.plate}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/35 pointer-events-none"></div>
+
+            <!-- Top Overlay on Photo -->
+            <div class="absolute top-1.5 left-1.5 right-1.5 flex items-center justify-between gap-1 pointer-events-none">
+              ${topBadges}
+            </div>
+
+            <!-- Bottom Overlay on Photo (Body Type Tag) -->
+            <div class="absolute bottom-1.5 left-1.5 right-1.5 flex items-center justify-between pointer-events-none">
+              <span class="px-1.5 py-0.5 rounded-md bg-black/65 backdrop-blur-md border border-white/15 text-[9px] font-bold text-white flex items-center gap-1 shadow-xs truncate max-w-full">
+                <i class="${catIconM[cat] || 'iconoir-car'} ${catColorM[cat]} text-[10px]"></i>
+                <span class="truncate">${v.bodyType || 'ยานพาหนะ'}</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Right: Clear, High-Contrast Vehicle Details -->
+          <div class="flex-1 min-w-0 p-2.5 sm:p-3 sm:pl-0 flex flex-col justify-between gap-1.5">
+            
+            <!-- Row 1: Plate, Province & Status Badge -->
+            <div>
+              <div class="flex items-center justify-between gap-1.5">
+                <div class="flex items-baseline gap-1.5 min-w-0 truncate">
+                  <span class="text-base sm:text-lg font-black font-mono tracking-tight dark:text-white text-slate-900 leading-none">${v.plate}</span>
+                  <span class="text-[11px] font-semibold dark:text-slate-400 text-slate-500 font-sans truncate">${v.province}</span>
+                </div>
+                
+                <!-- Status Badge -->
+                <div class="flex items-center gap-1 shrink-0">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border flex items-center gap-1 font-sans ${cfg.bg}">
+                    <span class="w-1.5 h-1.5 rounded-full ${cfg.dot} ${cfg.pulse ? 'animate-pulse' : ''}"></span>
+                    <span>${statusStepText}</span>
+                  </span>
+                  ${verdict ? `<span class="shrink-0">${verdict}</span>` : ''}
+                </div>
+              </div>
+              
+              <!-- Brand & Model -->
+              <div class="text-xs font-bold dark:text-slate-200 text-slate-700 truncate mt-0.5">${v.brand}</div>
+            </div>
+
+            <!-- Row 2: Scannable Quick Specs (Clean Visual Hierarchy) -->
+            <div class="flex items-center gap-1.5 flex-wrap text-[10px] font-sans">
+              <span class="px-1.5 py-0.5 rounded-md dark:bg-carbon-800 bg-slate-100 font-medium dark:text-slate-300 text-slate-600">
+                ${v.fuel === 'diesel' ? 'ดีเซล' : v.fuel === 'gasoline' ? 'เบนซิน' : v.fuel || '-'}
+              </span>
+              <span class="px-1.5 py-0.5 rounded-md font-mono font-bold ${doneCount === 9 ? 'dark:bg-emerald-500/15 bg-emerald-50 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25' : 'dark:bg-blue-500/15 bg-blue-50 text-blue-600 dark:text-blue-400 border border-blue-500/25'}">
+                ${doneCount}/9 สถานี
+              </span>
+              <span class="font-mono text-[10px] dark:text-slate-400 text-slate-500 truncate" title="VIN: ${v.vin || '-'}">
+                VIN: ${v.vin ? v.vin.substring(v.vin.length - 6) : '-'}
+              </span>
+            </div>
+
+            <!-- Row 3: Footer Actions & Mileage -->
+            <div class="pt-1.5 border-t dark:border-carbon-800 border-slate-100 flex items-center justify-between gap-1.5" onclick="event.stopPropagation()">
+              <div class="text-[10px] dark:text-slate-400 text-slate-500 truncate min-w-0 font-mono">
+                <span class="font-bold dark:text-slate-300 text-slate-700">${(v.mileage || 0).toLocaleString()} กม.</span>
+              </div>
+              
+              <div class="flex items-center gap-1 shrink-0">
+                <button onclick="event.stopPropagation(); openStationDrawer('${v.id}')" class="px-2 py-1 rounded-lg dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 dark:text-slate-300 text-slate-700 border dark:border-carbon-700 border-slate-200 text-[11px] font-semibold font-sans transition-all flex items-center gap-1 shadow-2xs">
+                  <i class="iconoir-eye text-xs text-blue-500"></i>
+                  <span>ดูสถานี</span>
+                </button>
+                ${primaryActionBtn}
+
+                <!-- More Options Dropdown Button (Subtle 3px radius) -->
+                <div class="relative" onclick="event.stopPropagation()">
+                  <button onclick="event.stopPropagation(); toggleCardMenu('${v.id}')" class="w-6.5 h-6.5 rounded-[3px] dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 dark:text-slate-300 text-slate-700 border dark:border-carbon-700 border-slate-200 flex items-center justify-center transition-all shadow-2xs" title="ตัวเลือกเพิ่มเติม">
+                    <i class="iconoir-more-vert text-sm"></i>
+                  </button>
+                  <div id="card-menu-${v.id}" class="card-action-menu hidden absolute right-0 bottom-full mb-1.5 w-44 rounded-xl dark:bg-carbon-900 bg-white border dark:border-carbon-700/80 border-slate-200 shadow-xl py-1 z-50 text-xs font-sans">
+                    <button onclick="event.stopPropagation(); handleCardAction('edit', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-carbon-800 hover:bg-slate-100 dark:text-slate-200 text-slate-700 transition-colors">
+                      <i class="iconoir-wrench text-blue-500 text-sm"></i>
+                      <span>ปรับปรุงข้อมูล</span>
+                    </button>
+                    <button onclick="event.stopPropagation(); handleCardAction('specs', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-carbon-800 hover:bg-slate-100 dark:text-slate-200 text-slate-700 transition-colors">
+                      <i class="iconoir-notes text-amber-500 text-sm"></i>
+                      <span>เพิ่มรายละเอียด</span>
+                    </button>
+                    <button onclick="event.stopPropagation(); handleCardAction('retest', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-carbon-800 hover:bg-slate-100 dark:text-slate-200 text-slate-700 transition-colors">
+                      <i class="iconoir-refresh-double text-emerald-500 text-sm"></i>
+                      <span>ตรวจสภาพใหม่</span>
+                    </button>
+                    <button onclick="event.stopPropagation(); handleCardAction('photo', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-carbon-800 hover:bg-slate-100 dark:text-slate-200 text-slate-700 transition-colors">
+                      <i class="iconoir-camera text-purple-500 text-sm"></i>
+                      <span>ถ่ายรูป</span>
+                    </button>
+                    <div class="h-px dark:bg-carbon-800 bg-slate-200 my-1"></div>
+                    <button onclick="event.stopPropagation(); handleCardAction('delete', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-rose-950/30 hover:bg-rose-50 text-rose-500 transition-colors">
+                      <i class="iconoir-trash text-rose-500 text-sm"></i>
+                      <span>ลบรายการ</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        `;
+        return card;
+      } else {
+        // List Mode
+        const card = document.createElement('div');
+        // Default calm border without yellow or blue highlight across all sections
+        card.className = 'relative rounded-xl dark:bg-carbon-900 bg-white border dark:border-carbon-700/60 border-slate-200 hover:dark:border-blue-500/40 hover:border-blue-300 transition-all duration-200 cursor-pointer group';
+        card.onclick = () => openStationDrawer(v.id);
+
+        let listActionBtn = '';
+        if (v.status === 'waiting') {
+          listActionBtn = `
+            <button onclick="event.stopPropagation(); inspectThisVehicle('${v.id}')" class="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-bold font-sans transition-all flex items-center gap-1 shadow-2xs" title="เรียกเข้าแท่นตรวจ">
+              <i class="iconoir-open-new-window text-xs"></i>
+              <span>เรียกเข้าตรวจ</span>
+            </button>`;
+        } else if (v.status === 'inspecting') {
+          listActionBtn = `
+            <button onclick="event.stopPropagation(); inspectThisVehicle('${v.id}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold font-sans transition-all flex items-center gap-1 shadow-2xs" title="เปิดหน้าจอควบคุมแท่นตรวจ">
+              <i class="iconoir-dashboard-speed text-xs"></i>
+              <span>เปิดแท่นควบคุม</span>
+            </button>`;
+        } else {
+          listActionBtn = `
+            <button onclick="event.stopPropagation(); selectVehicle('${v.id}'); showSubTab('tab-summary')" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-semibold font-sans transition-all shadow-2xs flex items-center gap-1">
+              <span>สรุปผล</span>
+            </button>`;
+        }
+
+        const listDoneBadgeCls = (doneCount === 9)
+          ? 'dark:bg-emerald-500/15 bg-emerald-50 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25'
+          : 'dark:bg-blue-500/10 bg-blue-50 dark:text-blue-400 text-blue-600 border border-blue-500/20';
+
+        card.innerHTML = `
+          <div class="flex items-center px-3 py-2 sm:px-3.5 sm:py-2.5 gap-3">
+            <!-- Vehicle Photo (1:1 Aspect Square) -->
+            <div class="w-12 h-12 sm:w-14 sm:h-14 aspect-square rounded-lg overflow-hidden bg-slate-900 border dark:border-carbon-700 border-slate-200 shrink-0 relative shadow-2xs">
+              <img src="${photo}" alt="${v.plate}" class="w-full h-full object-cover" loading="lazy">
+              ${isWaiting ? `<span class="absolute top-0.5 left-0.5 px-1 py-0.2 rounded text-[8px] font-black font-mono bg-amber-500 text-white shadow-2xs">คิว ${queueIndex}</span>` : ''}
+              ${isInspecting ? `<span class="absolute top-0.5 left-0.5 px-1 py-0.2 rounded text-[8px] font-black font-mono bg-blue-600 text-white shadow-2xs">LANE ${lane ? lane.id : '1'}</span>` : ''}
+            </div>
+
+            <!-- Identity -->
+            <div class="min-w-0 w-44 sm:w-48 shrink-0">
+              <div class="flex items-baseline gap-1.5 truncate">
+                <span class="text-sm font-black font-mono tracking-tight dark:text-white text-slate-900">${v.plate}</span>
+                <span class="text-[10px] font-semibold dark:text-slate-400 text-slate-500 font-sans">${v.province}</span>
+              </div>
+              <div class="text-[11px] font-medium dark:text-slate-300 text-slate-600 truncate">${v.brand}</div>
+            </div>
+
+            <!-- Tags -->
+            <div class="hidden lg:flex items-center gap-1.5 text-[10px] shrink-0 font-sans">
+              <span class="px-1.5 py-0.5 rounded dark:bg-carbon-800 bg-slate-100 font-medium dark:text-slate-300 text-slate-600">${v.fuel === 'diesel' ? 'ดีเซล' : v.fuel === 'gasoline' ? 'เบนซิน' : v.fuel || '-'}</span>
+              <span class="px-1.5 py-0.5 rounded font-mono font-bold ${listDoneBadgeCls}">${doneCount}/9 สถานี</span>
+              <span class="font-mono dark:text-slate-400 text-slate-500">${(v.mileage || 0).toLocaleString()} กม.</span>
+              <span class="hidden xl:inline font-mono dark:text-slate-400 text-slate-500">VIN: ${v.vin ? v.vin.substring(v.vin.length - 6) : '-'}</span>
+            </div>
+
+            <!-- Status Badge & Verdict -->
+            <div class="shrink-0 flex items-center gap-1.5 ml-auto lg:ml-0">
+              ${lane && !isInspecting ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-black font-mono bg-blue-600/90 text-white">LANE ${lane.id}</span>` : ''}
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border flex items-center gap-1 font-sans ${cfg.bg}">
+                <span class="w-1.5 h-1.5 rounded-full ${cfg.dot} ${cfg.pulse ? 'animate-pulse' : ''}"></span>
+                <span>${statusStepText}</span>
+              </span>
+              ${verdict ? `<span class="shrink-0">${verdict}</span>` : ''}
+            </div>
+
+            <!-- Actions -->
+            <div class="shrink-0 flex items-center gap-1.5 ml-auto" onclick="event.stopPropagation()">
+              <button onclick="event.stopPropagation(); openStationDrawer('${v.id}')" class="px-2 py-1 rounded-lg dark:bg-carbon-800 bg-slate-100 dark:hover:bg-carbon-700 hover:bg-slate-200 text-[11px] font-semibold font-sans border dark:border-carbon-700 border-slate-200 transition-all flex items-center gap-1 shadow-2xs">
+                <i class="iconoir-eye text-xs text-blue-500"></i>
+                <span>ดูสถานี</span>
+              </button>
+              ${listActionBtn}
+              <!-- More Options Dropdown Button (Subtle 3px radius) -->
+              <div class="relative" onclick="event.stopPropagation()">
+                <button onclick="event.stopPropagation(); toggleCardMenu('${v.id}')" class="w-6.5 h-6.5 rounded-[3px] dark:bg-carbon-800 bg-slate-100 hover:bg-slate-200 dark:hover:bg-carbon-700 dark:text-slate-300 text-slate-700 border dark:border-carbon-700 border-slate-200 flex items-center justify-center transition-all shadow-2xs" title="ตัวเลือกเพิ่มเติม">
+                  <i class="iconoir-more-vert text-sm"></i>
+                </button>
+                <div id="card-menu-${v.id}" class="card-action-menu hidden absolute right-0 bottom-full mb-1.5 w-44 rounded-xl dark:bg-carbon-900 bg-white border dark:border-carbon-700/80 border-slate-200 shadow-xl py-1 z-50 text-xs font-sans">
+                  <button onclick="event.stopPropagation(); handleCardAction('edit', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-carbon-800 hover:bg-slate-100 dark:text-slate-200 text-slate-700 transition-colors">
+                    <i class="iconoir-wrench text-blue-500 text-sm"></i>
+                    <span>ปรับปรุงข้อมูล</span>
+                  </button>
+                  <button onclick="event.stopPropagation(); handleCardAction('specs', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-carbon-800 hover:bg-slate-100 dark:text-slate-200 text-slate-700 transition-colors">
+                    <i class="iconoir-notes text-amber-500 text-sm"></i>
+                    <span>เพิ่มรายละเอียด</span>
+                  </button>
+                  <button onclick="event.stopPropagation(); handleCardAction('retest', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-carbon-800 hover:bg-slate-100 dark:text-slate-200 text-slate-700 transition-colors">
+                    <i class="iconoir-refresh-double text-emerald-500 text-sm"></i>
+                    <span>ตรวจสภาพใหม่</span>
+                  </button>
+                  <button onclick="event.stopPropagation(); handleCardAction('photo', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-carbon-800 hover:bg-slate-100 dark:text-slate-200 text-slate-700 transition-colors">
+                    <i class="iconoir-camera text-purple-500 text-sm"></i>
+                    <span>ถ่ายรูป</span>
+                  </button>
+                  <div class="h-px dark:bg-carbon-800 bg-slate-200 my-1"></div>
+                  <button onclick="event.stopPropagation(); handleCardAction('delete', '${v.id}')" class="w-full px-3 py-2 text-left flex items-center gap-2 dark:hover:bg-rose-950/30 hover:bg-rose-50 text-rose-500 transition-colors">
+                    <i class="iconoir-trash text-rose-500 text-sm"></i>
+                    <span>ลบรายการ</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        return card;
+      }
+    }
+
+    function renderQueueCards(filter) {
+      filter = filter || currentQueueFilter;
+      const container = document.getElementById('queue-card-list');
+      if (!container) return;
+      container.innerHTML = '';
+      container.className = 'flex flex-col gap-6';
+
+      const countAll = queueVehicles.length;
+      const waitingVehicles = queueVehicles.filter(v => v.status === 'waiting');
+      const inspectingVehicles = queueVehicles.filter(v => v.status === 'inspecting');
+      const pendingVehicles = queueVehicles.filter(v => v.status === 'pending');
+      const completedVehicles = queueVehicles.filter(v => v.status === 'completed');
+      const failedVehicles = queueVehicles.filter(v => v.status === 'failed');
+
+      // Update badges in toolbar
+      const sb = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      sb('q-badge-all', countAll);
+      sb('q-badge-waiting', waitingVehicles.length);
+      sb('q-badge-inspecting', inspectingVehicles.length);
+      sb('q-badge-pending', pendingVehicles.length);
+      sb('q-badge-completed', completedVehicles.length);
+      sb('q-badge-failed', failedVehicles.length);
+
+      // Highlight toolbar buttons
+      document.querySelectorAll('.q-filter-btn').forEach(b => {
+        const isMatch = b.getAttribute('data-filter') === filter;
+        b.style.background = isMatch ? '#2563eb' : '';
+        b.style.color = isMatch ? '#fff' : '';
+        b.style.boxShadow = isMatch ? '0 0 10px rgba(37,99,235,0.45)' : '';
+        b.style.fontWeight = isMatch ? '700' : '';
+      });
+
+      // Helper to build a section
+      function buildSection(headerHtml, list, isWaiting, isInspecting) {
+        const sec = document.createElement('div');
+        sec.className = 'flex flex-col gap-3';
+
+        const headWrap = document.createElement('div');
+        headWrap.innerHTML = headerHtml.trim();
+        sec.appendChild(headWrap.firstElementChild);
+
+        const cardGrid = document.createElement('div');
+        if (queueViewMode === 'grid') {
+          cardGrid.className = 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3.5';
+        } else {
+          cardGrid.className = 'flex flex-col gap-2';
+        }
+
+        if (list.length === 0) {
+          cardGrid.innerHTML = `
+            <div class="col-span-full py-8 text-center text-xs dark:text-slate-500 text-slate-400 font-sans border border-dashed dark:border-carbon-800 border-slate-200 rounded-2xl">
+              <i class="iconoir-check text-2xl block mb-1 opacity-40"></i>
+              ไม่มีรายการรถในขั้นตอนนี้
+            </div>`;
+        } else {
+          list.forEach((v, idx) => {
+            cardGrid.appendChild(createVehicleCard(v, idx + 1, { isWaiting, isInspecting }));
+          });
+        }
+
+        sec.appendChild(cardGrid);
+        return sec;
+      }
+
+      // Headers (Consistent unified container with status-matched accent cues)
+      const headerWaiting = `
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl dark:bg-carbon-900 bg-white border dark:border-carbon-700/80 border-slate-200 shadow-2xs">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl dark:bg-amber-500/15 bg-amber-50 border dark:border-amber-500/30 border-amber-200 flex items-center justify-center text-amber-500 flex-shrink-0 shadow-2xs">
+              <i class="iconoir-clock text-lg"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase font-mono bg-amber-500 text-white shadow-2xs">ขั้นตอนที่ 1</span>
+                <h3 class="text-sm font-black dark:text-white text-slate-900 font-sans tracking-wide">คิวรอเข้าตรวจสภาพ (Standby Queue)</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold font-mono dark:bg-amber-500/15 bg-amber-50 dark:text-amber-300 text-amber-800 border border-amber-500/30">${waitingVehicles.length} คันในคิว</span>
+              </div>
+              <p class="text-[11px] dark:text-slate-400 text-slate-500 font-sans mt-0.5">รถที่ลงทะเบียนแล้ว เตรียมพร้อมเรียกเข้าแท่นตรวจตามลำดับคิว</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs font-semibold text-amber-600 dark:text-amber-400 font-sans">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span>พร้อมเรียกเข้าแท่นตรวจ</span>
+          </div>
+        </div>
+      `;
+
+      const headerInspecting = `
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl dark:bg-carbon-900 bg-white border dark:border-carbon-700/80 border-slate-200 shadow-2xs">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl dark:bg-blue-500/15 bg-blue-50 border dark:border-blue-500/30 border-blue-200 flex items-center justify-center text-blue-500 flex-shrink-0 shadow-2xs">
+              <i class="iconoir-dashboard-speed text-lg"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase font-mono bg-blue-600 text-white flex items-center gap-1 shadow-2xs">
+                  <span class="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-ping"></span>ขั้นตอนที่ 2
+                </span>
+                <h3 class="text-sm font-black dark:text-white text-slate-900 font-sans tracking-wide">กำลังตรวจสภาพบนแท่นตรวจ (Active Testing Bays)</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold font-mono dark:bg-blue-500/15 bg-blue-50 dark:text-blue-300 text-blue-800 border border-blue-500/30 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>${inspectingVehicles.length} คัน บนแท่น
+                </span>
+              </div>
+              <p class="text-[11px] dark:text-slate-400 text-slate-500 font-sans mt-0.5">รถที่อยู่ระหว่างการทดสอบในช่องตรวจประจำศูนย์ (Lane 1, Lane 2, Lane 3)</p>
+            </div>
+          </div>
+          <button onclick="showSubTab('tab-station')" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-xs transition-all flex items-center gap-1.5">
+            <i class="iconoir-view-grid text-sm"></i>
+            <span>ดูหน้าจอควบคุมช่องตรวจ</span>
+          </button>
+        </div>
+      `;
+
+      const headerPending = `
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl dark:bg-carbon-900 bg-white border dark:border-carbon-700/80 border-slate-200 shadow-2xs">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl dark:bg-indigo-500/15 bg-indigo-50 border dark:border-indigo-500/30 border-indigo-200 flex items-center justify-center text-indigo-500 flex-shrink-0 shadow-2xs">
+              <i class="iconoir-notes text-lg"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase font-mono bg-indigo-600 text-white shadow-2xs">ขั้นตอนที่ 3</span>
+                <h3 class="text-sm font-black dark:text-white text-slate-900 font-sans tracking-wide">รอสรุปผลและรับรอง (Pending Sign-off)</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold font-mono dark:bg-indigo-500/15 bg-indigo-50 dark:text-indigo-300 text-indigo-800 border border-indigo-500/30">${pendingVehicles.length} คัน</span>
+              </div>
+              <p class="text-[11px] dark:text-slate-400 text-slate-500 font-sans mt-0.5">ตรวจครบ 9 สถานีแล้ว รอนายช่างรับรองผลและลงนาม</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 font-sans">
+            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+            <span>รอตรวจรับรองผล</span>
+          </div>
+        </div>
+      `;
+
+      const headerCompletedAll = `
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl dark:bg-carbon-900 bg-white border dark:border-carbon-700/80 border-slate-200 shadow-2xs">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl dark:bg-emerald-500/15 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 flex items-center justify-center text-emerald-500 flex-shrink-0 shadow-2xs">
+              <i class="iconoir-check-circle text-lg"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase font-mono dark:bg-carbon-800 bg-slate-100 dark:text-slate-300 text-slate-700">ขั้นตอนที่ 3 & 4</span>
+                <h3 class="text-sm font-black dark:text-white text-slate-900 font-sans tracking-wide">รอสรุปผลและตรวจเสร็จสิ้นประจำวัน (Review & Completed)</h3>
+              </div>
+              <p class="text-[11px] dark:text-slate-400 text-slate-500 font-sans mt-0.5">รถที่ตรวจครบ 9 สถานีแล้ว รอรับรองผลและส่งผล MDM กรมการขนส่งทางบก</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-mono font-bold">
+            <span class="px-2 py-0.5 rounded-lg dark:bg-indigo-500/15 bg-indigo-50 dark:text-indigo-400 text-indigo-700 border border-indigo-500/30">รอสรุปผล ${pendingVehicles.length}</span>
+            <span class="px-2 py-0.5 rounded-lg dark:bg-emerald-500/15 bg-emerald-50 dark:text-emerald-400 text-emerald-700 border border-emerald-500/30">เสร็จสิ้น ${completedVehicles.length}</span>
+            ${failedVehicles.length > 0 ? `<span class="px-2 py-0.5 rounded-lg dark:bg-rose-500/15 bg-rose-50 dark:text-rose-400 text-rose-700 border border-rose-500/30">ไม่ผ่าน ${failedVehicles.length}</span>` : ''}
+          </div>
+        </div>
+      `;
+
+      const headerCompleted = `
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl dark:bg-carbon-900 bg-white border dark:border-carbon-700/80 border-slate-200 shadow-2xs">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl dark:bg-emerald-500/15 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 flex items-center justify-center text-emerald-500 flex-shrink-0 shadow-2xs">
+              <i class="iconoir-check-circle text-lg"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase font-mono bg-emerald-600 text-white shadow-2xs">ขั้นตอนที่ 4</span>
+                <h3 class="text-sm font-black dark:text-white text-slate-900 font-sans tracking-wide">ตรวจเสร็จสิ้นแล้ว (MDM Certified)</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold font-mono dark:bg-emerald-500/15 bg-emerald-50 dark:text-emerald-400 text-emerald-800 border border-emerald-500/30">${completedVehicles.length} คัน</span>
+              </div>
+              <p class="text-[11px] dark:text-slate-400 text-slate-500 font-sans mt-0.5">ผ่านการตรวจสภาพและอัปโหลดส่งผล MDM เรียบร้อยแล้ว</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 font-sans">
+            <i class="iconoir-check text-emerald-500"></i>
+            <span>ส่งผล MDM สำเร็จ</span>
+          </div>
+        </div>
+      `;
+
+      const headerFailed = `
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl dark:bg-carbon-900 bg-white border dark:border-carbon-700/80 border-slate-200 shadow-2xs">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl dark:bg-rose-500/15 bg-rose-50 border dark:border-rose-500/30 border-rose-200 flex items-center justify-center text-rose-500 flex-shrink-0 shadow-2xs">
+              <i class="iconoir-xmark-circle text-lg"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase font-mono bg-rose-600 text-white shadow-2xs">ไม่ผ่านเกณฑ์</span>
+                <h3 class="text-sm font-black dark:text-white text-slate-900 font-sans tracking-wide">ไม่ผ่านการตรวจสภาพ (Failed / Retest Required)</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold font-mono dark:bg-rose-500/15 bg-rose-50 dark:text-rose-400 text-rose-800 border border-rose-500/30">${failedVehicles.length} คัน</span>
+              </div>
+              <p class="text-[11px] dark:text-slate-400 text-slate-500 font-sans mt-0.5">พบข้อบกพร่องตามเกณฑ์ DLT สามารถตรวจแก้ตัวใหม่ได้</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400 font-sans">
+            <i class="iconoir-xmark text-rose-500"></i>
+            <span>รอตรวจแก้ตัวใหม่</span>
+          </div>
+        </div>
+      `;
+
+      // Render based on filter
+      if (filter === 'all') {
+        // Stage 1: รอตรวจ
+        container.appendChild(buildSection(headerWaiting, waitingVehicles, true, false));
+
+        // Stage 2: กำลังตรวจ
+        container.appendChild(buildSection(headerInspecting, inspectingVehicles, false, true));
+
+        // Stage 3 & 4: รอสรุปผล & เสร็จสิ้น
+        const reviewAndDone = [...pendingVehicles, ...completedVehicles, ...failedVehicles];
+        container.appendChild(buildSection(headerCompletedAll, reviewAndDone, false, false));
+      } else if (filter === 'waiting') {
+        container.appendChild(buildSection(headerWaiting, waitingVehicles, true, false));
+      } else if (filter === 'inspecting') {
+        container.appendChild(buildSection(headerInspecting, inspectingVehicles, false, true));
+      } else if (filter === 'pending') {
+        container.appendChild(buildSection(headerPending, pendingVehicles, false, false));
+      } else if (filter === 'completed') {
+        container.appendChild(buildSection(headerCompleted, completedVehicles, false, false));
+      } else if (filter === 'failed') {
+        container.appendChild(buildSection(headerFailed, failedVehicles, false, false));
+      }
+    }
+
+    function toggleCardMenu(vehId) {
+      const menu = document.getElementById('card-menu-' + vehId);
+      const wasHidden = menu ? menu.classList.contains('hidden') : true;
+      closeAllCardMenus();
+      if (menu && wasHidden) {
+        menu.classList.remove('hidden');
+      }
+    }
+
+    function closeAllCardMenus() {
+      document.querySelectorAll('.card-action-menu').forEach(m => m.classList.add('hidden'));
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.card-action-menu') && !e.target.closest('button[onclick*="toggleCardMenu"]')) {
+        closeAllCardMenus();
+      }
+    });
+
+    function handleCardAction(action, vehId) {
+      closeAllCardMenus();
+      const v = queueVehicles.find(x => x.id === vehId);
+      if (!v) return;
+      selectVehicle(vehId);
+
+      switch (action) {
+        case 'edit':
+          searchResultMatch = v;
+          showSearchResultInModal(v);
+          const addBtn = document.querySelector('#search-result-actions button:nth-child(2)');
+          const selectBtn = document.getElementById('btn-select-existing');
+          const updateBtn = document.getElementById('btn-update-existing');
+          if (addBtn) addBtn.style.display = 'none';
+          if (selectBtn) selectBtn.style.display = 'none';
+          if (updateBtn) {
+            updateBtn.classList.remove('hidden');
+            updateBtn.style.display = '';
+          }
+          openSearchResultModal();
+          break;
+
+        case 'specs':
+          openVehicleSpecsModal();
+          break;
+
+        case 'retest':
+          handleRetestCurrentVehicle();
+          break;
+
+        case 'photo':
+          openPhotoModal();
+          break;
+
+        case 'delete':
+          handleDeleteCurrentVehicle();
+          break;
+      }
+    }
+
     function renderQueueTable(filter = currentQueueFilter) {
       currentQueueFilter = filter;
+      // v3: route to card renderer if card list container exists
+      if (document.getElementById('queue-card-list')) {
+        renderQueueCards(filter);
+        return;
+      }
       const tbody = document.getElementById('queue-table-body');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       const filtered = queueVehicles.filter(v => {
@@ -3307,15 +4247,24 @@
         `;
       }
 
-      // Keep filter button UI in sync
+      // Keep filter button UI in sync (v2 Tesla style)
       document.querySelectorAll('.q-filter-btn').forEach(b => {
         const btnFilter = b.getAttribute('data-filter');
         if (btnFilter === currentQueueFilter) {
-          b.className = 'q-filter-btn px-2.5 py-1 rounded-lg dark:bg-carbon-750 bg-white dark:text-white text-blue-600 font-bold shadow-sm font-sans border border-blue-200 dark:border-transparent';
+          b.className = 'q-filter-btn px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold shadow-[0_0_8px_rgba(37,99,235,0.35)] font-sans border border-blue-500/30 transition-all text-[11px]';
         } else {
-          b.className = 'q-filter-btn px-2.5 py-1 rounded-lg dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 font-sans border border-transparent';
+          b.className = 'q-filter-btn px-3 py-1.5 rounded-lg dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 dark:hover:bg-carbon-800 hover:bg-slate-200 font-sans border border-transparent transition-all text-[11px]';
         }
       });
+
+      // v2: Sync pipeline bar badges
+      const setPipe = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      setPipe('pipeline-badge-waiting',    countWaiting);
+      setPipe('pipeline-badge-inspecting', countInspecting);
+      setPipe('pipeline-badge-pending',    countPending);
+      setPipe('pipeline-badge-completed',  countCompleted);
+      setPipe('pipeline-badge-failed',     countFailed);
+      setPipe('pipeline-badge-total',      countAll);
 
       filtered.forEach((veh) => {
         const isCurrent = (veh.id === currentVehicle.id);
@@ -3561,17 +4510,18 @@
     function filterQueue(status, btnElement) {
       currentQueueFilter = status;
       document.querySelectorAll('.q-filter-btn').forEach(btn => {
-        if (btn.getAttribute('data-filter') === status) {
-          btn.className = 'q-filter-btn px-2.5 py-1 rounded-lg dark:bg-carbon-750 bg-white dark:text-white text-blue-600 font-bold shadow-sm font-sans border border-blue-200 dark:border-transparent';
-        } else {
-          btn.className = 'q-filter-btn px-2.5 py-1 rounded-lg dark:text-slate-400 text-slate-600 dark:hover:text-white hover:text-slate-900 font-sans border border-transparent';
-        }
+        btn.style.background = btn.getAttribute('data-filter') === status ? '#2563eb' : '';
+        btn.style.color      = btn.getAttribute('data-filter') === status ? '#fff' : '';
+        btn.style.boxShadow  = btn.getAttribute('data-filter') === status ? '0 0 10px rgba(37,99,235,0.45)' : '';
+        btn.style.fontWeight  = btn.getAttribute('data-filter') === status ? '700' : '';
       });
-      // Micro-loading state (180ms) for realistic real-time telemetry feel
-      showTableSkeleton(4);
-      setTimeout(() => {
-        renderQueueTable(currentQueueFilter);
-      }, 180);
+      // v3: skip skeleton for card layout, render immediately
+      if (document.getElementById('queue-card-list')) {
+        renderQueueCards(currentQueueFilter);
+      } else {
+        showTableSkeleton(4);
+        setTimeout(() => { renderQueueTable(currentQueueFilter); }, 180);
+      }
     }
 
     function refreshQueue() {
@@ -3579,12 +4529,20 @@
       const icon = refreshBtn ? refreshBtn.querySelector('i') : null;
       if (icon) icon.classList.add('animate-spin');
       
-      showTableSkeleton(5);
+      const cardList = document.getElementById('queue-card-list');
+      if (cardList) {
+        cardList.classList.add('opacity-40', 'transition-opacity', 'duration-200');
+      } else {
+        showTableSkeleton(5);
+      }
       playBeep(750, 0.05);
 
       setTimeout(() => {
         if (icon) icon.classList.remove('animate-spin');
         renderQueueTable(currentQueueFilter);
+        if (cardList) {
+          cardList.classList.remove('opacity-40');
+        }
         showToast('รีเฟรชข้อมูลคิวเรียบร้อย (เชื่อมต่อ MDM สด)');
         playBeep(920, 0.08);
       }, 260);
